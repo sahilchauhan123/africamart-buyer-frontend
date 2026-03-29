@@ -8,15 +8,16 @@ interface SearchPageProps {
 }
 
 const FilterOverlay: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
-    const [selectedRegion, setSelectedRegion] = useState<string | null>("West Africa");
-    const [selectedCountries, setSelectedCountries] = useState<string[]>(["Nigeria"]);
+    const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+    const [selectedLocations, setSelectedLocations] = useState<string[]>(["Monrovia"]);
+    const [showAfricanRegions, setShowAfricanRegions] = useState(false);
+
+    const liberianLocations = [
+        "Monrovia", "Gbarnga", "Buchanan", "Kakata", "Ganta", "Harper"
+    ];
 
     const regions = [
         "West Africa", "East Africa", "North Africa", "Southern Africa", "Central Africa"
-    ];
-
-    const countries = [
-        "Nigeria", "Ghana", "Kenya", "South Africa", "Egypt", "Ethiopia", "Morocco", "Senegal", "Tanzania", "Uganda"
     ];
 
     if (!isOpen) return null;
@@ -30,11 +31,11 @@ const FilterOverlay: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
             ></div>
 
             {/* Bottom Sheet Content */}
-            <div className="relative bg-white rounded-t-[32px] max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-500">
+            <div className="relative bg-[#f8f9fc] rounded-t-[32px] max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-500">
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-white sticky top-0 z-10">
                     <div className="flex flex-col">
-                        <h2 className="text-xl font-black text-slate-900 uppercase tracking-tight">Refine Search</h2>
+                        <h2 className="text-xl font-black text-slate-900 tracking-tight">Filter Search</h2>
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Customize your results</span>
                     </div>
                     <button
@@ -47,81 +48,45 @@ const FilterOverlay: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
 
                 {/* Filter Options Scrollable Area */}
                 <div className="flex-1 overflow-y-auto p-6 pt-4 space-y-8 hide-scrollbar">
-                    {/* Regions in Africa */}
-                    <section>
-                        <div className="flex items-center gap-2 mb-4">
-                            <Globe className="w-4 h-4 text-brand-blue" />
-                            <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.15em]">African Regions</h3>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            {regions.map((region) => (
-                                <button
-                                    key={region}
-                                    onClick={() => setSelectedRegion(region)}
-                                    className={`px-5 py-2.5 rounded-full border text-xs font-bold transition-all active:scale-95 ${selectedRegion === region
-                                        ? 'border-brand-blue bg-brand-blue text-white shadow-md shadow-brand-blue/20'
-                                        : 'border-slate-200 text-slate-600 bg-white hover:border-slate-300'
-                                        }`}
-                                >
-                                    {region}
-                                </button>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* Countries */}
+                    {/* Liberia Locations */}
                     <section>
                         <div className="flex items-center gap-2 mb-4">
                             <MapPin className="w-4 h-4 text-brand-blue" />
-                            <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.15em]">Countries</h3>
+                            <h3 className="text-[11px] font-black text-slate-900 tracking-[0.15em]">Liberia Locations</h3>
                         </div>
                         <div className="grid grid-cols-2 gap-2.5">
-                            {countries.map((country) => (
+                            {liberianLocations.map((location) => (
                                 <button
-                                    key={country}
+                                    key={location}
                                     onClick={() => {
-                                        if (selectedCountries.includes(country)) {
-                                            setSelectedCountries(selectedCountries.filter(c => c !== country));
+                                        if (selectedLocations.includes(location)) {
+                                            setSelectedLocations(selectedLocations.filter(l => l !== location));
                                         } else {
-                                            setSelectedCountries([...selectedCountries, country]);
+                                            setSelectedLocations([...selectedLocations, location]);
                                         }
                                     }}
-                                    className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all active:scale-[0.98] ${selectedCountries.includes(country)
-                                        ? 'border-brand-blue bg-brand-blue/5 text-brand-blue ring-1 ring-brand-blue/20'
-                                        : 'border-slate-100 bg-slate-50 text-slate-600 hover:bg-slate-100'
+                                    className={`flex items-center justify-between p-3.5 rounded-2xl border-2 transition-all active:scale-[0.98] ${selectedLocations.includes(location)
+                                        ? 'border-brand-blue bg-brand-blue/5 text-brand-blue ring-1 ring-brand-blue/20 shadow-none'
+                                        : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 shadow-none'
                                         }`}
                                 >
-                                    <span className="text-xs font-bold">{country}</span>
-                                    {selectedCountries.includes(country) && <Check size={14} className="stroke-[3]" />}
+                                    <span className="text-xs font-bold">{location}</span>
+                                    {selectedLocations.includes(location) && <Check size={14} className="stroke-[3]" />}
                                 </button>
                             ))}
                         </div>
                     </section>
 
-                    {/* Brand Category */}
-                    <section>
-                        <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.15em] mb-4">Brand Selection</h3>
-                        <div className="grid grid-cols-2 gap-3">
-                            {['Kirloskar', 'Texmo', 'Crompton', 'Havells'].map((brand) => (
-                                <label key={brand} className="flex items-center gap-3 p-4 bg-white border border-slate-100 rounded-2xl cursor-pointer hover:border-brand-blue/30 transition-all shadow-sm">
-                                    <input
-                                        type="checkbox"
-                                        className="w-5 h-5 rounded border-slate-300 text-brand-blue focus:ring-brand-blue/20"
-                                    />
-                                    <span className="text-sm font-bold text-slate-700">{brand}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </section>
-
+                   
+                   
                     {/* Price Range */}
                     <section>
-                        <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.15em] mb-4">Budget Range (USD)</h3>
+                        <h3 className="text-[11px] font-black text-slate-900 tracking-[0.15em] mb-4">Budget Range (USD)</h3>
                         <div className="flex items-center gap-3">
                             <div className="flex-1 relative">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400">$</span>
                                 <input
-                                    className="w-full bg-slate-50 border-slate-200 rounded-xl py-4 pl-7 pr-4 text-sm font-bold focus:ring-2 focus:ring-brand-blue/20 transition-all placeholder:text-slate-300"
+                                    className="w-full bg-white border-2 border-slate-200 rounded-xl py-4 pl-7 pr-4 text-sm font-bold focus:ring-4 focus:ring-brand-blue/10 focus:border-brand-blue/40 shadow-none transition-all placeholder:text-slate-300"
                                     placeholder="Min"
                                     type="number"
                                 />
@@ -130,7 +95,7 @@ const FilterOverlay: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                             <div className="flex-1 relative">
                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400">$</span>
                                 <input
-                                    className="w-full bg-slate-50 border-slate-200 rounded-xl py-4 pl-7 pr-4 text-sm font-bold focus:ring-2 focus:ring-brand-blue/20 transition-all placeholder:text-slate-300"
+                                    className="w-full bg-white border-2 border-slate-200 rounded-xl py-4 pl-7 pr-4 text-sm font-bold focus:ring-4 focus:ring-brand-blue/10 focus:border-brand-blue/40 shadow-none transition-all placeholder:text-slate-300"
                                     placeholder="Max"
                                     type="number"
                                 />
@@ -140,7 +105,7 @@ const FilterOverlay: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
 
                     {/* Ratings */}
                     <section className="pb-8">
-                        <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.15em] mb-4">Minimum Rating</h3>
+                        <h3 className="text-[11px] font-black text-slate-900 tracking-[0.15em] mb-4">Minimum Rating</h3>
                         <div className="flex flex-col gap-3">
                             {[4.5, 4.0, 3.5].map((stars) => (
                                 <label key={stars} className="flex items-center justify-between p-4 bg-slate-50/50 rounded-2xl cursor-pointer border border-transparent hover:border-slate-200 active:bg-slate-100 transition-all">
@@ -161,19 +126,67 @@ const FilterOverlay: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
                             ))}
                         </div>
                     </section>
+                    
+                    {/* African Regions with Toggle */}
+                    <section className="pb-8">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                                <Globe className="w-4 h-4 text-brand-blue" />
+                                <h3 className="text-[11px] font-black text-slate-900 tracking-[0.15em]">African Regions</h3>
+                            </div>
+                            
+                            <label className="flex items-center cursor-pointer group">
+                                <span className="mr-2 text-[8px] font-black text-slate-400 tracking-wider group-hover:text-brand-blue transition-colors">Regional Search</span>
+                                <div className="relative">
+                                    <input 
+                                        type="checkbox" 
+                                        className="sr-only" 
+                                        checked={showAfricanRegions}
+                                        onChange={() => setShowAfricanRegions(!showAfricanRegions)}
+                                    />
+                                    <div className={`w-8 h-4 rounded-full transition-colors duration-300 ${showAfricanRegions ? 'bg-brand-blue' : 'bg-slate-200'}`}></div>
+                                    <div className={`absolute left-0.5 top-0.5 bg-white w-3 h-3 rounded-full transition-transform duration-300 transform ${showAfricanRegions ? 'translate-x-4' : ''}`}></div>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        {showAfricanRegions ? (
+                            <div className="flex flex-wrap gap-2 animate-in zoom-in-95 fade-in duration-300">
+                                {regions.map((region) => (
+                                    <button
+                                        key={region}
+                                        onClick={() => setSelectedRegion(selectedRegion === region ? null : region)}
+                                        className={`px-5 py-2.5 rounded-full border text-xs font-bold transition-all active:scale-95 ${selectedRegion === region
+                                            ? 'border-brand-blue bg-brand-blue text-white shadow-md shadow-brand-blue/20'
+                                            : 'border-slate-100 bg-white text-slate-600 hover:bg-slate-50'
+                                            }`}
+                                    >
+                                        {region}
+                                    </button>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="bg-brand-blue/5 border border-dashed border-brand-blue/10 rounded-2xl p-4 text-center">
+                                <p className="text-[10px] font-bold text-slate-400 tracking-widest leading-relaxed">
+                                    Toggle "Regional Search" to browse <br/> suppliers across Africa
+                                </p>
+                            </div>
+                        )}
+                    </section>
+
                 </div>
 
                 {/* Footer Actions */}
                 <div className="p-6 border-t border-slate-100 flex gap-4 bg-white sticky bottom-0 z-10 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.05)]">
                     <button
                         onClick={onClose}
-                        className="flex-1 py-4 px-4 bg-slate-100 text-slate-900 rounded-2xl font-black text-xs uppercase tracking-widest transition-colors hover:bg-slate-200 active:scale-95"
+                        className="flex-1 py-4 px-4 bg-slate-100 text-slate-900 rounded-2xl font-black text-xs tracking-widest transition-colors hover:bg-slate-200 active:scale-95"
                     >
                         Reset
                     </button>
                     <button
                         onClick={onClose}
-                        className="flex-[2.5] py-4 px-4 bg-brand-blue text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-brand-blue/30 transition-all hover:brightness-110 active:scale-95 flex items-center justify-center gap-2"
+                        className="flex-[2.5] py-4 px-4 bg-brand-blue text-white rounded-2xl font-black text-xs tracking-widest shadow-xl shadow-brand-blue/30 transition-all hover:brightness-110 active:scale-95 flex items-center justify-center gap-2"
                     >
                         Apply Filters
                     </button>
@@ -223,7 +236,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ onBack }) => {
                         <input
                             autoFocus
                             className="w-full bg-slate-100 border-none rounded-lg pl-10 pr-10 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-brand-blue/20 transition-all placeholder:text-slate-400"
-                            placeholder="Search products, brands..."
+                            placeholder="Search for goods and services..."
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -270,8 +283,8 @@ const SearchPage: React.FC<SearchPageProps> = ({ onBack }) => {
                         {/* Recent Searches Section */}
                         <section className="mt-4">
                             <div className="flex items-center justify-between px-4 mb-2">
-                                <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Recent Searches</h2>
-                                <button className="text-[10px] font-black text-brand-blue uppercase tracking-wider hover:underline">Clear All</button>
+                                <h2 className="text-[10px] font-black text-slate-400 tracking-[0.2em]">Recent Searches</h2>
+                                <button className="text-[10px] font-black text-brand-blue tracking-wider hover:underline">Clear All</button>
                             </div>
                             <div className="divide-y divide-slate-100">
                                 {recentSearches.map((item, idx) => (
@@ -292,7 +305,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ onBack }) => {
 
                         {/* Trending Categories */}
                         <section className="mt-8 px-4">
-                            <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Trending Categories</h2>
+                            <h2 className="text-[10px] font-black text-slate-400 tracking-[0.2em] mb-4">Trending Categories</h2>
                             <div className="grid grid-cols-4 gap-x-4 gap-y-6">
                                 {trendingCategories.map((cat, idx) => (
                                     <div key={idx} className="flex flex-col items-center gap-2 group cursor-pointer active:scale-95 transition-transform">
@@ -315,7 +328,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ onBack }) => {
                         <section className="mt-10 px-4 pb-10">
                             <div className="relative w-full h-32 rounded-xl overflow-hidden bg-brand-blue/5 border border-brand-blue/10 flex items-center">
                                 <div className="px-6 relative z-10 max-w-[65%]">
-                                    <h3 className="text-sm font-black text-slate-900 leading-tight uppercase tracking-tight">Need Custom Quotes?</h3>
+                                    <h3 className="text-sm font-black text-slate-900 leading-tight tracking-tight">Need Custom Quotes?</h3>
                                     <p className="text-[10px] font-medium text-slate-600 mt-1">Post your requirement and get competitive prices from top suppliers.</p>
                                     <button className="mt-3 px-4 py-2 bg-brand-blue text-white text-[10px] font-black rounded-lg uppercase tracking-wider shadow-lg shadow-brand-blue/20 active:scale-95 transition-all">Post Requirement</button>
                                 </div>
