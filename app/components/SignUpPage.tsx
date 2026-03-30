@@ -183,8 +183,8 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onBack, onLogin }) => {
                                         }
                                     }}
                                     className={`flex flex-col items-center justify-center py-4 px-1 rounded-2xl border-2 transition-all duration-300 ${selectedInterests.includes(topic.id)
-                                            ? 'bg-slate-900 border-slate-900 text-white scale-[1.02]'
-                                            : 'bg-slate-100/50 border-slate-200 text-slate-900'
+                                        ? 'bg-slate-900 border-slate-900 text-white scale-[1.02]'
+                                        : 'bg-slate-100/50 border-slate-200 text-slate-900'
                                         }`}
                                 >
                                     <div className="w-12 h-12 rounded-full overflow-hidden mb-2 border border-white/50 shadow-sm relative">

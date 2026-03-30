@@ -282,12 +282,12 @@ const MobileHome: React.FC = () => {
 
     if (currentView === View.SIGNUP) {
         return (
-            <SignUpPage 
-                onBack={() => setCurrentView(View.DASHBOARD)} 
+            <SignUpPage
+                onBack={() => setCurrentView(View.DASHBOARD)}
                 onLogin={() => {
                     setCurrentView(View.DASHBOARD);
                     setIsSignInOpen(true);
-                }} 
+                }}
             />
         );
     }
@@ -571,34 +571,40 @@ const MobileHome: React.FC = () => {
                     </div>
                 </section>
 
-                {/* Category Quick Links Section */}
-                <section className="border-t-1 border-b-1 border-gray-300 py-5">
-                    <h2 className="text-xl font-extrabold text tracking-tight mb-6">Looking for something, like?</h2>
-                    <div className="grid grid-cols-4 gap-y-8 gap-x-4">
+
+                {/* Interested Goods/Services Section */}
+                <section>
+                    <div className="flex justify-between items-end mb-6">
+                        <div>
+                            <span className="text font-bold text-xs tracking-widest mb-1 block">Based on your activity</span>
+                            <h2 className="text-xl font-extrabold text tracking-tight">Interested Goods &amp; Services</h2>
+                        </div>
+                    </div>
+                    <div className="flex overflow-x-auto gap-3 pb-4 hide-scrollbar snap-x">
                         {[
-                            { name: "Raw Materials", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=200" },
-                            { name: "Construction", img: "https://images.unsplash.com/photo-1503387762-592dea58ef23?auto=format&fit=crop&q=80&w=200" },
-                            { name: "Electronics", img: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&q=80&w=200" },
-                            { name: "Construction", img: "https://images.unsplash.com/photo-1503387762-592dea58ef23?auto=format&fit=crop&q=80&w=200" },
-                            { name: "Electronics", img: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&q=80&w=200" },
-                            { name: "Machinery", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=200" },
-                            { name: "Agriculture", img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&q=80&w=200" },
-                            { name: "All Categories", img: "https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?auto=format&fit=crop&q=80&w=200" }
-                        ].map((cat, i) => (
-                            <div key={i} className="flex flex-col items-center text-center group active:scale-95 duration-200 cursor-pointer" onClick={() => setIsCategoriesPageOpen(true)}>
-                                <div className={`w-14 h-14 rounded-full overflow-hidden relative mb-2 group-hover:shadow-md transition-all border border-slate-100 flex items-center justify-center ${cat.name === "All Categories" ? 'bg-white shadow-sm' : 'bg-slate-50'}`}>
-                                    {cat.name === "All Categories" ? (
-                                        <LayoutGrid className="w-6 h-6 text-brand-blue" />
-                                    ) : (
-                                        <Image
-                                            fill
-                                            className="object-cover"
-                                            src={cat.img}
-                                            alt={cat.name}
-                                        />
-                                    )}
+                            { id: 'machinery', label: 'Machinery', img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=200' },
+                            { id: 'grains', label: 'Food & Grains', img: 'https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?auto=format&fit=crop&q=80&w=200' },
+                            { id: 'construction', label: 'Building Mats', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=200' },
+                            { id: 'apparel', label: 'Apparel', img: 'https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?auto=format&fit=crop&q=80&w=200' },
+                            { id: 'electronics', label: 'Electronics', img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=200' },
+                            { id: 'medical', label: 'Medical Supplies', img: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=200' },
+                            { id: 'energy', label: 'Energy Tech', img: 'https://images.unsplash.com/photo-1509391366360-1e97d5259d81?auto=format&fit=crop&q=80&w=200' },
+                            { id: 'logistics', label: 'Logistics Options', img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=200' },
+                        ].map((topic, i) => (
+                            <div 
+                                key={topic.id} 
+                                className="flex-shrink-0 w-28 snap-start flex flex-col items-center cursor-pointer active:scale-95 transition-transform"
+                                onClick={() => setIsCategoriesPageOpen(true)}
+                            >
+                                <div className="w-full aspect-square rounded-lg overflow-hidden mb-2 relative shadow-sm border border-slate-100 bg-slate-50">
+                                    <img 
+                                        src={topic.img} 
+                                        alt={topic.label} 
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                                 </div>
-                                <span className="text-[11px] font-bold text-on-surface leading-tight">{cat.name}</span>
+                                <h4 className="font-bold text-xs text-center leading-tight">{topic.label}</h4>
                             </div>
                         ))}
                     </div>
@@ -608,7 +614,7 @@ const MobileHome: React.FC = () => {
                 <section>
                     <div className="flex justify-between items-end mb-6">
                         <div>
-                            <span className="text font-bold text-xs uppercase tracking-widest mb-1 block">Rice Manufacturers</span>
+                            <span className="text font-bold text-xs tracking-widest mb-1 block">Top Manufacturers</span>
                             <h2 className="text-xl font-extrabold text tracking-tight">Grains &amp; Cooking Materials</h2>
                         </div>
                     </div>
@@ -670,6 +676,39 @@ const MobileHome: React.FC = () => {
                                 <button className="w-full mt-3 bg-secondary/5 text-secondary text-[10px] font-extrabold py-2 rounded-lg tracking-wider hover:bg-secondary/10 transition-colors border border-secondary/10">Reach Supplier</button>
                             </div>
                         </div>
+                    </div>
+                </section>
+
+                {/* Category Quick Links Section */}
+                <section className="border-t-1 border-b-1 border-gray-300 py-5">
+                    <h2 className="text-xl font-extrabold text tracking-tight mb-6">Looking for something, like?</h2>
+                    <div className="grid grid-cols-4 gap-y-8 gap-x-4">
+                        {[
+                            { name: "Raw Materials", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=200" },
+                            { name: "Construction", img: "https://images.unsplash.com/photo-1503387762-592dea58ef23?auto=format&fit=crop&q=80&w=200" },
+                            { name: "Electronics", img: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&q=80&w=200" },
+                            { name: "Construction", img: "https://images.unsplash.com/photo-1503387762-592dea58ef23?auto=format&fit=crop&q=80&w=200" },
+                            { name: "Electronics", img: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&q=80&w=200" },
+                            { name: "Machinery", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=200" },
+                            { name: "Agriculture", img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&q=80&w=200" },
+                            { name: "All Categories", img: "https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?auto=format&fit=crop&q=80&w=200" }
+                        ].map((cat, i) => (
+                            <div key={i} className="flex flex-col items-center text-center group active:scale-95 duration-200 cursor-pointer" onClick={() => setIsCategoriesPageOpen(true)}>
+                                <div className={`w-14 h-14 rounded-full overflow-hidden relative mb-2 group-hover:shadow-md transition-all border border-slate-100 flex items-center justify-center ${cat.name === "All Categories" ? 'bg-white shadow-sm' : 'bg-slate-50'}`}>
+                                    {cat.name === "All Categories" ? (
+                                        <LayoutGrid className="w-6 h-6 text-brand-blue" />
+                                    ) : (
+                                        <Image
+                                            fill
+                                            className="object-cover"
+                                            src={cat.img}
+                                            alt={cat.name}
+                                        />
+                                    )}
+                                </div>
+                                <span className="text-[11px] font-bold text-on-surface leading-tight">{cat.name}</span>
+                            </div>
+                        ))}
                     </div>
                 </section>
 
@@ -821,7 +860,7 @@ const MobileHome: React.FC = () => {
                 productImage={reachSellerImage}
             />
 
-            <SignInOverlay 
+            <SignInOverlay
                 isOpen={isSignInOpen}
                 onClose={() => setIsSignInOpen(false)}
                 onSwitchToSignUp={() => handleNavigate(View.SIGNUP)}
