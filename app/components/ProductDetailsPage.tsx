@@ -23,20 +23,22 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
     const [isSearching, setIsSearching] = React.useState(false);
     return (
         <div className="bg-[#f6f6f8] min-h-[100dvh] text-slate-900 antialiased pb-20 md:pb-0 font-display animate-in slide-in-from-right duration-300 flex flex-col">
-            {/* Standard App Header (Synchronized with Search Page) */}
-            <header className="sticky top-0 z-50 bg-white border-b border-slate-200 px-4 py-3 pb-4">
+            {/* Search Header - Exact copy from SearchPage */}
+            <header 
+                className="sticky top-0 left-0 w-full z-50 px-4 py-3 pb-4 border-none transition-all flex flex-col"
+                style={{ background: 'linear-gradient(180deg, hsla(224, 39%, 58%, 1) 0%, hsla(224, 39%, 81%, 1) 100%)' }}
+            >
                 <div className="flex items-center gap-3">
                     <button
                         onClick={onBack}
-                        className="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 transition-colors active:scale-95"
+                        className="flex items-center justify-center size-10 rounded-full hover:bg-white/10 transition-colors active:scale-95 shrink-0"
                     >
-                        <ArrowLeft className="w-6 h-6 text-slate-700" />
+                        <ArrowLeft className="w-6 h-6 text-white" />
                     </button>
-
-                    <div className="flex-grow relative group text-slate-900">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-blue w-5 h-5 transition-colors" />
+                    <div className="flex-1 relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                         <input
-                            className="w-full bg-slate-100 border-none rounded-lg pl-10 pr-10 py-2.5 text-sm font-semibold transition-all placeholder:text-slate-400"
+                            className="w-full bg-white border-0 outline outline-1 outline-slate-200/50 rounded-lg pl-10 pr-3 py-2.5 text-sm font-semibold focus:outline-2 focus:outline-brand-blue/30 transition-all placeholder:text-slate-400"
                             placeholder="Search for goods and services..."
                             type="text"
                             value={searchQuery}
@@ -46,23 +48,9 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
                                 setIsSearching(true);
                             }}
                         />
-                        {searchQuery && (
-                            <button
-                                onClick={() => {
-                                    setSearchQuery("");
-                                    setIsSearching(false);
-                                }}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                            >
-                                <XCircle className="w-5 h-5 text-slate-400 fill-slate-200" />
-                            </button>
-                        )}
                     </div>
-
-                    <button
-                        className="flex items-center justify-center size-10 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors active:scale-95"
-                    >
-                        <SlidersHorizontal className="w-5 h-5 text-slate-700" />
+                    <button className="flex items-center justify-center size-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors active:scale-95 shrink-0">
+                        <SlidersHorizontal className="w-5 h-5 text-white" />
                     </button>
                 </div>
 
@@ -100,15 +88,15 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
                             ) : (
                                 (() => {
                                     const matchedSuggestions = [
-                                        "Centrifugal Water Pump for Industrial Irrigation",
-                                        "High Pressure Multistage Industrial Pump",
-                                        "Submersible Deep Well Boring Pump",
-                                        "Vertical Turbine Pumps",
-                                        "Chemical Pumps",
-                                        "Electric Water Pump",
-                                        "Monoblock Pumps",
-                                        "Pressure Booster System"
-                                    ].filter(item => item.toLowerCase().includes(searchQuery.toLowerCase()));
+                                        { name: "Centrifugal Water Pump for Industrial Irrigation", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE" },
+                                        { name: "High Pressure Multistage Industrial Pump", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE" },
+                                        { name: "Submersible Deep Well Boring Pump", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" },
+                                        { name: "Vertical Turbine Pumps", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" },
+                                        { name: "Chemical Pumps", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" },
+                                        { name: "Electric Water Pump", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" },
+                                        { name: "Monoblock Pumps", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" },
+                                        { name: "Pressure Booster System", img: "https://images.unsplash.com/photo-1509391366360-1e97d5259d81?auto=format&fit=crop&q=80&w=400" }
+                                    ].filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
                                     if (matchedSuggestions.length === 0) {
                                         return (
@@ -122,15 +110,19 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
                                         <button
                                             key={idx}
                                             onClick={() => {
-                                                setSearchQuery(item);
+                                                setSearchQuery(item.name);
                                                 setIsSearching(false);
                                                 onOpenSearch?.();
                                             }}
-                                            className="w-full flex items-center justify-between px-4 py-3.5 border-b border-slate-50 hover:bg-slate-50 active:bg-slate-100 transition-colors text-left group"
+                                            className="w-full flex items-center justify-between px-4 py-3 border-b border-slate-50 hover:bg-slate-50 active:bg-slate-100 transition-colors text-left group"
                                         >
-                                            <div className="flex items-center gap-3 min-w-0">
-                                                <Search className="w-4 h-4 text-slate-400 group-hover:text-brand-blue transition-colors shrink-0" />
-                                                <span className="text-[15px] font-medium text-slate-700 truncate">{item}</span>
+                                            <div className="flex items-center gap-4 min-w-0">
+                                                <div className="size-10 rounded-lg bg-slate-50 overflow-hidden flex-shrink-0 border border-slate-100 group-hover:border-slate-200 transition-colors shadow-sm">
+                                                    <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
+                                                </div>
+                                                <div className="flex flex-col min-w-0">
+                                                    <span className="text-[14px] font-bold text-slate-800 truncate leading-tight">{item.name}</span>
+                                                </div>
                                             </div>
                                             <ArrowUpLeft className="w-4 h-4 text-slate-300 group-hover:text-brand-blue transition-colors shrink-0 ml-2" />
                                         </button>

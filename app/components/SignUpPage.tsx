@@ -61,36 +61,36 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onBack, onLogin }) => {
             </header>
 
             {/* Main Content */}
-            <main className="flex-grow pt-24 pb-16 px-6 w-full max-w-xl mx-auto">
+            <main className="flex-grow pt-20 pb-8 px-6 w-full max-w-xl mx-auto">
                 {step === 1 && (
                     <div className="animate-in slide-in-from-right duration-500">
-                        <section className="mb-12">
-                            <h1 className="text-brand-blue font-black text-2xl tracking-tight mb-1">
+                        <section className="mb-6">
+                            <h1 className="text-brand-blue font-black text-xl sm:text-2xl tracking-tight mb-1">
                                 Create your account
                             </h1>
-                            <p className="text-slate-500 text-lg font-medium">
+                            <p className="text-slate-500 text-sm sm:text-base font-medium">
                                 Join our business sourcing network.
                             </p>
                         </section>
 
-                        <div className="space-y-8">
-                            <div className="space-y-2">
-                                <label className="text-sm font-black text-brand-blue tracking-wide ml-1">Full Name</label>
-                                <input className="w-full h-14 px-5 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all placeholder:text-slate-400 text-slate-900 font-bold outline-none" placeholder="Enter your name" type="text" />
+                        <div className="space-y-5">
+                            <div className="space-y-1.5">
+                                <label className="text-xs sm:text-sm font-black text-brand-blue tracking-wide ml-1">Full Name</label>
+                                <input className="w-full h-12 sm:h-14 px-5 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all placeholder:text-slate-400 text-slate-900 font-bold outline-none text-sm" placeholder="Enter your name" type="text" />
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-black text-brand-blue tracking-wide ml-1">Email or WhatsApp Number</label>
-                                <input className="w-full h-14 px-5 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all placeholder:text-slate-400 text-slate-900 font-bold outline-none" placeholder="name@company.com or +231..." type="text" />
+                            <div className="space-y-1.5">
+                                <label className="text-xs sm:text-sm font-black text-brand-blue tracking-wide ml-1">Email or WhatsApp Number</label>
+                                <input className="w-full h-12 sm:h-14 px-5 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all placeholder:text-slate-400 text-slate-900 font-bold outline-none text-sm" placeholder="name@company.com or +231..." type="text" />
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-black text-brand-blue tracking-wide ml-1">Password</label>
+                            <div className="space-y-1.5">
+                                <label className="text-xs sm:text-sm font-black text-brand-blue tracking-wide ml-1">Password</label>
                                 <div className="relative flex items-center">
-                                    <input className="w-full h-14 pl-5 pr-14 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all placeholder:text-slate-400 text-slate-900 font-bold outline-none" placeholder="Min. 8 characters" type={showPassword ? "text" : "password"} />
-                                    <button onClick={() => setShowPassword(!showPassword)} className="absolute right-4 p-2 text-slate-400"><Eye size={20} /></button>
+                                    <input className="w-full h-12 sm:h-14 pl-5 pr-14 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all placeholder:text-slate-400 text-slate-900 font-bold outline-none text-sm" placeholder="Min. 8 characters" type={showPassword ? "text" : "password"} />
+                                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 p-2 text-slate-400"><Eye size={20} /></button>
                                 </div>
                             </div>
-                            <div className="pt-4">
-                                <button onClick={nextStep} className="w-full h-14 bg-brand-blue text-white font-black rounded-2xl shadow-xl shadow-brand-blue/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 tracking-widest uppercase text-xs">
+                            <div className="pt-2 sm:pt-4">
+                                <button onClick={nextStep} className="w-full h-12 sm:h-14 bg-brand-blue text-white font-black rounded-2xl shadow-xl shadow-brand-blue/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 tracking-widest uppercase text-xs">
                                     Continue
                                     <ArrowRight size={18} />
                                 </button>
@@ -101,26 +101,26 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onBack, onLogin }) => {
 
                 {step === 2 && (
                     <div className="animate-in slide-in-from-right duration-500">
-                        <section className="mb-12">
-                            <h1 className="text-brand-blue font-black text-2xl tracking-tight mb-1">
+                        <section className="mb-6">
+                            <h1 className="text-brand-blue font-black text-xl sm:text-2xl tracking-tight mb-1">
                                 Business Location
                             </h1>
-                            <p className="text-slate-500 text-lg font-medium">
+                            <p className="text-slate-500 text-sm sm:text-base font-medium">
                                 Where should suppliers contact you?
                             </p>
                         </section>
 
-                        <div className="space-y-8">
+                        <div className="space-y-5">
                             {/* City */}
-                            <div className="space-y-2">
-                                <label className="text-sm font-black text-brand-blue tracking-wide ml-1">City / Township</label>
-                                <input className="w-full h-14 px-5 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all placeholder:text-slate-400 text-slate-900 font-bold outline-none" placeholder="e.g. Monrovia" type="text" />
+                            <div className="space-y-1.5">
+                                <label className="text-xs sm:text-sm font-black text-brand-blue tracking-wide ml-1">City / Township</label>
+                                <input className="w-full h-12 sm:h-14 px-5 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all placeholder:text-slate-400 text-slate-900 font-bold outline-none text-sm" placeholder="e.g. Monrovia" type="text" />
                             </div>
 
                             {/* County */}
-                            <div className="space-y-2">
-                                <label className="text-sm font-black text-brand-blue tracking-wide ml-1">County</label>
-                                <select className="w-full h-14 px-5 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all text-slate-900 font-bold outline-none appearance-none">
+                            <div className="space-y-1.5">
+                                <label className="text-xs sm:text-sm font-black text-brand-blue tracking-wide ml-1">County</label>
+                                <select className="w-full h-12 sm:h-14 px-5 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all text-slate-900 font-bold outline-none appearance-none text-sm">
                                     <option>Montserrado</option>
                                     <option>Nimba</option>
                                     <option>Lofa</option>
@@ -132,13 +132,13 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onBack, onLogin }) => {
                             </div>
 
                             {/* Business Address */}
-                            <div className="space-y-2">
-                                <label className="text-sm font-black text-brand-blue tracking-wide ml-1">Business Address</label>
-                                <input className="w-full h-14 px-5 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all placeholder:text-slate-400 text-slate-900 font-bold outline-none" placeholder="e.g. Broad Street, Monrovia" type="text" />
+                            <div className="space-y-1.5">
+                                <label className="text-xs sm:text-sm font-black text-brand-blue tracking-wide ml-1">Business Address</label>
+                                <input className="w-full h-12 sm:h-14 px-5 bg-slate-50 border-2 border-slate-200 focus:border-brand-blue/40 focus:bg-white rounded-2xl transition-all placeholder:text-slate-400 text-slate-900 font-bold outline-none text-sm" placeholder="e.g. Broad Street, Monrovia" type="text" />
                             </div>
 
-                            <div className="pt-4">
-                                <button onClick={nextStep} className="w-full h-14 bg-brand-blue text-white font-black rounded-2xl shadow-xl shadow-brand-blue/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 tracking-widest uppercase text-xs">
+                            <div className="pt-2 sm:pt-4">
+                                <button onClick={nextStep} className="w-full h-12 sm:h-14 bg-brand-blue text-white font-black rounded-2xl shadow-xl shadow-brand-blue/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 tracking-widest uppercase text-xs">
                                     Continue
                                     <ArrowRight size={18} />
                                 </button>
@@ -148,17 +148,17 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onBack, onLogin }) => {
                 )}
 
                 {step === 3 && (
-                    <div className="animate-in slide-in-from-right duration-500 pb-12">
-                        <section className="mb-10">
-                            <h1 className="text-brand-blue font-black text-2xl tracking-tight mb-1">
+                    <div className="animate-in slide-in-from-right duration-500 pb-8">
+                        <section className="mb-6">
+                            <h1 className="text-brand-blue font-black text-xl sm:text-2xl tracking-tight mb-1">
                                 Your Interests
                             </h1>
-                            <p className="text-slate-500 text-lg font-medium">
+                            <p className="text-slate-500 text-sm sm:text-base font-medium">
                                 Select categories of goods you are interested in.
                             </p>
                         </section>
 
-                        <div className="grid grid-cols-4 gap-2">
+                        <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-2">
                             {[
                                 { id: 'machinery', label: 'Machinery', img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=200' },
                                 { id: 'grains', label: 'Food', img: 'https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?auto=format&fit=crop&q=80&w=200' },
@@ -182,12 +182,12 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onBack, onLogin }) => {
                                             setSelectedInterests([...selectedInterests, topic.id]);
                                         }
                                     }}
-                                    className={`flex flex-col items-center justify-center py-4 px-1 rounded-2xl border-2 transition-all duration-300 ${selectedInterests.includes(topic.id)
+                                    className={`flex flex-col items-center justify-center py-2 sm:py-4 px-1 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 ${selectedInterests.includes(topic.id)
                                         ? 'bg-slate-900 border-slate-900 text-white scale-[1.02]'
                                         : 'bg-slate-100/50 border-slate-200 text-slate-900'
                                         }`}
                                 >
-                                    <div className="w-12 h-12 rounded-full overflow-hidden mb-2 border border-white/50 shadow-sm relative">
+                                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden mb-1.5 sm:mb-2 border border-white/50 shadow-sm relative">
                                         <img
                                             src={topic.img}
                                             alt={topic.label}
@@ -197,17 +197,17 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onBack, onLogin }) => {
                                             <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[1px]"></div>
                                         )}
                                     </div>
-                                    <span className="text-[10px] font-black text-center leading-tight h-5 flex items-center">{topic.label}</span>
+                                    <span className="text-[9px] sm:text-[10px] font-black text-center leading-tight h-5 flex items-center">{topic.label}</span>
                                 </button>
                             ))}
                         </div>
 
-                        <div className="mt-16">
+                        <div className="mt-6 sm:mt-16">
                             <button
                                 onClick={() => {
                                     setIsSuccessOpen(true);
                                 }}
-                                className="w-full h-14 bg-brand-blue text-white font-black rounded-2xl shadow-xl shadow-brand-blue/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 tracking-widest uppercase text-xs"
+                                className="w-full h-12 sm:h-14 bg-brand-blue text-white font-black rounded-2xl shadow-xl shadow-brand-blue/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 tracking-widest uppercase text-xs"
                             >
                                 Complete Sign Up
                                 <ArrowRight size={18} />
@@ -218,7 +218,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ onBack, onLogin }) => {
 
                 {/* Minimal Footer */}
                 {step === 1 && (
-                    <footer className="mt-12 text-center pb-8 border-t border-slate-50 pt-8">
+                    <footer className="mt-6 text-center pb-4 border-t border-slate-50 pt-4">
                         <p className="text-slate-400 font-medium text-sm">
                             Already have an account?
                             <button

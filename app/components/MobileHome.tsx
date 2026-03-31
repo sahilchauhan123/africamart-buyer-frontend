@@ -12,7 +12,7 @@ import SubCategoryPage from './SubCategoryPage';
 import ProductListingPage from './ProductListingPage';
 import PostRequirement from './PostRequirement';
 import Notifications from './Notifications';
-import RegionSearch from './RegionSearch';
+
 import ProductDetailsPage from './ProductDetailsPage';
 import ReachSellerOverlay from './ReachSellerOverlay';
 import SignInOverlay from './SignInOverlay';
@@ -135,6 +135,7 @@ const MobileHome: React.FC = () => {
     const [isOnboarding, setIsOnboarding] = useState(false);
     const [isHydrated, setIsHydrated] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [shouldShowSticky, setShouldShowSticky] = useState(false);
 
     const openProductDetails = (hasPrice: boolean) => {
         setDetailsHasPricing(hasPrice);
@@ -150,11 +151,24 @@ const MobileHome: React.FC = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20);
+            const hasScrolled = window.scrollY > 80;
+            setIsScrolled(hasScrolled);
         };
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (isScrolled) {
+            timer = setTimeout(() => {
+                setShouldShowSticky(true);
+            }, 50);
+        } else {
+            setShouldShowSticky(false);
+        }
+        return () => clearTimeout(timer);
+    }, [isScrolled]);
 
     // Persistence: Load state on mount
     useEffect(() => {
@@ -239,10 +253,7 @@ const MobileHome: React.FC = () => {
                 setCurrentView(View.DASHBOARD);
                 return;
             }
-            if (currentView === View.MY_ORDERS) {
-                setCurrentView(View.DASHBOARD);
-                return;
-            }
+
             if (currentView !== View.DASHBOARD) {
                 setCurrentView(View.DASHBOARD);
                 return;
@@ -276,9 +287,7 @@ const MobileHome: React.FC = () => {
         return <PostRequirement onBack={() => setCurrentView(View.DASHBOARD)} onNavigate={handleNavigate} />;
     }
 
-    if (currentView === View.MY_ORDERS) {
-        return <RegionSearch onBack={() => setCurrentView(View.DASHBOARD)} />;
-    }
+
 
     if (currentView === View.SIGNUP) {
         return (
@@ -399,62 +408,86 @@ const MobileHome: React.FC = () => {
 
     return (
         <div className="bg-surface font-body text-on-surface min-h-[100dvh]">
-            {/* TopAppBar */}            <header className={`fixed top-0 w-full z-50 bg-[#000042] backdrop-blur-md shadow-[0_8px_32px_rgba(25,28,30,0.06)] px-4 transition-all duration-300 ${isScrolled ? 'h-[72px]' : 'h-[120px]'}`}>
-                <div className={`h-full flex transition-all duration-300 ${isScrolled ? 'flex-row items-center gap-3' : 'flex-col pt-3'}`}>
-                    {/* Menu Button - Anchor for both states */}
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <button
-                                className="flex items-center justify-center w-10 h-11 flex-shrink-0 text-white active:scale-90 transition-all duration-300"
-                                onClick={() => setIsDrawerOpen(true)}
-                            >
-                                <span className="material-symbols-outlined text-xl font-[400]">menu</span>
-                            </button>
-
-                            {/* Logo - Fades out on scroll */}
-                            <h1 className={`font-headline font-bold text-lg tracking-tight text-white italic transition-all duration-300 origin-left ${isScrolled ? 'opacity-0 scale-90 w-0 overflow-hidden ml-[-12px]' : 'opacity-100 scale-100 w-auto'}`}>
-                                AfricaMart B2B
-                            </h1>
-                        </div>
-
-                        {/* Sign Up - Fades out on scroll */}
-                        <div className={`flex flex-shrink-0 transition-all duration-300 origin-right ${isScrolled ? 'opacity-0 scale-90 w-0 overflow-hidden' : 'opacity-100 scale-100 w-auto'}`}>
-                            <button
-                                className="bg-primary text-on-primary px-4 py-2 rounded-sm text-xs font-bold shadow-sm active:scale-95 transition-all duration-200 flex items-center gap-1.5"
-                                onClick={() => setIsSignInOpen(true)}
-                            >
-                                <span className="material-symbols-outlined text-[18px]">person</span>
-                                Sign In
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Search & Filter - Stays sibling in flex container */}
-                    <div className={`flex gap-3 transition-all duration-300 ${isScrolled ? 'flex-1' : 'w-full mt-2'}`}>
-                        <div
-                            className="flex-1 bg-surface-container-lowest rounded-xl flex items-center px-4 h-11 shadow-sm border border-outline-variant/20 cursor-pointer"
-                            onClick={() => setIsSearchOpen(true)}
+            {/* Default Original Header (Scrolls out of view naturally) */}
+            <header 
+                className="relative w-full z-40 px-4 h-[144px] flex flex-col pt-3"
+                style={{ background: 'linear-gradient(180deg, hsla(224, 39%, 58%, 1) 0%, hsla(224, 39%, 81%, 0.1) 85%, transparent 100%)' }}
+            >
+                <div className="flex items-center justify-between w-full h-11">
+                    <div className="flex items-center gap-3">
+                        <button
+                            className="flex items-center justify-center w-10 h-11 flex-shrink-0 text-white active:scale-90 transition-transform duration-300"
+                            onClick={() => setIsDrawerOpen(true)}
                         >
-                            <span className="material-symbols-outlined text-outline text-sm mr-2 font-[400]">search</span>
-                            <input
-                                className="bg-transparent border-none text-sm w-full focus:ring-0 placeholder:text-outline-variant"
-                                placeholder="Search for goods and services."
-                                type="text"
-                                readOnly
-                            />
-                        </div>
+                            <span className="material-symbols-outlined text-xl font-[400]">menu</span>
+                        </button>
+                        <h1 className="font-headline font-bold text-lg tracking-tight text-white italic">
+                            AfricaMart B2B
+                        </h1>
+                    </div>
+                    <div className="flex flex-shrink-0">
+                        <button
+                            className="bg-primary text-on-primary px-4 py-2 rounded-sm text-xs font-bold shadow-sm active:scale-95 transition-transform duration-200 flex items-center gap-1.5"
+                            onClick={() => setIsSignInOpen(true)}
+                        >
+                            <span className="material-symbols-outlined text-[18px]">person</span>
+                            Sign In
+                        </button>
+                    </div>
+                </div>
+
+                <div className="flex w-full mt-2">
+                    <div
+                        className="w-full bg-white rounded-lg flex items-center px-4 h-11 border-0 outline outline-1 outline-slate-200/50 cursor-pointer relative"
+                        onClick={() => setIsSearchOpen(true)}
+                    >
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                        <input
+                            className="bg-transparent border-none text-sm w-full pl-7 focus:ring-0 placeholder:text-slate-400 pointer-events-none font-semibold"
+                            placeholder="Search for goods and services..."
+                            type="text"
+                            readOnly
+                        />
                     </div>
                 </div>
             </header>
 
-            <main className={`transition-all duration-300 ${isScrolled ? 'pt-[92px]' : 'pt-[140px]'} pb-24 px-4 space-y-10`}>
+            {/* New Sticky Header (Slides down seamlessly with enhanced timing and fade) */}
+            <header 
+                className={`fixed top-0 w-full z-50 backdrop-blur-xl px-4 h-[72px] transition-all will-change-[transform,opacity] flex items-center gap-3 ${shouldShowSticky ? 'translate-y-0 opacity-100 scale-100 duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]' : '-translate-y-full opacity-0 scale-95 duration-300 ease-out'}`}
+                style={{ background: 'linear-gradient(180deg, hsla(224, 39%, 58%, 0.8) 0%, hsla(224, 39%, 81%, 0.4) 100%)' }}
+            >
+                <button
+                    className="flex items-center justify-center w-10 h-11 flex-shrink-0 text-white active:scale-90 transition-transform duration-300"
+                    onClick={() => setIsDrawerOpen(true)}
+                >
+                    <span className="material-symbols-outlined text-xl font-[400]">menu</span>
+                </button>
+                <div className="flex-1">
+                    <div
+                        className="w-full bg-white rounded-lg flex items-center px-3 h-10 border-0 outline outline-1 outline-slate-200/50 cursor-pointer relative"
+                        onClick={() => setIsSearchOpen(true)}
+                    >
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+                        <input
+                            className="bg-transparent border-none text-[12px] w-full pl-6 focus:ring-0 placeholder:text-slate-400 pointer-events-none font-semibold"
+                            placeholder="Search for goods and services..."
+                            type="text"
+                            readOnly
+                        />
+                    </div>
+                </div>
+            </header>
+
+            {/* Main content sits naturally below the static header */}
+            <main className="pt-4 sm:pt-6 pb-24 px-4 space-y-8 sm:space-y-10">
                 {/* Advertisement/Banner Section */}
 
 
                 <div className="flex flex-col gap-4">
                     <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-2">
                         {/* Slide 1 - Mission Banner */}
-                        <div className="relative h-44 w-full flex-shrink-0 snap-center rounded-2xl overflow-hidden shadow-lg shadow-brand-blue/5 border border-slate-100">
+                        <div className="relative h-36 sm:h-44 w-full flex-shrink-0 snap-center rounded-xl sm:rounded-2xl overflow-hidden shadow-lg shadow-brand-blue/5 border border-slate-100">
                             <img
                                 alt="Modern industrial facility with heavy machinery"
                                 className="absolute inset-0 w-full h-full object-cover"
@@ -469,7 +502,7 @@ const MobileHome: React.FC = () => {
                         </div>
 
                         {/* Slide 2 - Help Video */}
-                        <div className="relative h-44 w-full flex-shrink-0 snap-center rounded-2xl overflow-hidden shadow-lg shadow-brand-blue/5 border border-slate-100 bg-slate-900">
+                        <div className="relative h-36 sm:h-44 w-full flex-shrink-0 snap-center rounded-xl sm:rounded-2xl overflow-hidden shadow-lg shadow-brand-blue/5 border border-slate-100 bg-slate-900">
                             <Image
                                 fill
                                 alt="Help Video Tutorial Thumbnail"
@@ -491,7 +524,7 @@ const MobileHome: React.FC = () => {
 
                 {/* Featured Section: Products Near You */}
                 <section>
-                    <div className="flex justify-between items-end mb-6">
+                    <div className="flex justify-between items-end mb-4 sm:mb-6">
                         <div>
                             <h2 className="text- tracking-tight text-xl font-bold">Goods Available Near You</h2>
                         </div>
@@ -499,8 +532,8 @@ const MobileHome: React.FC = () => {
                     {/* Horizontal High-Density Items */}
                     <div className="divide-y divide-outline-variant/20">
                         {/* Item 1 */}
-                        <div className="py-6 first:pt-0 flex gap-4" onClick={() => setIsProductDetailsOpen(true)}>
-                            <div className="w-28 h-28 flex-shrink-0 bg-surface-container-low rounded-lg overflow-hidden relative">
+                        <div className="py-4 sm:py-6 first:pt-0 flex gap-3 sm:gap-4" onClick={() => setIsProductDetailsOpen(true)}>
+                            <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-surface-container-low rounded-lg overflow-hidden relative">
                                 <img className="w-full h-full object-cover" alt="Close-up of high-grade industrial ball bearings" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKhMJpqzFX5JirQPSttiIp7sjSj-HtaFBqx2A8faI9cPDI5N96myy6KBgvL5cm9q5HlveP7-kTuWr8t_A5UkwCgYd9AoGCahwhHn_Y0QOt7aTmF2H4VgiKGfTvPAYTpixgS8fNOeUmVchq-nABUw68Liem0pRSWhtar_dKIqnLZUuKegILtUY3GcJJlCnArY3uFbjsb2R_2N_nD64cPbdNDzYo7ZEcKSCRGLlT6fi2aNIwP1U39LkX-wiOW7rmvwBCkzsrrajcoBk" />
                                 <div className="absolute top-2 left-2 bg-secondary-container text-on-secondary-container text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Verified</div>
                             </div>
@@ -534,8 +567,8 @@ const MobileHome: React.FC = () => {
                             </div>
                         </div>
                         {/* Item 2 */}
-                        <div className="py-6 flex gap-4" onClick={() => setIsProductDetailsOpen(true)}>
-                            <div className="w-28 h-28 flex-shrink-0 bg-surface-container-low rounded-lg overflow-hidden relative">
+                        <div className="py-4 sm:py-6 flex gap-3 sm:gap-4" onClick={() => setIsProductDetailsOpen(true)}>
+                            <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-surface-container-low rounded-lg overflow-hidden relative">
                                 <img className="w-full h-full object-cover" alt="Safety Protocol Gear Set" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwkITnOQ3JK2meqnz-Q15Ofn2JEDFEkvFbuzr4TbT0H5G8qd7qYUD_3VM3pWxbLN-x1_mnrXHXdtCOLr6Y1xQ5VSLpHovzuesGafVVdGnbsMv_yoP_y1diHxDPWhoGCQ4ABrtAmahFYojAp37UsqQwk6XtQU-rSe8vZr7Q9LlRbnZf9zWcbhVdydB1oaESsG54c3ayh5yuH_lOfBEA6G4NjK8BJEc5Oev5iyKr8UMSrKKHZUjgpNlW3VlLLOp2sDxhmbIpXkqCSFY" />
                                 <div className="absolute top-2 left-2 bg-secondary-container text-on-secondary-container text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Fast Ship</div>
                             </div>
@@ -574,7 +607,7 @@ const MobileHome: React.FC = () => {
 
                 {/* Interested Goods/Services Section */}
                 <section>
-                    <div className="flex justify-between items-end mb-6">
+                    <div className="flex justify-between items-end mb-4 sm:mb-6">
                         <div>
                             <span className="text font-bold text-xs tracking-widest mb-1 block">Based on your activity</span>
                             <h2 className="text-xl font-extrabold text tracking-tight">Interested Goods &amp; Services</h2>
@@ -591,15 +624,15 @@ const MobileHome: React.FC = () => {
                             { id: 'energy', label: 'Energy Tech', img: 'https://images.unsplash.com/photo-1509391366360-1e97d5259d81?auto=format&fit=crop&q=80&w=200' },
                             { id: 'logistics', label: 'Logistics Options', img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=200' },
                         ].map((topic, i) => (
-                            <div 
-                                key={topic.id} 
-                                className="flex-shrink-0 w-28 snap-start flex flex-col items-center cursor-pointer active:scale-95 transition-transform"
+                            <div
+                                key={topic.id}
+                                className="flex-shrink-0 w-24 sm:w-28 snap-start flex flex-col items-center cursor-pointer active:scale-95 transition-transform"
                                 onClick={() => setIsCategoriesPageOpen(true)}
                             >
-                                <div className="w-full aspect-square rounded-lg overflow-hidden mb-2 relative shadow-sm border border-slate-100 bg-slate-50">
-                                    <img 
-                                        src={topic.img} 
-                                        alt={topic.label} 
+                                <div className="w-full aspect-square rounded-lg overflow-hidden mb-1.5 sm:mb-2 relative shadow-sm border border-slate-100 bg-slate-50">
+                                    <img
+                                        src={topic.img}
+                                        alt={topic.label}
                                         className="w-full h-full object-cover"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
@@ -612,17 +645,17 @@ const MobileHome: React.FC = () => {
 
                 {/* Category Section: Grains & Cooking Materials */}
                 <section>
-                    <div className="flex justify-between items-end mb-6">
+                    <div className="flex justify-between items-end mb-4 sm:mb-6">
                         <div>
                             <span className="text font-bold text-xs tracking-widest mb-1 block">Top Manufacturers</span>
                             <h2 className="text-xl font-extrabold text tracking-tight">Grains &amp; Cooking Materials</h2>
                         </div>
                     </div>
                     {/* Grid without Containers */}
-                    <div className="grid grid-cols-2 gap-x-3 gap-y-10">
+                    <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-y-10">
                         {/* Product 1 */}
                         <div className="flex flex-col cursor-pointer" onClick={(e) => openReachSeller(e, "Premium Basmati Bulk", "https://lh3.googleusercontent.com/aida-public/AB6AXuDPd9rjIPozlrWK7mB2Bjb906VosUzKDqWQQyW1hzy8BsBG5A541Xor8ut1E1EwCehz9sCXtls3KLQt3Mk58yfe5YKEwL8MK0cJlkAXig8qyEAlMZpysnmLcxSmk9fXWHPd0u3utw6b2G037c5cC2cOoLoWHFFbT96jRgFwjB6sK_qLzO3nONEH6hY6ZsAWaYMPmcaoaNoqpcI8afm3_nFBLqUMyogaJ_-jEpifsODwQaa5oMqgGCWa84inzxvSBC7XjkKIvhCJSKM")}>
-                            <div className="h-40 bg-surface-container-low overflow-hidden rounded-lg">
+                            <div className="h-32 sm:h-40 bg-surface-container-low overflow-hidden rounded-lg">
                                 <img className="w-full h-full object-cover" alt="Premium Basmati Bulk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPd9rjIPozlrWK7mB2Bjb906VosUzKDqWQQyW1hzy8BsBG5A541Xor8ut1E1EwCehz9sCXtls3KLQt3Mk58yfe5YKEwL8MK0cJlkAXig8qyEAlMZpysnmLcxSmk9fXWHPd0u3utw6b2G037c5cC2cOoLoWHFFbT96jRgFwjB6sK_qLzO3nONEH6hY6ZsAWaYMPmcaoaNoqpcI8afm3_nFBLqUMyogaJ_-jEpifsODwQaa5oMqgGCWa84inzxvSBC7XjkKIvhCJSKM" />
                             </div>
                             <div className="pt-3 flex-1 flex flex-col justify-between">
@@ -636,7 +669,7 @@ const MobileHome: React.FC = () => {
                         </div>
                         {/* Product 2 */}
                         <div className="flex flex-col cursor-pointer" onClick={(e) => openReachSeller(e, "Whole Grain Wheat", "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E")}>
-                            <div className="h-40 bg-surface-container-low overflow-hidden rounded-lg">
+                            <div className="h-32 sm:h-40 bg-surface-container-low overflow-hidden rounded-lg">
                                 <img className="w-full h-full object-cover" alt="Whole Grain Wheat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" />
                             </div>
                             <div className="pt-3 flex-1 flex flex-col justify-between">
@@ -650,7 +683,7 @@ const MobileHome: React.FC = () => {
                         </div>
                         {/* Product 3 */}
                         <div className="flex flex-col cursor-pointer" onClick={(e) => openReachSeller(e, "Whole Grain Wheat", "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E")}>
-                            <div className="h-40 bg-surface-container-low overflow-hidden rounded-lg">
+                            <div className="h-32 sm:h-40 bg-surface-container-low overflow-hidden rounded-lg">
                                 <img className="w-full h-full object-cover" alt="Whole Grain Wheat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" />
                             </div>
                             <div className="pt-3 flex-1 flex flex-col justify-between">
@@ -664,7 +697,7 @@ const MobileHome: React.FC = () => {
                         </div>
                         {/* Product 4 */}
                         <div className="flex flex-col cursor-pointer" onClick={(e) => openReachSeller(e, "Whole Grain Wheat", "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E")}>
-                            <div className="h-40 bg-surface-container-low overflow-hidden rounded-lg">
+                            <div className="h-32 sm:h-40 bg-surface-container-low overflow-hidden rounded-lg">
                                 <img className="w-full h-full object-cover" alt="Whole Grain Wheat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2q6IAiqQfGPYz0zV3l6xD-E" />
                             </div>
                             <div className="pt-3 flex-1 flex flex-col justify-between">
@@ -681,20 +714,20 @@ const MobileHome: React.FC = () => {
 
                 {/* Category Quick Links Section */}
                 <section className="border-t-1 border-b-1 border-gray-300 py-5">
-                    <h2 className="text-xl font-extrabold text tracking-tight mb-6">Looking for something, like?</h2>
-                    <div className="grid grid-cols-4 gap-y-8 gap-x-4">
+                    <h2 className="text-xl font-extrabold text tracking-tight mb-4 sm:mb-6">Looking for something, like?</h2>
+                    <div className="grid grid-cols-4 gap-y-5 sm:gap-y-8 gap-x-4">
                         {[
                             { name: "Raw Materials", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=200" },
-                            { name: "Construction", img: "https://images.unsplash.com/photo-1503387762-592dea58ef23?auto=format&fit=crop&q=80&w=200" },
+                            { name: "Construction", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=200" },
                             { name: "Electronics", img: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&q=80&w=200" },
-                            { name: "Construction", img: "https://images.unsplash.com/photo-1503387762-592dea58ef23?auto=format&fit=crop&q=80&w=200" },
+                            { name: "Construction", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=200" },
                             { name: "Electronics", img: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&q=80&w=200" },
                             { name: "Machinery", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=200" },
                             { name: "Agriculture", img: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&q=80&w=200" },
                             { name: "All Categories", img: "https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?auto=format&fit=crop&q=80&w=200" }
                         ].map((cat, i) => (
                             <div key={i} className="flex flex-col items-center text-center group active:scale-95 duration-200 cursor-pointer" onClick={() => setIsCategoriesPageOpen(true)}>
-                                <div className={`w-14 h-14 rounded-full overflow-hidden relative mb-2 group-hover:shadow-md transition-all border border-slate-100 flex items-center justify-center ${cat.name === "All Categories" ? 'bg-white shadow-sm' : 'bg-slate-50'}`}>
+                                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden relative mb-1.5 sm:mb-2 group-hover:shadow-md transition-all border border-slate-100 flex items-center justify-center ${cat.name === "All Categories" ? 'bg-white shadow-sm' : 'bg-slate-50'}`}>
                                     {cat.name === "All Categories" ? (
                                         <LayoutGrid className="w-6 h-6 text-brand-blue" />
                                     ) : (
@@ -714,7 +747,7 @@ const MobileHome: React.FC = () => {
 
                 {/* Newest Liberian Manufacturers Section */}
                 <section>
-                    <div className="flex justify-between items-end mb-6">
+                    <div className="flex justify-between items-end mb-4 sm:mb-6">
                         <div>
                             <span className="text font-bold text-xs uppercase tracking-widest mb-1 block">Local Spotlight</span>
                             <h2 className="text tracking-tight text-xl font-bold">Liberian Made Businesses</h2>
@@ -722,7 +755,7 @@ const MobileHome: React.FC = () => {
                     </div>
                     <div className="flex overflow-x-auto gap-3 pb-4 hide-scrollbar snap-x">
                         {/* Manufacturer Card 1 */}
-                        <div className="flex-shrink-0 w-64 snap-start flex flex-col">
+                        <div className="flex-shrink-0 w-56 sm:w-64 snap-start flex flex-col">
                             <div className="w-full aspect-square bg-surface-container-low overflow-hidden rounded-lg mb-3 relative">
                                 <img className="w-full h-full object-cover" alt="Monrovia Iron Works" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3M6u7e_rL7mQ-W0E-m5R8zP8GvV-D-T6fX-Z9K-y-p9v_m1Q-t9Z-S5V-T6fX-Z9K-y-p9v_m1Q-t9Z-S5V-T6fX-Z9K-y-p9v_m1Q" />
                                 <div className="absolute top-2 left-2 bg-amber-400 text-[#000042] text-[9px] px-2 py-1 rounded-sm font-bold uppercase tracking-wider flex items-center gap-1 shadow-md">
@@ -750,7 +783,7 @@ const MobileHome: React.FC = () => {
                             </div>
                         </div>
                         {/* Manufacturer Card 2 */}
-                        <div className="flex-shrink-0 w-64 snap-start flex flex-col">
+                        <div className="flex-shrink-0 w-56 sm:w-64 snap-start flex flex-col">
                             <div className="w-full aspect-square bg-surface-container-low overflow-hidden rounded-lg mb-3 relative">
                                 <img className="w-full h-full object-cover" alt="Liberia Textile Group" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5N8v9w0-P2v-Q7R-S5T-V-W8X-Y-Z1A-B2C-D3E-F4G-H5I-J6K-L7M-N8O-P9Q" />
                                 <div className="absolute top-2 left-2 bg-amber-400 text-[#000042] text-[9px] px-2 py-1 rounded-sm font-bold uppercase tracking-wider flex items-center gap-1 shadow-md">
