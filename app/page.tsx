@@ -4,7 +4,7 @@ import DesktopHome from './components/DesktopHome';
 export default function Home() {
   return (
     <main>
-      <div className="block lg:hidden">
+      <div className="lg:hidden">
         <MobileHome />
       </div>
       <div className="hidden lg:block">
@@ -13,5 +13,3 @@ export default function Home() {
     </main>
   );
 }
-
-

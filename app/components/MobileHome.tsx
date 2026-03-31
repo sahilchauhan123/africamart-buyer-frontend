@@ -18,6 +18,7 @@ import ReachSellerOverlay from './ReachSellerOverlay';
 import SignInOverlay from './SignInOverlay';
 import SignUpPage from './SignUpPage';
 import GetQuotePage from './GetQuotePage';
+import ProductCard from './ProductCard';
 import { View } from '../types';
 
 type HeroAd = {
@@ -410,77 +411,96 @@ const MobileHome: React.FC = () => {
         <div className="bg-surface font-body text-on-surface min-h-[100dvh]">
             {/* Default Original Header (Scrolls out of view naturally) */}
             <header 
-                className="relative w-full z-40 px-4 h-[144px] flex flex-col pt-3"
+                className="relative w-full z-40 h-[144px] flex flex-col pt-3"
                 style={{ background: 'linear-gradient(180deg, hsla(224, 39%, 58%, 1) 0%, hsla(224, 39%, 81%, 0.1) 85%, transparent 100%)' }}
             >
-                <div className="flex items-center justify-between w-full h-11">
-                    <div className="flex items-center gap-3">
-                        <button
-                            className="flex items-center justify-center w-10 h-11 flex-shrink-0 text-white active:scale-90 transition-transform duration-300"
-                            onClick={() => setIsDrawerOpen(true)}
-                        >
-                            <span className="material-symbols-outlined text-xl font-[400]">menu</span>
-                        </button>
-                        <h1 className="font-headline font-bold text-lg tracking-tight text-white italic">
-                            AfricaMart B2B
-                        </h1>
+                <div className="max-w-screen-xl mx-auto w-full px-4">
+                    <div className="flex items-center justify-between w-full h-11">
+                        <div className="flex items-center gap-3">
+                            <button
+                                className="flex items-center justify-center w-10 h-11 flex-shrink-0 text-white active:scale-90 transition-transform duration-300"
+                                onClick={() => setIsDrawerOpen(true)}
+                            >
+                                <span className="material-symbols-outlined text-xl font-[400]">menu</span>
+                            </button>
+                            <h1 className="font-headline font-bold text-lg lg:text-2xl tracking-tight text-white italic">
+                                AfricaMart B2B
+                            </h1>
+                        </div>
+                        <div className="flex flex-shrink-0 items-center gap-4">
+                            <button
+                                className="hidden lg:flex items-center gap-2 text-white/90 hover:text-white font-bold text-sm px-4 py-2"
+                                onClick={() => setIsDrawerOpen(true)}
+                            >
+                                <LayoutGrid size={18} />
+                                Categories
+                            </button>
+                            <button
+                                className="bg-primary text-on-primary px-4 py-2 lg:px-6 lg:py-2.5 rounded-sm lg:rounded-lg text-xs lg:text-sm font-bold shadow-sm active:scale-95 transition-transform duration-200 flex items-center gap-1.5"
+                                onClick={() => setIsSignInOpen(true)}
+                            >
+                                <span className="material-symbols-outlined text-[18px]">person</span>
+                                Sign In
+                            </button>
+                        </div>
                     </div>
-                    <div className="flex flex-shrink-0">
-                        <button
-                            className="bg-primary text-on-primary px-4 py-2 rounded-sm text-xs font-bold shadow-sm active:scale-95 transition-transform duration-200 flex items-center gap-1.5"
-                            onClick={() => setIsSignInOpen(true)}
-                        >
-                            <span className="material-symbols-outlined text-[18px]">person</span>
-                            Sign In
-                        </button>
-                    </div>
-                </div>
 
-                <div className="flex w-full mt-2">
-                    <div
-                        className="w-full bg-white rounded-lg flex items-center px-4 h-11 border-0 outline outline-1 outline-slate-200/50 cursor-pointer relative"
-                        onClick={() => setIsSearchOpen(true)}
-                    >
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                        <input
-                            className="bg-transparent border-none text-sm w-full pl-7 focus:ring-0 placeholder:text-slate-400 pointer-events-none font-semibold"
-                            placeholder="Search for goods and services..."
-                            type="text"
-                            readOnly
-                        />
+                    <div className="flex w-full mt-2 lg:mt-4 max-w-3xl">
+                        <div
+                            className="w-full bg-white rounded-lg lg:rounded-xl flex items-center px-4 h-11 lg:h-14 border-0 outline outline-1 outline-slate-200/50 cursor-pointer relative shadow-lg shadow-brand-blue/10"
+                            onClick={() => setIsSearchOpen(true)}
+                        >
+                            <Search className="absolute left-3 lg:left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 lg:w-6 lg:h-6" />
+                            <input
+                                className="bg-transparent border-none text-sm lg:text-base w-full pl-7 lg:pl-10 focus:ring-0 placeholder:text-slate-400 pointer-events-none font-semibold"
+                                placeholder="Search for goods and services..."
+                                type="text"
+                                readOnly
+                            />
+                        </div>
                     </div>
                 </div>
             </header>
 
             {/* New Sticky Header (Slides down seamlessly with enhanced timing and fade) */}
             <header 
-                className={`fixed top-0 w-full z-50 backdrop-blur-xl px-4 h-[72px] transition-all will-change-[transform,opacity] flex items-center gap-3 ${shouldShowSticky ? 'translate-y-0 opacity-100 scale-100 duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]' : '-translate-y-full opacity-0 scale-95 duration-300 ease-out'}`}
+                className={`fixed top-0 w-full z-50 backdrop-blur-xl h-[72px] lg:h-[80px] transition-all will-change-[transform,opacity] flex items-center ${shouldShowSticky ? 'translate-y-0 opacity-100 scale-100 duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]' : '-translate-y-full opacity-0 scale-95 duration-300 ease-out'}`}
                 style={{ background: 'linear-gradient(180deg, hsla(224, 39%, 58%, 0.8) 0%, hsla(224, 39%, 81%, 0.4) 100%)' }}
             >
-                <button
-                    className="flex items-center justify-center w-10 h-11 flex-shrink-0 text-white active:scale-90 transition-transform duration-300"
-                    onClick={() => setIsDrawerOpen(true)}
-                >
-                    <span className="material-symbols-outlined text-xl font-[400]">menu</span>
-                </button>
-                <div className="flex-1">
-                    <div
-                        className="w-full bg-white rounded-lg flex items-center px-3 h-10 border-0 outline outline-1 outline-slate-200/50 cursor-pointer relative"
-                        onClick={() => setIsSearchOpen(true)}
+                <div className="max-w-screen-xl mx-auto w-full px-4 flex items-center gap-3">
+                    <button
+                        className="flex items-center justify-center w-10 h-11 flex-shrink-0 text-white active:scale-90 transition-transform duration-300"
+                        onClick={() => setIsDrawerOpen(true)}
                     >
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
-                        <input
-                            className="bg-transparent border-none text-[12px] w-full pl-6 focus:ring-0 placeholder:text-slate-400 pointer-events-none font-semibold"
-                            placeholder="Search for goods and services..."
-                            type="text"
-                            readOnly
-                        />
+                        <span className="material-symbols-outlined text-xl font-[400]">menu</span>
+                    </button>
+                    <div className="flex-1 max-w-3xl">
+                        <div
+                            className="w-full bg-white rounded-lg lg:rounded-xl flex items-center px-3 h-10 lg:h-12 border-0 outline outline-1 outline-slate-200/50 cursor-pointer relative shadow-md shadow-brand-blue/5"
+                            onClick={() => setIsSearchOpen(true)}
+                        >
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 lg:w-5 lg:h-5" />
+                            <input
+                                className="bg-transparent border-none text-[12px] lg:text-sm w-full pl-6 lg:pl-10 focus:ring-0 placeholder:text-slate-400 pointer-events-none font-semibold"
+                                placeholder="Search for goods and services..."
+                                type="text"
+                                readOnly
+                            />
+                        </div>
+                    </div>
+                    <div className="hidden lg:flex items-center gap-4">
+                        <button 
+                            className="bg-primary text-white px-5 py-2 rounded-lg text-sm font-bold shadow-md active:scale-95 transition-all"
+                            onClick={() => setIsSignInOpen(true)}
+                        >
+                            Sign In
+                        </button>
                     </div>
                 </div>
             </header>
 
             {/* Main content sits naturally below the static header */}
-            <main className="pt-4 sm:pt-6 pb-24 px-4 space-y-8 sm:space-y-10">
+            <main className="max-w-screen-xl mx-auto pt-4 sm:pt-6 lg:pt-10 pb-24 px-4 space-y-8 sm:space-y-10 lg:space-y-16">
                 {/* Advertisement/Banner Section */}
 
 
@@ -526,81 +546,39 @@ const MobileHome: React.FC = () => {
                 <section>
                     <div className="flex justify-between items-end mb-4 sm:mb-6">
                         <div>
-                            <h2 className="text- tracking-tight text-xl font-bold">Goods Available Near You</h2>
+                            <h2 className="text-slate-900 tracking-tight text-xl font-headline font-bold">Goods Available Near You</h2>
                         </div>
                     </div>
                     {/* Horizontal High-Density Items */}
-                    <div className="divide-y divide-outline-variant/20">
-                        {/* Item 1 */}
-                        <div className="py-4 sm:py-6 first:pt-0 flex gap-3 sm:gap-4" onClick={() => setIsProductDetailsOpen(true)}>
-                            <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-surface-container-low rounded-lg overflow-hidden relative">
-                                <img className="w-full h-full object-cover" alt="Close-up of high-grade industrial ball bearings" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKhMJpqzFX5JirQPSttiIp7sjSj-HtaFBqx2A8faI9cPDI5N96myy6KBgvL5cm9q5HlveP7-kTuWr8t_A5UkwCgYd9AoGCahwhHn_Y0QOt7aTmF2H4VgiKGfTvPAYTpixgS8fNOeUmVchq-nABUw68Liem0pRSWhtar_dKIqnLZUuKegILtUY3GcJJlCnArY3uFbjsb2R_2N_nD64cPbdNDzYo7ZEcKSCRGLlT6fi2aNIwP1U39LkX-wiOW7rmvwBCkzsrrajcoBk" />
-                                <div className="absolute top-2 left-2 bg-secondary-container text-on-secondary-container text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Verified</div>
-                            </div>
-                            <div className="flex-1 flex flex-col justify-between">
-                                <div>
-                                    <div className="flex justify-between items-start">
-                                        <h3 className="font-bold text text-base leading-tight">Precision Grade Ball <br /> Bearings</h3>
-                                    </div>
-                                    <p className="text-secondary font-extrabold text-lg mt-1">$45.00 <span className="text-on-surface-variant text-[10px] font-medium uppercase tracking-tighter">/ Unit</span></p>
-                                    <div className="flex items-center gap-1 mt-1">
-                                        <span className="material-symbols-outlined text-amber-500 text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                                        <span className="text-on-surface text-xs font-bold">4.8</span>
-                                        <span className="text-outline-variant text-xs">(124)</span>
-                                    </div>
-                                    <div className="flex items-center gap-1 mt-1 text-on-surface-variant">
-                                        <span className="material-symbols-outlined text-xs">store</span>
-                                        <span className="text-[11px] font-medium">Atlas Industrial Supplies</span>
-                                    </div>
-                                    <div className="flex items-center gap-1 mt-0.5 text-on-surface-variant/70">
-                                        <span className="material-symbols-outlined text-xs">location_on</span>
-                                        <span className="text-[10px] font-medium">Bushrod Island, Monrovia</span>
-                                    </div>
-                                </div>
-                                <div className="flex gap-2 mt-3">
-                                    <button className="flex-1 bg-primary text-on-primary text-[11px] font-bold py-2 rounded-lg active:scale-95 transition-transform" onClick={(e) => { e.stopPropagation(); openProductDetails(true); }}>Contact Now</button>
-                                    <button className="flex-1 border border-brand-blue text-brand-blue text-[11px] font-bold py-2 rounded-lg active:bg-blue-50 flex items-center justify-center gap-1.5" onClick={(e) => { e.stopPropagation(); setCurrentView(View.CHAT_SESSION); }}>
-                                        <MessageSquareMore className="w-3.5 h-3.5" />
-                                        Message
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Item 2 */}
-                        <div className="py-4 sm:py-6 flex gap-3 sm:gap-4" onClick={() => setIsProductDetailsOpen(true)}>
-                            <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-surface-container-low rounded-lg overflow-hidden relative">
-                                <img className="w-full h-full object-cover" alt="Safety Protocol Gear Set" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwkITnOQ3JK2meqnz-Q15Ofn2JEDFEkvFbuzr4TbT0H5G8qd7qYUD_3VM3pWxbLN-x1_mnrXHXdtCOLr6Y1xQ5VSLpHovzuesGafVVdGnbsMv_yoP_y1diHxDPWhoGCQ4ABrtAmahFYojAp37UsqQwk6XtQU-rSe8vZr7Q9LlRbnZf9zWcbhVdydB1oaESsG54c3ayh5yuH_lOfBEA6G4NjK8BJEc5Oev5iyKr8UMSrKKHZUjgpNlW3VlLLOp2sDxhmbIpXkqCSFY" />
-                                <div className="absolute top-2 left-2 bg-secondary-container text-on-secondary-container text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Fast Ship</div>
-                            </div>
-                            <div className="flex-1 flex flex-col justify-between">
-                                <div>
-                                    <div className="flex justify-between items-start">
-                                        <h3 className="font-bold text text-base leading-tight">Safety Protocol Gear Set</h3>
-                                    </div>
-                                    <p className="text-secondary font-extrabold text-lg mt-1">$128.50 <span className="text-on-surface-variant text-[10px] font-medium uppercase tracking-tighter">/ Kit</span></p>
-                                    <div className="flex items-center gap-1 mt-1">
-                                        <span className="material-symbols-outlined text-amber-500 text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                                        <span className="text-on-surface text-xs font-bold">4.9</span>
-                                        <span className="text-outline-variant text-xs">(86)</span>
-                                    </div>
-                                    <div className="flex items-center gap-1 mt-1 text-on-surface-variant">
-                                        <span className="material-symbols-outlined text-xs">store</span>
-                                        <span className="text-[11px] font-medium">SafeGuard Solutions Ltd.</span>
-                                    </div>
-                                    <div className="flex items-center gap-1 mt-0.5 text-on-surface-variant/70">
-                                        <span className="material-symbols-outlined text-xs">location_on</span>
-                                        <span className="text-[10px] font-medium">Gardnersville, Monrovia</span>
-                                    </div>
-                                </div>
-                                <div className="flex gap-2 mt-3">
-                                    <button className="flex-1 bg-primary text-on-primary text-[11px] font-bold py-2 rounded-lg active:scale-95 transition-transform" onClick={(e) => { e.stopPropagation(); setIsProductDetailsOpen(true); }}>Contact Now</button>
-                                    <button className="flex-1 border border-brand-blue text-brand-blue text-[11px] font-bold py-2 rounded-lg active:bg-blue-50 flex items-center justify-center gap-1.5" onClick={(e) => { e.stopPropagation(); setCurrentView(View.CHAT_SESSION); }}>
-                                        <MessageSquareMore className="w-3.5 h-3.5" />
-                                        Message
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <ProductCard
+                            variant="horizontal"
+                            name="Precision Grade Ball Bearings"
+                            price="$45.00"
+                            unit="/ Unit"
+                            image="https://lh3.googleusercontent.com/aida-public/AB6AXuBKhMJpqzFX5JirQPSttiIp7sjSj-HtaFBqx2A8faI9cPDI5N96myy6KBgvL5cm9q5HlveP7-kTuWr8t_A5UkwCgYd9AoGCahwhHn_Y0QOt7aTmF2H4VgiKGfTvPAYTpixgS8fNOeUmVchq-nABUw68Liem0pRSWhtar_dKIqnLZUuKegILtUY3GcJJlCnArY3uFbjsb2R_2N_nD64cPbdNDzYo7ZEcKSCRGLlT6fi2aNIwP1U39LkX-wiOW7rmvwBCkzsrrajcoBk"
+                            location="Bushrod Island, Monrovia"
+                            rating={4.8}
+                            reviews={124}
+                            isVerified={true}
+                            onClick={() => setIsProductDetailsOpen(true)}
+                            onContact={(e) => { e.stopPropagation(); openProductDetails(true); }}
+                            onMessage={(e) => { e.stopPropagation(); setCurrentView(View.CHAT_SESSION); }}
+                        />
+                        <ProductCard
+                            variant="horizontal"
+                            name="Safety Protocol Gear Set"
+                            price="$128.50"
+                            unit="/ Kit"
+                            image="https://lh3.googleusercontent.com/aida-public/AB6AXuDwkITnOQ3JK2meqnz-Q15Ofn2JEDFEkvFbuzr4TbT0H5G8qd7qYUD_3VM3pWxbLN-x1_mnrXHXdtCOLr6Y1xQ5VSLpHovzuesGafVVdGnbsMv_yoP_y1diHxDPWhoGCQ4ABrtAmahFYojAp37UsqQwk6XtQU-rSe8vZr7Q9LlRbnZf9zWcbhVdydB1oaESsG54c3ayh5yuH_lOfBEA6G4NjK8BJEc5Oev5iyKr8UMSrKKHZUjgpNlW3VlLLOp2sDxhmbIpXkqCSFY"
+                            location="Gardnersville, Monrovia"
+                            rating={4.9}
+                            reviews={86}
+                            isVerified={true}
+                            onClick={() => setIsProductDetailsOpen(true)}
+                            onContact={(e) => { e.stopPropagation(); setIsProductDetailsOpen(true); }}
+                            onMessage={(e) => { e.stopPropagation(); setCurrentView(View.CHAT_SESSION); }}
+                        />
                     </div>
                 </section>
 
@@ -652,7 +630,7 @@ const MobileHome: React.FC = () => {
                         </div>
                     </div>
                     {/* Grid without Containers */}
-                    <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-y-10">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-3 gap-y-6 sm:gap-y-10">
                         {/* Product 1 */}
                         <div className="flex flex-col cursor-pointer" onClick={(e) => openReachSeller(e, "Premium Basmati Bulk", "https://lh3.googleusercontent.com/aida-public/AB6AXuDPd9rjIPozlrWK7mB2Bjb906VosUzKDqWQQyW1hzy8BsBG5A541Xor8ut1E1EwCehz9sCXtls3KLQt3Mk58yfe5YKEwL8MK0cJlkAXig8qyEAlMZpysnmLcxSmk9fXWHPd0u3utw6b2G037c5cC2cOoLoWHFFbT96jRgFwjB6sK_qLzO3nONEH6hY6ZsAWaYMPmcaoaNoqpcI8afm3_nFBLqUMyogaJ_-jEpifsODwQaa5oMqgGCWa84inzxvSBC7XjkKIvhCJSKM")}>
                             <div className="h-32 sm:h-40 bg-surface-container-low overflow-hidden rounded-lg">
@@ -715,7 +693,7 @@ const MobileHome: React.FC = () => {
                 {/* Category Quick Links Section */}
                 <section className="border-t-1 border-b-1 border-gray-300 py-5">
                     <h2 className="text-xl font-extrabold text tracking-tight mb-4 sm:mb-6">Looking for something, like?</h2>
-                    <div className="grid grid-cols-4 gap-y-5 sm:gap-y-8 gap-x-4">
+                    <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-y-5 sm:gap-y-8 gap-x-4">
                         {[
                             { name: "Raw Materials", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=200" },
                             { name: "Construction", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=200" },
@@ -849,7 +827,7 @@ const MobileHome: React.FC = () => {
                             <h2 className="text tracking-tight text-xl font-bold">Send Quote Requests</h2>
                         </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-x-2 gap-y-8">
+                    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 gap-x-2 gap-y-8">
                         {[
                             { name: "Heavy Duty Industrial Pump", supplier: "Six", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE" },
                             { name: "Precision Grade Ball Bearings", supplier: "Atlas", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBKhMJpqzFX5JirQPSttiIp7sjSj-HtaFBqx2A8faI9cPDI5N96myy6KBgvL5cm9q5HlveP7-kTuWr8t_A5UkwCgYd9AoGCahwhHn_Y0QOt7aTmF2H4VgiKGfTvPAYTpixgS8fNOeUmVchq-nABUw68Liem0pRSWhtar_dKIqnLZUuKegILtUY3GcJJlCnArY3uFbjsb2R_2N_nD64cPbdNDzYo7ZEcKSCRGLlT6fi2aNIwP1U39LkX-wiOW7rmvwBCkzsrrajcoBk" },

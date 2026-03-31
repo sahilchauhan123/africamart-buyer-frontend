@@ -25,17 +25,17 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
         <div className="bg-[#f6f6f8] min-h-[100dvh] text-slate-900 antialiased pb-20 md:pb-0 font-display animate-in slide-in-from-right duration-300 flex flex-col">
             {/* Search Header - Exact copy from SearchPage */}
             <header 
-                className="sticky top-0 left-0 w-full z-50 px-4 py-3 pb-4 border-none transition-all flex flex-col"
+                className="sticky top-0 left-0 w-full z-50 py-3 pb-4 border-none transition-all flex flex-col"
                 style={{ background: 'linear-gradient(180deg, hsla(224, 39%, 58%, 1) 0%, hsla(224, 39%, 81%, 1) 100%)' }}
             >
-                <div className="flex items-center gap-3">
+                <div className="max-w-screen-xl mx-auto w-full px-4 flex items-center gap-3">
                     <button
                         onClick={onBack}
                         className="flex items-center justify-center size-10 rounded-full hover:bg-white/10 transition-colors active:scale-95 shrink-0"
                     >
                         <ArrowLeft className="w-6 h-6 text-white" />
                     </button>
-                    <div className="flex-1 relative">
+                    <div className="flex-1 relative max-w-2xl">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                         <input
                             className="w-full bg-white border-0 outline outline-1 outline-slate-200/50 rounded-lg pl-10 pr-3 py-2.5 text-sm font-semibold focus:outline-2 focus:outline-brand-blue/30 transition-all placeholder:text-slate-400"
@@ -142,95 +142,117 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
                 ></div>
             )}
 
-            <main className="max-w-5xl mx-auto w-full flex-1 flex flex-col">
-                {/* Product Image Gallery (Mobile Optimized Swipeable) */}
-                <section className="bg-white relative group">
-                    <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar h-[320px] md:h-[450px]">
-                        <div className="flex-none w-full snap-center flex items-center justify-center p-4">
-                            <div className="w-full h-full relative">
-                                <Image
-                                    className="object-contain rounded-lg"
-                                    alt="Heavy duty industrial blue water pump model x200"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE"
-                                    fill
-                                />
+            <main className="max-w-screen-xl mx-auto w-full flex-1 flex flex-col lg:flex-row lg:gap-10 p-0 lg:p-10">
+                {/* Left Column: Images */}
+                <div className="lg:w-1/2 space-y-6">
+                    {/* Product Image Gallery (Mobile Optimized Swipeable) */}
+                    <section className="bg-white relative group rounded-b-3xl lg:rounded-3xl overflow-hidden shadow-xl shadow-brand-blue/5 border border-slate-100">
+                        <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar h-[320px] md:h-[450px] lg:h-[550px]">
+                            <div className="flex-none w-full snap-center flex items-center justify-center p-4 lg:p-10">
+                                <div className="w-full h-full relative">
+                                    <Image
+                                        className="object-contain"
+                                        alt="Heavy duty industrial blue water pump model x200"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE"
+                                        fill
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex-none w-full snap-center flex items-center justify-center p-4">
-                            <div className="w-full h-full relative">
-                                <Image
-                                    className="object-contain rounded-lg"
-                                    alt="Technical schematic side view of industrial pump"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtEhgM5RszclO5KEqOSC4enXKQhEUX39tEHVoBrlAQFrpbLhZ-h-E-wlMnK7CE0aqxKKXJKzkUV9hFpA5SkqP952Os_pohblYz_voalibq9oof3ivqwSzK_GRBlwtqv2FaAFCSbDEYyaDe-07lwbYqHDsQCJiPE9ZEkVz6OBxtydlgjAvrNnDT2VJUP0pJyc5274rycgsEQpHDXkHc747G2HQkT94k3szOpw3eJcuE6XVo3ln6MAsHVmoDQz8pFS7dz7LMrkQuEic"
-                                    fill
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
-                        <div className="w-2 h-2 rounded-full bg-brand-blue"></div>
-                        <div className="w-2 h-2 rounded-full bg-slate-300"></div>
-                        <div className="w-2 h-2 rounded-full bg-slate-300"></div>
-                    </div>
-                </section>
-
-                {/* Product Hero Info */}
-                <section className="p-4 bg-white space-y-3">
-                    <h1 className="text-xl font-bold tracking-tight text-slate-900 leading-tight">
-                        Heavy Duty Industrial Pump Model X-200
-                    </h1>
-                    {hasPricing && (
-                        <div className="flex flex-col gap-1">
-                            <div className="text-[18px] font-extrabold text-brand-blue">₹ 45,000 - ₹ 55,000 / Unit</div>
-                            <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Min Order: 2 Units</div>
-                        </div>
-                    )}
-
-                    <div className="pt-3 border-t border-slate-100 flex flex-col gap-1.5 mt-2">
-                        <p className="text-sm font-bold text-slate-800">Business's Seller Name</p>
-                        <div className="flex flex-wrap items-center gap-4">
-                            <div className="flex items-center text-xs text-slate-500">
-                                <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                                <span>Location/Address</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <span className="text-[11px] text-slate-500 font-medium">Product rating</span>
-                                <div className="flex text-orange-400 text-xs tracking-widest">
-                                    <span>★</span><span>★</span><span>★</span><span>★</span><span className="text-slate-200">★</span>
+                            <div className="flex-none w-full snap-center flex items-center justify-center p-4 lg:p-10">
+                                <div className="w-full h-full relative">
+                                    <Image
+                                        className="object-contain"
+                                        alt="Technical schematic side view of industrial pump"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtEhgM5RszclO5KEqOSC4enXKQhEUX39tEHVoBrlAQFrpbLhZ-h-E-wlMnK7CE0aqxKKXJKzkUV9hFpA5SkqP952Os_pohblYz_voalibq9oof3ivqwSzK_GRBlwtqv2FaAFCSbDEYyaDe-07lwbYqHDsQCJiPE9ZEkVz6OBxtydlgjAvrNnDT2VJUP0pJyc5274rycgsEQpHDXkHc747G2HQkT94k3szOpw3eJcuE6XVo3ln6MAsHVmoDQz8pFS7dz7LMrkQuEic"
+                                        fill
+                                    />
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-
-                {/* Action Buttons (Middle Section) */}
-                {!isSearching && (
-                    <section className="px-4 py-4 bg-white border-b border-slate-50">
-                        <div className="flex gap-3">
-                            {hasPricing ? (
-                                <button
-                                    onClick={onMessage}
-                                    className="flex-1 h-11 bg-brand-blue text-white font-bold rounded-lg shadow-lg shadow-brand-blue/20 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity active:scale-95"
-                                >
-                                    <span className="material-symbols-outlined text-white">message</span>
-                                    Message
-                                </button>
-                            ) : (
-                                <button
-                                    onClick={onGetQuote}
-                                    className="flex-1 h-11 bg-brand-blue text-white font-bold rounded-lg shadow-lg shadow-brand-blue/20 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity active:scale-95"
-                                >
-                                    <span className="material-symbols-outlined text-white">mail</span>
-                                    Get Quote
-                                </button>
-                            )}
-                            <button className="flex-1 h-11 border border-brand-blue text-brand-blue font-bold rounded-lg flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors">
-                                <span className="material-symbols-outlined">call</span>
-                                Contact Supplier
-                            </button>
+                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+                            <div className="w-2.5 h-2.5 rounded-full bg-brand-blue shadow-lg shadow-brand-blue/20"></div>
+                            <div className="w-2.5 h-2.5 rounded-full bg-slate-300"></div>
+                            <div className="w-2.5 h-2.5 rounded-full bg-slate-300"></div>
                         </div>
                     </section>
-                )}
+                </div>
+
+                {/* Right Column: Info */}
+                <div className="lg:w-1/2 flex flex-col gap-6 p-4 lg:p-0 mt-4 lg:mt-0">
+                    {/* Product Hero Info */}
+                    <section className="bg-white lg:bg-transparent lg:p-0 space-y-4 lg:space-y-6">
+                        <div className="space-y-2">
+                            <span className="text-[10px] lg:text-xs font-black text-brand-blue uppercase tracking-[0.2em] bg-brand-blue/5 px-3 py-1 rounded-full w-fit">Industrial Machinery</span>
+                            <h1 className="text-xl lg:text-4xl font-black tracking-tight text-slate-900 leading-tight">
+                                Heavy Duty Industrial Pump Model X-200
+                            </h1>
+                        </div>
+                        
+                        {hasPricing && (
+                            <div className="flex flex-col gap-2 p-4 lg:p-6 bg-brand-blue/5 rounded-3xl border border-brand-blue/10">
+                                <div className="text-2xl lg:text-4xl font-black text-brand-blue tracking-tighter">₹ 45,000 - ₹ 55,000 <span className="text-sm lg:text-lg font-bold text-slate-400">/ Unit</span></div>
+                                <div className="flex items-center gap-2">
+                                    <div className="px-2 py-1 bg-green-500 text-white text-[9px] lg:text-[10px] font-black uppercase rounded-md">Best Price</div>
+                                    <div className="text-[11px] lg:text-xs font-bold text-slate-500 uppercase tracking-widest leading-none">Min Order: 2 Units</div>
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="pt-2 flex flex-col gap-4 lg:gap-6">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 lg:w-16 lg:h-16 bg-brand-blue/10 rounded-2xl flex items-center justify-center text-brand-blue font-black text-xl lg:text-2xl shadow-sm">B</div>
+                                <div>
+                                    <p className="text-base lg:text-xl font-black text-slate-900 leading-tight">Business's Seller Name</p>
+                                    <div className="flex flex-wrap items-center gap-4 mt-1 lg:mt-2">
+                                        <div className="flex items-center text-xs text-slate-500">
+                                            <MapPin className="h-4 w-4 mr-1 text-slate-400" />
+                                            <span>Location/Address</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <div className="flex text-orange-400 text-sm tracking-widest">
+                                                <span>★</span><span>★</span><span>★</span><span>★</span><span className="text-slate-200">★</span>
+                                            </div>
+                                            <span className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">(4.8 Rating)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Action Buttons (Middle Section) */}
+                    {!isSearching && (
+                        <section className="bg-transparent">
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                {hasPricing ? (
+                                    <button
+                                        onClick={onMessage}
+                                        className="flex-1 h-14 bg-brand-blue text-white font-black rounded-2xl shadow-xl shadow-brand-blue/20 flex items-center justify-center gap-3 hover:brightness-110 transition-all active:scale-95 text-base"
+                                    >
+                                        <span className="material-symbols-outlined text-white">message</span>
+                                        Message Seller
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={onGetQuote}
+                                        className="flex-1 h-14 bg-brand-blue text-white font-black rounded-2xl shadow-xl shadow-brand-blue/20 flex items-center justify-center gap-3 hover:brightness-110 transition-all active:scale-95 text-base"
+                                    >
+                                        <span className="material-symbols-outlined text-white">mail</span>
+                                        Get Fast Quote
+                                    </button>
+                                )}
+                                <button className="flex-1 h-14 border-2 border-brand-blue text-brand-blue font-black rounded-2xl flex items-center justify-center gap-3 hover:bg-brand-blue/5 transition-all text-base">
+                                    <span className="material-symbols-outlined font-bold">call</span>
+                                    Contact Supplier
+                                </button>
+                            </div>
+                        </section>
+                    )}
+                </div>
+            </main>
+
+            {/* Bottom section (Specs, Description, Reviews) */}
+            <div className="max-w-screen-xl mx-auto w-full px-4 lg:px-10 mt-6 lg:mt-16 space-y-10 lg:space-y-16">
 
                 {/* Product Details */}
                 <div className="bg-[#f8f9fc] mt-2 space-y-2 flex-1 flex flex-col">
@@ -473,7 +495,7 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
                     </section>
                 </div>
 
-            </main>
+            </div>
         </div>
     );
 };
