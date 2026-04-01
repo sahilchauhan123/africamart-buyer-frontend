@@ -23,7 +23,7 @@ interface DesktopProductDetailsProps {
 
 export default function DesktopProductDetails({ product, onBack }: DesktopProductDetailsProps) {
     return (
-        <div className="bg-slate-50 dark:bg-slate-950 min-h-screen py-6 px-4 lg:px-8 font-body">
+        <div className="bg-slate-50 min-h-screen py-6 px-4 lg:px-8 font-body">
             <div className="max-w-[1700px] mx-auto">
                 <div className="flex flex-col lg:flex-row gap-8 items-start">
 
@@ -40,16 +40,16 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                             {/* Vertical Thumbnail Strip */}
                             <div className="flex flex-col gap-3 order-last lg:order-first">
                                 {[1, 2, 3].map((i) => (
-                                    <div key={i} className={`w-20 h-20 rounded-lg border-2 overflow-hidden cursor-pointer transition-all ${i === 1 ? 'border-[#0026C0]' : 'border-slate-100 dark:border-slate-800 hover:border-slate-300'}`}>
+                                    <div key={i} className={`w-20 h-20 rounded-lg border-2 overflow-hidden cursor-pointer transition-all ${i === 1 ? 'border-[#0026C0]' : 'border-slate-100 hover:border-slate-300'}`}>
                                         <div className="relative w-full h-full bg-white flex items-center justify-center p-1">
-                                            <Image src={product.image} alt="Thumbnail view" fill className="object-cover opacity-80" />
+                                            <Image src={product.image} alt="Thumbnail view" fill className="object-contain opacity-80" />
                                         </div>
                                     </div>
                                 ))}
                             </div>
 
                             {/* Main Product Image */}
-                            <div className="flex-1 aspect-square bg-white dark:bg-slate-900 rounded-lg p-8 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group flex items-center justify-center">
+                            <div className="flex-1 aspect-square bg-white rounded-lg p-8 border border-slate-200 shadow-sm relative overflow-hidden group flex items-center justify-center">
                                 <Image
                                     src={product.image}
                                     alt={product.name}
@@ -70,29 +70,29 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                             <ChevronRight className="w-3 h-3 flex-shrink-0" />
                             <span className="hover:text-[#0026C0] cursor-pointer">Basmati Rice</span>
                             <ChevronRight className="w-3 h-3 flex-shrink-0" />
-                            <span className="text-slate-900 dark:text-white truncate">Mogra Rice</span>
+                            <span className="text-slate-900 truncate">{product.name}</span>
                         </nav>
 
-                        <h1 className="text-3xl font-black text-slate-900 dark:text-white leading-tight">
+                        <h1 className="text-3xl font-black text-slate-900 leading-tight">
                             {product.name}
                         </h1>
 
                         <div className="flex items-baseline gap-2 pb-6">
-                            <span className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter">{product.price}</span>
+                            <span className="text-4xl font-black text-slate-900 tracking-tighter">{product.price}</span>
                             <span className="text-lg font-bold text-slate-500">{product.unit}</span>
                             <button className="text-sm font-bold text-[#0026C0] hover:underline ml-4">Get Latest Price</button>
                         </div>
 
                         {/* Action Area (Boxed) */}
-                        <div className="bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col gap-4">
+                        <div className="bg-white rounded border border-slate-200 shadow-sm p-6 flex flex-col gap-4">
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <input
-                                    className="flex-grow h-12 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-5 font-bold text-base outline-none focus:border-[#0026C0] transition-colors"
+                                    className="flex-grow h-12 bg-slate-50 border border-slate-200 rounded px-5 font-bold text-base outline-none focus:border-[#0026C0] transition-colors"
                                     placeholder="Enter Quantity"
                                     type="number"
                                 />
                                 <div className="relative w-full sm:w-40 group">
-                                    <select className="appearance-none w-full h-12 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-5 font-black text-slate-700 dark:text-slate-200 outline-none cursor-pointer pr-10 focus:border-[#0026C0] transition-colors text-sm">
+                                    <select className="appearance-none w-full h-12 bg-slate-50 border border-slate-200 rounded px-5 font-black text-slate-700 outline-none cursor-pointer pr-10 focus:border-[#0026C0] transition-colors text-sm">
                                         <option>Bag</option>
                                         <option>Kg</option>
                                         <option>Metric Ton</option>
@@ -106,11 +106,11 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                         </div>
 
                         {/* Specs Table */}
-                        <div className="bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
-                            <div className="bg-slate-50/50 dark:bg-slate-800/50 px-6 py-4 border-b border-slate-100 dark:border-slate-800">
+                        <div className="bg-white rounded border border-slate-100 shadow-sm overflow-hidden">
+                            <div className="bg-slate-50/50 px-6 py-4 border-b border-slate-100">
                                 <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Product Details</h4>
                             </div>
-                            <div className="divide-y divide-slate-50 dark:divide-slate-800">
+                            <div className="divide-y divide-slate-50">
                                 {[
                                     ["Grade", "Mogra"],
                                     ["Processing Type", "Steam"],
@@ -124,14 +124,14 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                 ].map(([label, value]) => (
                                     <div key={label} className="grid grid-cols-2 px-6 py-4 hover:bg-slate-50/50 transition-colors">
                                         <span className="text-sm font-medium text-slate-400">{label}</span>
-                                        <span className="text-sm font-bold text-slate-900 dark:text-white capitalize">{value}</span>
+                                        <span className="text-sm font-bold text-slate-900 capitalize">{value}</span>
                                     </div>
                                 ))}
                             </div>
                         </div>
 
-                        <div className="prose dark:prose-invert max-w-none pt-4">
-                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed italic">
+                        <div className="max-w-none pt-4">
+                            <p className="text-slate-600 leading-relaxed italic">
                                 {product.name} is a premium quality {product.unit} of rice, meticulously processed to maintain its natural aroma and elongated grain structure. Ideal for industrial catering and large-scale distribution.
                             </p>
                         </div>
@@ -139,12 +139,12 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
 
                     {/* Right Column: Seller/Supplier Sidebar */}
                     <aside className="w-full lg:w-[320px] shrink-0 space-y-4">
-                        <div className="bg-white dark:bg-slate-900 rounded-lg p-5 border border-slate-200 dark:border-slate-800 shadow-sm italic">
+                        <div className="bg-white rounded-lg p-5 border border-slate-200 shadow-sm italic">
                             <div className="flex items-center gap-1 text-[13px] text-slate-500 mb-2">
                                 <MapPin className="w-4 h-4" />
                                 <span>{product.location || 'Ludhiana'}</span>
                             </div>
-                            <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">{product.supplier || 'Bansal Enterprises'}</h3>
+                            <h3 className="text-xl font-black text-slate-900 mb-2">{product.supplier || 'Bansal Enterprises'}</h3>
 
                             <div className="flex items-center gap-2 mb-3">
                                 <div className="flex items-center gap-1.5 bg-green-500/10 text-green-600 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">
@@ -160,14 +160,14 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                         <Star key={i} className={`w-3.5 h-3.5 ${i < 3 ? 'fill-current' : 'text-slate-100'}`} />
                                     ))}
                                 </div>
-                                <span className="text-sm font-bold text-slate-900 dark:text-white">2.9</span>
+                                <span className="text-sm font-bold text-slate-900">2.9</span>
                                 <span className="text-xs text-[#0026C0] font-bold hover:underline cursor-pointer">(10)</span>
                                 <div className="h-3 w-px bg-slate-200 mx-2"></div>
                                 <span className="text-[10px] font-bold text-green-600 uppercase">88% Response</span>
                             </div>
 
                             <div className="space-y-3">
-                                <button className="w-full h-11 rounded border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-3 text-sm font-black text-[#0026C0] hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                                <button className="w-full h-11 rounded border border-slate-200 flex items-center justify-center gap-3 text-sm font-black text-[#0026C0] hover:bg-slate-50 transition-all">
                                     <Phone className="w-4 h-4" />
                                     Call Now
                                 </button>
@@ -179,25 +179,25 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                         </div>
 
                         {/* Legal/Firm Status Section */}
-                        <div className="bg-white dark:bg-slate-900 rounded-lg p-5 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+                        <div className="bg-white rounded-lg p-5 border border-slate-200 shadow-sm space-y-6">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Legal Status</p>
-                                    <p className="text-sm font-black text-slate-800 dark:text-slate-200">Proprietorship</p>
+                                    <p className="text-sm font-black text-slate-800">Proprietorship</p>
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">GST Reg. Date</p>
-                                    <p className="text-sm font-black text-slate-800 dark:text-slate-200">17-12-2020</p>
+                                    <p className="text-sm font-black text-slate-800">17-12-2020</p>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100">
                                 <div>
                                     <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Annual Turnover</p>
-                                    <p className="text-sm font-black text-slate-800 dark:text-slate-200">1.5 - 5 Cr</p>
+                                    <p className="text-sm font-black text-slate-800">1.5 - 5 Cr</p>
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Member Since</p>
-                                    <p className="text-sm font-black text-slate-800 dark:text-slate-200">Nov 2024</p>
+                                    <p className="text-sm font-black text-slate-800">Nov 2024</p>
                                 </div>
                             </div>
                         </div>
@@ -206,11 +206,11 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                 </div>
 
                 {/* Bottom Section: Similar Products / Recommended */}
-                <div className="mt-16 pt-16 border-t border-slate-200 dark:border-slate-800">
+                <div className="mt-16 pt-16 border-t border-slate-200">
                     <div className="flex items-center justify-between mb-8">
                         <div>
-                            <h2 className="text-2xl font-black text-slate-900 dark:text-white">Recommended for You</h2>
-                            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Based on your recent interest in {product.name}</p>
+                            <h2 className="text-2xl font-black text-slate-900">Recommended for You</h2>
+                            <p className="text-slate-500 text-sm mt-1">Based on your recent interest in {product.name}</p>
                         </div>
                         <button className="text-[#0026C0] font-black flex items-center gap-1 hover:underline text-sm uppercase tracking-wider">
                             See More Results

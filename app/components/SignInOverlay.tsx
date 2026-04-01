@@ -41,13 +41,13 @@ const SignInOverlay: React.FC<SignInOverlayProps> = ({ isOpen, onClose, onSwitch
             ></div>
 
             {/* Modal Card */}
-            <div className="relative w-full max-w-[340px] bg-white dark:bg-slate-900 rounded-sm shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 border border-slate-200 dark:border-slate-800">
+            <div className="relative w-full max-w-[340px] bg-white rounded-sm shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 border border-slate-200">
                 <div className="p-6">
                     <div className="flex justify-between items-center mb-5">
-                        <h2 className="text-base font-black text-slate-900 dark:text-white uppercase tracking-tight">Sign In</h2>
+                        <h2 className="text-base font-black text-slate-900 uppercase tracking-tight">Sign In</h2>
                         <button 
                             onClick={onClose}
-                            className="p-1 rounded text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                            className="p-1 rounded text-slate-400 hover:text-slate-900 transition-colors"
                         >
                             <X size={16} />
                         </button>
@@ -55,20 +55,20 @@ const SignInOverlay: React.FC<SignInOverlayProps> = ({ isOpen, onClose, onSwitch
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-1">
-                            <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 ml-0.5 uppercase tracking-widest leading-none">Email or Phone</label>
+                            <label className="text-[10px] font-black text-slate-500 ml-0.5 uppercase tracking-widest leading-none">Email or Phone</label>
                             <input 
                                 type="text" 
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="name@company.com"
-                                className="w-full h-10 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-sm px-3 text-xs font-bold focus:border-[#0026C0] outline-none transition-colors"
+                                className="w-full h-10 bg-white border border-slate-200 rounded-sm px-3 text-xs font-bold focus:border-[#0026C0] outline-none transition-colors"
                             />
                         </div>
 
                         <div className="space-y-1">
                             <div className="flex justify-between items-center">
-                                <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 ml-0.5 uppercase tracking-widest leading-none">Password</label>
+                                <label className="text-[10px] font-black text-slate-500 ml-0.5 uppercase tracking-widest leading-none">Password</label>
                                 <button type="button" className="text-[9px] font-bold text-[#0026C0] hover:underline">Forgot?</button>
                             </div>
                             <div className="relative">
@@ -78,12 +78,12 @@ const SignInOverlay: React.FC<SignInOverlayProps> = ({ isOpen, onClose, onSwitch
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"
-                                    className="w-full h-10 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-sm px-3 pr-10 text-xs font-bold focus:border-[#0026C0] outline-none transition-colors"
+                                    className="w-full h-10 bg-white border border-slate-200 rounded-sm px-3 pr-10 text-xs font-bold focus:border-[#0026C0] outline-none transition-colors"
                                 />
                                 <button 
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900"
                                 >
                                     {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
                                 </button>
@@ -98,8 +98,8 @@ const SignInOverlay: React.FC<SignInOverlayProps> = ({ isOpen, onClose, onSwitch
                         </button>
                     </form>
 
-                    <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
-                        <p className="text-slate-400 dark:text-slate-500 text-[10px] font-medium mb-2">New Here?</p>
+                    <div className="mt-8 pt-6 border-t border-slate-100 text-center">
+                        <p className="text-slate-400 text-[10px] font-medium mb-2">New Here?</p>
                         <button 
                             onClick={onSwitchToSignUp}
                             className="text-[#0026C0] font-black uppercase tracking-[0.15em] hover:underline text-[10px]"

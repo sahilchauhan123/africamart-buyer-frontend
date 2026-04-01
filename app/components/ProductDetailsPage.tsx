@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { Search, SlidersHorizontal, ArrowLeft, MapPin, XCircle, ArrowUpLeft, History, Star } from 'lucide-react';
+import { Search, SlidersHorizontal, ArrowLeft, MapPin, XCircle, ArrowUpLeft, History, Star, ShieldCheck, Phone, MessageSquare, ChevronRight, Info, Clock, Truck, Share2, Heart } from 'lucide-react';
 
 interface ProductDetailsPageProps {
     onBack: () => void;
@@ -21,10 +21,11 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
 }) => {
     const [searchQuery, setSearchQuery] = React.useState("");
     const [isSearching, setIsSearching] = React.useState(false);
+
     return (
-        <div className="bg-[#f6f6f8] min-h-[100dvh] text-slate-900 antialiased pb-20 md:pb-0 font-display animate-in slide-in-from-right duration-300 flex flex-col">
-            {/* Search Header - Exact copy from SearchPage */}
-            <header 
+        <div className="bg-[#f6f6f8] min-h-[100dvh] text-slate-900 antialiased pb-24 md:pb-0 font-display animate-in slide-in-from-right duration-300 flex flex-col">
+            {/* Search Header - Exact copy from SearchPage as requested */}
+            <header
                 className="sticky top-0 left-0 w-full z-50 py-3 pb-4 border-none transition-all flex flex-col"
                 style={{ background: 'linear-gradient(180deg, hsla(224, 39%, 58%, 1) 0%, hsla(224, 39%, 81%, 1) 100%)' }}
             >
@@ -54,7 +55,7 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
                     </button>
                 </div>
 
-                {/* Typesense-style Dropdown Search Overlay */}
+                {/* Search Dropdown Overlay */}
                 {isSearching && (
                     <div className="absolute top-[100%] left-0 right-0 bg-white shadow-2xl border-t border-slate-100 animate-in fade-in slide-in-from-top-2 duration-200 z-[100] max-h-[70vh] overflow-y-auto hide-scrollbar">
                         <div className="flex flex-col">
@@ -86,48 +87,7 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
                                     ))}
                                 </>
                             ) : (
-                                (() => {
-                                    const matchedSuggestions = [
-                                        { name: "Centrifugal Water Pump for Industrial Irrigation", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE" },
-                                        { name: "High Pressure Multistage Industrial Pump", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE" },
-                                        { name: "Submersible Deep Well Boring Pump", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" },
-                                        { name: "Vertical Turbine Pumps", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" },
-                                        { name: "Chemical Pumps", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" },
-                                        { name: "Electric Water Pump", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" },
-                                        { name: "Monoblock Pumps", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" },
-                                        { name: "Pressure Booster System", img: "https://images.unsplash.com/photo-1509391366360-1e97d5259d81?auto=format&fit=crop&q=80&w=400" }
-                                    ].filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
-
-                                    if (matchedSuggestions.length === 0) {
-                                        return (
-                                            <div className="px-4 py-8 text-center text-slate-500 text-sm font-medium">
-                                                No suggestions found for "{searchQuery}"
-                                            </div>
-                                        );
-                                    }
-
-                                    return matchedSuggestions.map((item, idx) => (
-                                        <button
-                                            key={idx}
-                                            onClick={() => {
-                                                setSearchQuery(item.name);
-                                                setIsSearching(false);
-                                                onOpenSearch?.();
-                                            }}
-                                            className="w-full flex items-center justify-between px-4 py-3 border-b border-slate-50 hover:bg-slate-50 active:bg-slate-100 transition-colors text-left group"
-                                        >
-                                            <div className="flex items-center gap-4 min-w-0">
-                                                <div className="size-10 rounded-lg bg-slate-50 overflow-hidden flex-shrink-0 border border-slate-100 group-hover:border-slate-200 transition-colors shadow-sm">
-                                                    <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
-                                                </div>
-                                                <div className="flex flex-col min-w-0">
-                                                    <span className="text-[14px] font-bold text-slate-800 truncate leading-tight">{item.name}</span>
-                                                </div>
-                                            </div>
-                                            <ArrowUpLeft className="w-4 h-4 text-slate-300 group-hover:text-brand-blue transition-colors shrink-0 ml-2" />
-                                        </button>
-                                    ));
-                                })()
+                                <div className="p-4 text-xs font-bold text-slate-400 uppercase tracking-widest text-center">Suggestions for "{searchQuery}"</div>
                             )}
                         </div>
                     </div>
@@ -142,359 +102,224 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
                 ></div>
             )}
 
-            <main className="max-w-screen-xl mx-auto w-full flex-1 flex flex-col lg:flex-row lg:gap-10 p-0 lg:p-10">
-                {/* Left Column: Images */}
-                <div className="lg:w-1/2 space-y-6">
-                    {/* Product Image Gallery (Mobile Optimized Swipeable) */}
-                    <section className="bg-white relative group rounded-b-3xl lg:rounded-3xl overflow-hidden shadow-xl shadow-brand-blue/5 border border-slate-100">
-                        <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar h-[320px] md:h-[450px] lg:h-[550px]">
-                            <div className="flex-none w-full snap-center flex items-center justify-center p-4 lg:p-10">
-                                <div className="w-full h-full relative">
-                                    <Image
-                                        className="object-contain"
-                                        alt="Heavy duty industrial blue water pump model x200"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE"
-                                        fill
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex-none w-full snap-center flex items-center justify-center p-4 lg:p-10">
-                                <div className="w-full h-full relative">
-                                    <Image
-                                        className="object-contain"
-                                        alt="Technical schematic side view of industrial pump"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtEhgM5RszclO5KEqOSC4enXKQhEUX39tEHVoBrlAQFrpbLhZ-h-E-wlMnK7CE0aqxKKXJKzkUV9hFpA5SkqP952Os_pohblYz_voalibq9oof3ivqwSzK_GRBlwtqv2FaAFCSbDEYyaDe-07lwbYqHDsQCJiPE9ZEkVz6OBxtydlgjAvrNnDT2VJUP0pJyc5274rycgsEQpHDXkHc747G2HQkT94k3szOpw3eJcuE6XVo3ln6MAsHVmoDQz8pFS7dz7LMrkQuEic"
-                                        fill
-                                    />
-                                </div>
+            <main className="max-w-screen-xl mx-auto w-full flex-1 flex flex-col">
+                {/* Image Gallery */}
+                <section className="bg-white relative border-b border-slate-100">
+                    <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar h-[350px]">
+                        <div className="flex-none w-full snap-center flex items-center justify-center p-6">
+                            <div className="w-full h-full relative">
+                                <Image
+                                    className="object-contain"
+                                    alt="Product Main View"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE"
+                                    fill
+                                    priority
+                                />
                             </div>
                         </div>
-                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-                            <div className="w-2.5 h-2.5 rounded-full bg-brand-blue shadow-lg shadow-brand-blue/20"></div>
-                            <div className="w-2.5 h-2.5 rounded-full bg-slate-300"></div>
-                            <div className="w-2.5 h-2.5 rounded-full bg-slate-300"></div>
+                        <div className="flex-none w-full snap-center flex items-center justify-center p-6 bg-slate-50">
+                            <div className="w-full h-full relative">
+                                <Image
+                                    className="object-contain p-4 opacity-80"
+                                    alt="Technical View"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtEhgM5RszclO5KEqOSC4enXKQhEUX39tEHVoBrlAQFrpbLhZ-h-E-wlMnK7CE0aqxKKXJKzkUV9hFpA5SkqP952Os_pohblYz_voalibq9oof3ivqwSzK_GRBlwtqv2FaAFCSbDEYyaDe-07lwbYqHDsQCJiPE9ZEkVz6OBxtydlgjAvrNnDT2VJUP0pJyc5274rycgsEQpHDXkHc747G2HQkT94k3szOpw3eJcuE6XVo3ln6MAsHVmoDQz8pFS7dz7LMrkQuEic"
+                                    fill
+                                />
+                            </div>
                         </div>
-                    </section>
-                </div>
+                    </div>
+                    {/* Dots Indicator */}
+                    <div className="flex justify-center gap-1.5 pb-4">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#0026C0]"></div>
+                        <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
+                        <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
+                    </div>
+                    {/* Utility Buttons */}
+                    <button className="absolute top-4 right-4 size-10 bg-white/80 backdrop-blur shadow-sm rounded-full flex items-center justify-center border border-slate-100 z-10">
+                        <Share2 className="w-5 h-5 text-slate-400" />
+                    </button>
+                </section>
 
-                {/* Right Column: Info */}
-                <div className="lg:w-1/2 flex flex-col gap-6 p-4 lg:p-0 mt-4 lg:mt-0">
-                    {/* Product Hero Info */}
-                    <section className="bg-white lg:bg-transparent lg:p-0 space-y-4 lg:space-y-6">
-                        <div className="space-y-2">
-                            <span className="text-[10px] lg:text-xs font-black text-brand-blue uppercase tracking-[0.2em] bg-brand-blue/5 px-3 py-1 rounded-full w-fit">Industrial Machinery</span>
-                            <h1 className="text-xl lg:text-4xl font-black tracking-tight text-slate-900 leading-tight">
-                                Heavy Duty Industrial Pump Model X-200
-                            </h1>
+                {/* Breadcrumbs (Consistent with Desktop) */}
+                <nav className="px-4 py-3 bg-white border-b border-slate-50 flex items-center gap-2 text-[10px] font-bold text-slate-400 overflow-hidden whitespace-nowrap">
+                    <span>AfricaMart</span>
+                    <ChevronRight className="w-3 h-3" />
+                    <span>Cereals & Grains</span>
+                    <ChevronRight className="w-3 h-3" />
+                    <span className="text-slate-900 truncate">Heavy Duty Industrial Pump</span>
+                </nav>
+
+                {/* Product Core Info */}
+                <section className="bg-white px-4 py-6 space-y-4">
+                    <div className="space-y-2">
+                        <h1 className="text-xl font-black text-slate-900 leading-tight">
+                            Heavy Duty Industrial Pump Model X-200
+                        </h1>
+                    </div>
+
+                    <div className="flex items-baseline gap-2">
+                        <span className="text-2xl font-black text-slate-900 tracking-tighter">₹ 45,000</span>
+                        <span className="text-lg font-bold text-slate-500">/ Unit</span>
+                        <button className="text-sm font-bold text-[#0026C0] hover:underline ml-2">Get Latest Price</button>
+                    </div>
+                </section>
+
+                {/* Action Area (Submit Requirement - Same as Desktop) */}
+                <section className="bg-white px-4 py-6 border-y border-slate-100 group">
+                    <div className="bg-slate-50 rounded border border-slate-200 p-4 space-y-4">
+                        <div className="flex gap-3">
+                            <input
+                                className="flex-grow h-12 bg-white border border-slate-200 rounded px-4 font-bold text-base outline-none focus:border-[#0026C0] transition-colors"
+                                placeholder="Enter Quantity"
+                                type="number"
+                            />
+                            <div className="relative w-32">
+                                <select className="appearance-none w-full h-12 bg-white border border-slate-200 rounded px-4 font-black text-slate-700 outline-none cursor-pointer pr-10 focus:border-[#0026C0] transition-colors text-sm">
+                                    <option>Units</option>
+                                    <option>Metric Ton</option>
+                                </select>
+                                <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 rotate-90" />
+                            </div>
                         </div>
-                        
-                        {hasPricing && (
-                            <div className="flex flex-col gap-2 p-4 lg:p-6 bg-brand-blue/5 rounded-3xl border border-brand-blue/10">
-                                <div className="text-2xl lg:text-4xl font-black text-brand-blue tracking-tighter">₹ 45,000 - ₹ 55,000 <span className="text-sm lg:text-lg font-bold text-slate-400">/ Unit</span></div>
-                                <div className="flex items-center gap-2">
-                                    <div className="px-2 py-1 bg-green-500 text-white text-[9px] lg:text-[10px] font-black uppercase rounded-md">Best Price</div>
-                                    <div className="text-[11px] lg:text-xs font-bold text-slate-500 uppercase tracking-widest leading-none">Min Order: 2 Units</div>
+                        <button className="w-full h-14 bg-[#2B3595] text-white font-black rounded text-sm shadow-lg shadow-[#2B3595]/15 active:scale-[0.98] transition-all">
+                            Submit Requirement
+                        </button>
+                    </div>
+                </section>
+
+                {/* Specs Table (Consistent with Desktop) */}
+                <section className="mt-2 bg-white border-y border-slate-100">
+                    <div className="px-4 py-4 border-b border-slate-100">
+                        <h4 className="text-xs font-black text-slate-500">Product Details</h4>
+                    </div>
+                    <div className="divide-y divide-slate-50">
+                        {[
+                            ["Grade", "Mogra"],
+                            ["Processing Type", "Steam"],
+                            ["Packaging Size", "30 kg"],
+                            ["Type", "Industrial X-200"],
+                            ["Power Source", "Electric (3-Phase)"],
+                            ["Brand", "Taujee"],
+                            ["Packaging Type", "Standard"],
+                            ["Country of Origin", "Made in Africa"],
+                            ["Availability", "In Stock"]
+                        ].map(([label, value]) => (
+                            <div key={label} className="grid grid-cols-2 px-4 py-4">
+                                <span className="text-sm font-medium text-slate-400">{label}</span>
+                                <span className="text-sm font-bold text-slate-900">{value}</span>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Description (Italicized as seen in Desktop) */}
+                <section className="bg-white px-4 py-6 border-b border-slate-100">
+                    <p className="text-slate-600 text-sm leading-relaxed italic">
+                        The Model X-200 is a premium quality industrial pump, meticulously processed to maintain its natural aroma and elongated grain structure. Ideal for industrial catering and large-scale distribution.
+                    </p>
+                </section>
+
+                {/* Seller/Supplier Section (Consistent with Desktop aside-bar) */}
+                <section className="mt-2 bg-white px-4 py-6 border-y border-slate-100 space-y-4">
+                    <div className="flex items-center gap-1 text-[13px] text-slate-500">
+                        <MapPin className="w-4 h-4" />
+                        <span>Ludhiana, Punjab</span>
+                    </div>
+                    <h3 className="text-xl font-black text-slate-900 leading-tight">Bansal Enterprises Ltd.</h3>
+
+                    <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5 bg-green-500/10 text-green-600 px-2 py-0.5 rounded text-[10px] font-black">
+                            <ShieldCheck className="w-3 h-3" />
+                            Verified
+                        </div>
+                        <span className="text-[11px] font-bold text-slate-400">2 yrs Member</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 mb-3">
+                        <div className="flex text-amber-400">
+                            {[...Array(5)].map((_, i) => (
+                                <Star key={i} className={`w-3.5 h-3.5 ${i < 4 ? 'fill-current' : 'text-slate-100'}`} />
+                            ))}
+                        </div>
+                        <span className="text-sm font-bold text-slate-900">4.8</span>
+                        <span className="text-xs text-[#0026C0] font-bold hover:underline cursor-pointer">(124)</span>
+                        <div className="h-3 w-px bg-slate-200 mx-2"></div>
+                        <span className="text-[10px] font-bold text-green-600">88% Response</span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3 mt-4 pt-2">
+                        <button className="h-11 rounded border border-slate-200 flex items-center justify-center gap-2 text-xs font-black text-[#0026C0] hover:bg-slate-50 active:scale-95 transition-all">
+                            <Phone className="w-3.5 h-3.5" />
+                            Call Now
+                        </button>
+                        <button className="h-11 bg-[#0026C0] rounded flex items-center justify-center gap-2 text-xs font-black text-white hover:bg-[#0020A0] active:scale-95 transition-all shadow-sm">
+                            <MessageSquare className="w-4 h-4" />
+                            Contact Supplier
+                        </button>
+                    </div>
+
+                    {/* Legal/Firm Status Section (from Desktop DesktopProductDetails.tsx) */}
+                    <div className="grid grid-cols-2 gap-4 py-4 border-t border-slate-50 mt-4">
+                        <div>
+                            <p className="text-[9px] font-bold text-slate-400 mb-0.5">Legal Status</p>
+                            <p className="text-xs font-black text-slate-800">Proprietorship</p>
+                        </div>
+                        <div>
+                            <p className="text-[9px] font-bold text-slate-400 mb-0.5">GST Reg. Date</p>
+                            <p className="text-xs font-black text-slate-800">17-12-2020</p>
+                        </div>
+                        <div className="pt-2">
+                            <p className="text-[9px] font-bold text-slate-400 mb-0.5">Annual Turnover</p>
+                            <p className="text-xs font-black text-slate-800">1.5 - 5 Cr</p>
+                        </div>
+                        <div className="pt-2">
+                            <p className="text-[9px] font-bold text-slate-400 mb-0.5">Member Since</p>
+                            <p className="text-xs font-black text-slate-800">Nov 2024</p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Recommended (Suggested products) */}
+                <section className="mt-2 bg-white px-4 py-6 border-y border-slate-100 pb-32">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-lg font-black text-slate-900">Recommended for You</h2>
+                        <button className="text-[#0026C0] font-black text-xs">See All</button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        {[
+                            { name: "Long Grain Parboiled Rice", price: "₹ 2,800", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEvFQB1H88fuOka7yp8h49qObv55xA1cM6DKc7JIAZgAW7orn15wB_v3qPidwWKuzWeRACovWHghmMy9z_0m6eDQ6D-wCEVAYTqGLzJYDYx5Qcz80z-dZRZBVFzrnCxBLJuZVzJaLmmYmH9BMwTgl_SP4PrtIy-cT_TFFfhmuM6z3p5Odq5dslAFKgEvT6HTQIajdF_VHTmPM14TCJG5xU0LaTyOu7wezQl2N-cMr_i3YJYk8h8D6j8jbN1PHNfJInF62lsI9UQVE" },
+                            { name: "Golden Sella Basmati", price: "₹ 4,500", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE" },
+                        ].map((item, idx) => (
+                            <div key={idx} className="flex flex-col gap-2">
+                                <div className="aspect-square bg-slate-50 border border-slate-100 rounded overflow-hidden relative">
+                                    <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
+                                </div>
+                                <div className="space-y-0.5">
+                                    <h4 className="text-[11px] font-bold text-slate-800 line-clamp-2 leading-tight">{item.name}</h4>
+                                    <p className="text-[12px] font-black text-[#0026C0]">{item.price}</p>
                                 </div>
                             </div>
-                        )}
-
-                        <div className="pt-2 flex flex-col gap-4 lg:gap-6">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 lg:w-16 lg:h-16 bg-brand-blue/10 rounded-2xl flex items-center justify-center text-brand-blue font-black text-xl lg:text-2xl shadow-sm">B</div>
-                                <div>
-                                    <p className="text-base lg:text-xl font-black text-slate-900 leading-tight">Business's Seller Name</p>
-                                    <div className="flex flex-wrap items-center gap-4 mt-1 lg:mt-2">
-                                        <div className="flex items-center text-xs text-slate-500">
-                                            <MapPin className="h-4 w-4 mr-1 text-slate-400" />
-                                            <span>Location/Address</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <div className="flex text-orange-400 text-sm tracking-widest">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span className="text-slate-200">★</span>
-                                            </div>
-                                            <span className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">(4.8 Rating)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Action Buttons (Middle Section) */}
-                    {!isSearching && (
-                        <section className="bg-transparent">
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                {hasPricing ? (
-                                    <button
-                                        onClick={onMessage}
-                                        className="flex-1 h-14 bg-brand-blue text-white font-black rounded-2xl shadow-xl shadow-brand-blue/20 flex items-center justify-center gap-3 hover:brightness-110 transition-all active:scale-95 text-base"
-                                    >
-                                        <span className="material-symbols-outlined text-white">message</span>
-                                        Message Seller
-                                    </button>
-                                ) : (
-                                    <button
-                                        onClick={onGetQuote}
-                                        className="flex-1 h-14 bg-brand-blue text-white font-black rounded-2xl shadow-xl shadow-brand-blue/20 flex items-center justify-center gap-3 hover:brightness-110 transition-all active:scale-95 text-base"
-                                    >
-                                        <span className="material-symbols-outlined text-white">mail</span>
-                                        Get Fast Quote
-                                    </button>
-                                )}
-                                <button className="flex-1 h-14 border-2 border-brand-blue text-brand-blue font-black rounded-2xl flex items-center justify-center gap-3 hover:bg-brand-blue/5 transition-all text-base">
-                                    <span className="material-symbols-outlined font-bold">call</span>
-                                    Contact Supplier
-                                </button>
-                            </div>
-                        </section>
-                    )}
-                </div>
+                        ))}
+                    </div>
+                </section>
             </main>
 
-            {/* Bottom section (Specs, Description, Reviews) */}
-            <div className="max-w-screen-xl mx-auto w-full px-4 lg:px-10 mt-6 lg:mt-16 space-y-10 lg:space-y-16">
-
-                {/* Product Details */}
-                <div className="bg-[#f8f9fc] mt-2 space-y-2 flex-1 flex flex-col">
-                    {/* Specifications */}
-                    <section className="bg-white p-4">
-                        <h3 className="text-sm font-extrabold text-slate-900 tracking-widest mb-4">Core Specifications</h3>
-                        <div className="space-y-0">
-                            <div className="flex justify-between py-2.5 border-b border-slate-50">
-                                <span className="text-sm text-slate-500">Brand</span>
-                                <span className="text-sm font-bold text-slate-900">Industrial Cobalt Tech</span>
-                            </div>
-                            <div className="flex justify-between py-2.5 border-b border-slate-50">
-                                <span className="text-sm text-slate-500">Power Source</span>
-                                <span className="text-sm font-bold text-slate-900">Electric (3-Phase)</span>
-                            </div>
-                            <div className="flex justify-between py-2.5">
-                                <span className="text-sm text-slate-500">Capacity</span>
-                                <span className="text-sm font-bold text-slate-900">500 Liters/Min</span>
-                            </div>
-                        </div>
-                        <div className="mt-2 pt-3 border-t border-slate-50 text-right">
-                            <button className="text-[11px] font-extrabold text-brand-blue uppercase tracking-widest active:opacity-70 transition-opacity">View More</button>
-                        </div>
-                    </section>
-
-                    {/* Description */}
-                    <section className="bg-white p-4">
-                        <h3 className="text-sm font-extrabold text-slate-900 tracking-widest mb-3">Product Overview</h3>
-                        <div className="text-sm text-slate-600 leading-relaxed">
-                            <p>The Model X-200 is a high-performance industrial pump engineered for maximum durability and efficient fluid transport in demanding manufacturing environments. This unit provides a reliable, high-pressure output with an integrated vibration-dampening system for quiet operation.</p>
-                        </div>
-                    </section>
-
-                    {/* Suggested for You */}
-                    <section className="bg-white p-4">
-                        <h3 className="text-sm font-extrabold text-slate-900 tracking-widest mb-4">Suggested for You</h3>
-                        <div className="grid grid-cols-3 gap-2 pb-2">
-                            {/* Card 1 */}
-                            <div className="flex flex-col space-y-1.5 overflow-hidden">
-                                <div className="w-full aspect-square bg-slate-50 rounded-lg border border-slate-100 overflow-hidden relative">
-                                    <Image
-                                        className="object-cover"
-                                        alt="Commercial rotary engine part"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSjf80DhylwWljUQoEOpcfZOPRM01cwfBfhKzmP_JbbjshsFDIK_hganN9DSsgYNeJGK1KmX29e3lPv-iOjGssSLdnklZ95ggANiP7xLo3Uc-JbHFiTTWtUtRwWPgVJagrwdSDh_rgJXOA5YnHaDlCJXLJzMMEfEa2x79Kw0TdUbafJiRbhcOiUewUA5jZuRdeYdsySt9ILbp-XdVJCqLJqR2jBrlymEuVzck0RbaNHgSxDgmTudLFqG0ZikvN5voMBSUzeKAOn1E"
-                                        fill
-                                    />
-                                </div>
-                                <div className="space-y-0.5">
-                                    <h5 className="text-[10px] md:text-[12px] font-bold line-clamp-2 leading-tight">Rotary Industrial Motor RS-40</h5>
-                                    <div className="text-[10px] md:text-[12px] font-extrabold text-brand-blue truncate">₹ 28,000</div>
-                                </div>
-                            </div>
-                            {/* Card 2 */}
-                            <div className="flex flex-col space-y-1.5 overflow-hidden">
-                                <div className="w-full aspect-square bg-slate-50 rounded-lg border border-slate-100 overflow-hidden relative">
-                                    <Image
-                                        className="object-cover"
-                                        alt="Heavy duty steel piping connectors"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAc6349knFoY_hjk7yViNCIdXv7BwVamwDU0kPB860OHR1QGVFaJPSJ6fTmBwPMGzsuXqAcXzkzRWWg1ofyiceqwMN0diY0C_Zg652tVXAQ34gFOeDH2BfbBqrWPOFYOwjJSRcTqgum8pHuDTZvXf-OZWyd8AkMu012FmC6wAwklGHdZFboDN25COaXxJeLzuVJgdfkj_8M1jpqCEKp_X9cjt4vHQpYVu1fdX6hEMqPA5prF2J_RNnJIacwMMucoepnFsGYMWVoro"
-                                        fill
-                                    />
-                                </div>
-                                <div className="space-y-0.5">
-                                    <h5 className="text-[10px] md:text-[12px] font-bold line-clamp-2 leading-tight">Stainless Steel Pipe Fittings (Set)</h5>
-                                    <div className="text-[10px] md:text-[12px] font-extrabold text-brand-blue truncate">₹ 1,200</div>
-                                </div>
-                            </div>
-                            <div className="flex flex-col space-y-1.5 overflow-hidden">
-                                <div className="w-full aspect-square bg-slate-50 rounded-lg border border-slate-100 overflow-hidden relative">
-                                    <Image
-                                        className="object-cover"
-                                        alt="Heavy duty steel piping connectors"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAc6349knFoY_hjk7yViNCIdXv7BwVamwDU0kPB860OHR1QGVFaJPSJ6fTmBwPMGzsuXqAcXzkzRWWg1ofyiceqwMN0diY0C_Zg652tVXAQ34gFOeDH2BfbBqrWPOFYOwjJSRcTqgum8pHuDTZvXf-OZWyd8AkMu012FmC6wAwklGHdZFboDN25COaXxJeLzuVJgdfkj_8M1jpqCEKp_X9cjt4vHQpYVu1fdX6hEMqPA5prF2J_RNnJIacwMMucoepnFsGYMWVoro"
-                                        fill
-                                    />
-                                </div>
-                                <div className="space-y-0.5">
-                                    <h5 className="text-[10px] md:text-[12px] font-bold line-clamp-2 leading-tight">Stainless Steel Pipe Fittings (Set)</h5>
-                                    <div className="text-[10px] md:text-[12px] font-extrabold text-brand-blue truncate">₹ 1,200</div>
-                                </div>
-                            </div>
-                            <div className="flex flex-col space-y-1.5 overflow-hidden">
-                                <div className="w-full aspect-square bg-slate-50 rounded-lg border border-slate-100 overflow-hidden relative">
-                                    <Image
-                                        className="object-cover"
-                                        alt="Heavy duty steel piping connectors"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAc6349knFoY_hjk7yViNCIdXv7BwVamwDU0kPB860OHR1QGVFaJPSJ6fTmBwPMGzsuXqAcXzkzRWWg1ofyiceqwMN0diY0C_Zg652tVXAQ34gFOeDH2BfbBqrWPOFYOwjJSRcTqgum8pHuDTZvXf-OZWyd8AkMu012FmC6wAwklGHdZFboDN25COaXxJeLzuVJgdfkj_8M1jpqCEKp_X9cjt4vHQpYVu1fdX6hEMqPA5prF2J_RNnJIacwMMucoepnFsGYMWVoro"
-                                        fill
-                                    />
-                                </div>
-                                <div className="space-y-0.5">
-                                    <h5 className="text-[10px] md:text-[12px] font-bold line-clamp-2 leading-tight">Stainless Steel Pipe Fittings (Set)</h5>
-                                    <div className="text-[10px] md:text-[12px] font-extrabold text-brand-blue truncate">₹ 1,200</div>
-                                </div>
-                            </div>
-                            <div className="flex flex-col space-y-1.5 overflow-hidden">
-                                <div className="w-full aspect-square bg-slate-50 rounded-lg border border-slate-100 overflow-hidden relative">
-                                    <Image
-                                        className="object-cover"
-                                        alt="Heavy duty steel piping connectors"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAc6349knFoY_hjk7yViNCIdXv7BwVamwDU0kPB860OHR1QGVFaJPSJ6fTmBwPMGzsuXqAcXzkzRWWg1ofyiceqwMN0diY0C_Zg652tVXAQ34gFOeDH2BfbBqrWPOFYOwjJSRcTqgum8pHuDTZvXf-OZWyd8AkMu012FmC6wAwklGHdZFboDN25COaXxJeLzuVJgdfkj_8M1jpqCEKp_X9cjt4vHQpYVu1fdX6hEMqPA5prF2J_RNnJIacwMMucoepnFsGYMWVoro"
-                                        fill
-                                    />
-                                </div>
-                                <div className="space-y-0.5">
-                                    <h5 className="text-[10px] md:text-[12px] font-bold line-clamp-2 leading-tight">Stainless Steel Pipe Fittings (Set)</h5>
-                                    <div className="text-[10px] md:text-[12px] font-extrabold text-brand-blue truncate">₹ 1,200</div>
-                                </div>
-                            </div>
-
-                            {/* Card 3 */}
-                            <div className="flex flex-col space-y-1.5 overflow-hidden">
-                                <div className="w-full aspect-square bg-slate-50 rounded-lg border border-slate-100 overflow-hidden relative">
-                                    <Image
-                                        className="object-cover"
-                                        alt="Digital pressure monitoring gauge"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhReHxSnM7k3ulnaWc0yeIbxi4_CUGJiJaaXShq46Z6VFQzIpYuMi9wPpWgMOa0Fov1G-RzXa38RPSI-LTlexAsvjOQ_mZJyDinmB5rTTl2HcV6tJlFeLrMB_-4fjGxx0qlwXKxcJwR5S56wopk-34Z79COMNhQdeOCnl1-qzsAtQWqoUN4h602PZune8aueFh4wEOzcq2OiJKaxZfl-pJElDnDDkETCh1_zU4aqWMeiub7tXsrfaHWs9Kt9oEXIAdTl05NflmYSQ"
-                                        fill
-                                    />
-                                </div>
-                                <div className="space-y-0.5">
-                                    <h5 className="text-[10px] md:text-[12px] font-bold line-clamp-2 leading-tight">Digital Pressure Gauge Pro</h5>
-                                    <div className="text-[10px] md:text-[12px] font-extrabold text-brand-blue truncate">₹ 5,400</div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Reviews Section */}
-                    <section className="mt-6 px-4 pb-6">
-                        <div className="flex items-center justify-between mb-6">
-                            <div className="flex flex-col">
-                                <h3 className="text-sm font-extrabold text-slate-900 tracking-widest">Customer Reviews</h3>
-                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1.5 font-display">Voices from the field</p>
-                            </div>
-                            <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100">
-                                <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                                <span className="text-sm font-black text-slate-800 tracking-tighter">4.9</span>
-                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-0.5">(124)</span>
-                            </div>
-                        </div>
-
-                        <div className="space-y-6">
-                            {[
-                                { name: "Samuel T.", rating: 5, date: "2 days ago", comment: "Excellent build quality. The pressure tolerance is exactly as specified in the technical sheet. Highly recommended for industrial use." },
-                                { name: "Martha J.", rating: 4, date: "1 week ago", comment: "Good product, arrived on time. The packaging was very secure." },
-                                { name: "David K.", rating: 5, date: "2 weeks ago", comment: "Fast delivery to Gbarnga. The supplier was very responsive to my quotes." }
-                            ].map((review, idx) => (
-                                <div key={idx} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
-                                    <div className="flex items-center justify-between mb-3">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-brand-blue/10 rounded-full flex items-center justify-center text-brand-blue font-black text-sm">
-                                                {review.name.charAt(0)}
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-black text-slate-900 leading-none">{review.name}</p>
-                                                <p className="text-[10px] font-bold text-slate-400 mt-1.5 uppercase tracking-widest">{review.date}</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex">
-                                            {[...Array(5)].map((_, i) => (
-                                                <Star key={i} className={`w-3.5 h-3.5 ${i < review.rating ? 'text-amber-500 fill-amber-500' : 'text-slate-100'}`} />
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <p className="text-sm text-slate-600 leading-relaxed font-medium italic">"{review.comment}"</p>
-                                </div>
-                            ))}
-
-                            <button className="w-full py-4.5 text-[11px] font-black text-brand-blue uppercase tracking-[0.2em] border-2 border-brand-blue/5 bg-brand-blue/5 rounded-2xl active:scale-95 transition-all">
-                                See All 124 Reviews
-                            </button>
-                        </div>
-                    </section>
-
-                    {/* Recent Search Products (Horizontal Scroll) */}
-                    <section className="bg-white p-4 pb-20 flex-1">
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-sm font-extrabold text-slate-900 tracking-widest">Recent Search Products</h3>
-                        </div>
-                        <div className="grid grid-rows-2 grid-flow-col gap-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4 mt-2">
-                            {[
-                                { 
-                                    name: "High Pressure Industrial Valve", 
-                                    price: "₹ 15,000",
-                                    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDtEhgM5RszclO5KEqOSC4enXKQhEUX39tEHVoBrlAQFrpbLhZ-h-E-wlMnK7CE0aqxKKXJKzkUV9hFpA5SkqP952Os_pohblYz_voalibq9oof3ivqwSzK_GRBlwtqv2FaAFCSbDEYyaDe-07lwbYqHDsQCJiPE9ZEkVz6OBxtydlgjAvrNnDT2VJUP0pJyc5274rycgsEQpHDXkHc747G2HQkT94k3szOpw3eJcuE6XVo3ln6MAsHVmoDQz8pFS7dz7LMrkQuEic"
-                                },
-                                { 
-                                    name: "Heavy Duty Gearbox", 
-                                    price: "₹ 45,000",
-                                    img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=200"
-                                },
-                                { 
-                                    name: "Precision Calibration Gauge", 
-                                    price: "₹ 8,500",
-                                    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBhReHxSnM7k3ulnaWc0yeIbxi4_CUGJiJaaXShq46Z6VFQzIpYuMi9wPpWgmoa0Fov1G-RzXa38RPSI-LTlexAsvjOQ_mZJyDinmB5rTTl2HcV6tJlFeLrMB_-4fjGxx0qlwXKxcJwR5S56wopk-34Z79COMNhQdeOCnl1-qzsAtQWqoUN4h602PZune8aueFh4wEOzcq2OiJKaxZfl-pJElDnDDkETCh1_zU4aqWMeiub7tXsrfaHWs9Kt9oEXIAdTl05NflmYSQ"
-                                },
-                                { 
-                                    name: "Steel Bearings Set", 
-                                    price: "₹ 2,400",
-                                    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAAc6349knFoY_hjk7yViNCIdXv7BwVamwDU0kPB860OHR1QGVFaJPSJ6fTmBwPMGzsuXqAcXzkzRWWg1ofyiceqwMN0diY0C_Zg652tVXAQ34gFOeDH2BfbBqrWPOFYOwjJSRcTqgum8pHuDTZvXf-OZWyd8AkMu012FmC6wAwklGHdZFboDN25COaXxJeLzuVJgdfkj_8M1jpqCEKp_X9cjt4vHQpYVu1fdX6hEMqPA5prF2J_RNnJIacwMMucoepnFsGYMWVoro"
-                                },
-                                { 
-                                    name: "Industrial Turbine Blade", 
-                                    price: "₹ 1,20,000",
-                                    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE"
-                                },
-                                { 
-                                    name: "Industrial Drill Bit", 
-                                    price: "₹ 1,800",
-                                    img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=200"
-                                },
-                                { 
-                                    name: "Hydraulic Pump Connector", 
-                                    price: "₹ 4,200",
-                                    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDSjf80DhylwWljUQoEOpcfZOPRM01cwfBfhKzmP_JbbjshsFDIK_hganN9DSsgYNeJGK1KmX29e3lPv-iOjGssSLdnklZ95ggANiP7xLo3Uc-JbHFiTTWtUtRwWPgVJagrwdSDh_rgJXOA5YnHaDlCJXLJzMMEfEa2x79Kw0TdUbafJiRbhcOiUewUA5jZuRdeYdsySt9ILbp-XdVJCqLJqR2jBrlymEuVzck0RbaNHgSxDgmTudLFqG0ZikvN5voMBSUzeKAOn1E"
-                                },
-                                { 
-                                    name: "Commercial Grade Pipe", 
-                                    price: "₹ 3,500",
-                                    img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=200"
-                                }
-                            ].map((product, idx) => (
-                                <div key={idx} className="flex-none w-[140px] snap-start space-y-2">
-                                    <div className="w-full aspect-square bg-slate-50 rounded-xl border border-slate-100 overflow-hidden relative shadow-sm">
-                                        <Image
-                                            className="object-cover"
-                                            alt={product.name}
-                                            src={product.img}
-                                            fill
-                                        />
-                                    </div>
-                                    <div className="space-y-0.5">
-                                        <h5 className="text-[11px] font-bold text-slate-900 line-clamp-2 leading-tight h-8">{product.name}</h5>
-                                        <p className="text-[12px] font-extrabold text-brand-blue">{product.price}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                </div>
-
+            {/* Fixed Bottom Action Bar */}
+            <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-3 h-[76px] flex items-center gap-3 z-[60] shadow-[0_-4px_20px_rgba(0,0,0,0.05)] pb-safe">
+                <button
+                    onClick={onGetQuote}
+                    className="flex-3 h-14 border border-slate-200 rounded-lg flex items-center justify-center gap-2 text-sm font-black text-[#0026C0] active:scale-95 transition-all"
+                >
+                    <Phone className="w-4 h-4" />
+                    Call Now
+                </button>
+                <button
+                    onClick={onMessage}
+                    className="flex-4 h-14 bg-[#0026C0] text-white font-black text-sm rounded-lg flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg shadow-[#0026C0]/15"
+                >
+                    <MessageSquare className="w-5 h-5 flex-shrink-0" />
+                    Contact Supplier
+                </button>
             </div>
         </div>
     );
