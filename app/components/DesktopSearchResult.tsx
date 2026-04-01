@@ -12,9 +12,9 @@ export default function DesktopSearchResult({ searchQuery, onProductClick }: { s
             {/* Left Sidebar Filters */}
             <aside className="w-64 flex-shrink-0 flex flex-col gap-4">
                 {/* Price Filter */}
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded sm:rounded-sm overflow-hidden">
-                    <div className="bg-slate-100 dark:bg-slate-800 px-4 py-3 flex justify-between items-center border-b border-slate-200 dark:border-slate-700">
-                        <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">Price</h3>
+                <div className="bg-white border border-slate-200 rounded sm:rounded-sm overflow-hidden">
+                    <div className="bg-slate-100 px-4 py-3 flex justify-between items-center border-b border-slate-200">
+                        <h3 className="font-bold text-slate-800 text-sm">Price</h3>
                         <ChevronDown className="w-4 h-4 text-slate-500" />
                     </div>
                     <div className="p-4 flex flex-col gap-3">
@@ -27,46 +27,46 @@ export default function DesktopSearchResult({ searchQuery, onProductClick }: { s
                                     checked={priceRange === range}
                                     onChange={() => setPriceRange(range)}
                                 />
-                                <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-[#0026C0] transition-colors">{range}</span>
+                                <span className="text-sm text-slate-700 group-hover:text-[#0026C0] transition-colors">{range}</span>
                             </label>
                         ))}
                         <div className="flex items-center gap-2 mt-2">
-                            <input type="number" placeholder="$ Min" className="w-full bg-slate-50 border-slate-200 dark:border-slate-700 dark:bg-slate-800 rounded p-1.5 text-xs outline-none focus:border-[#0026C0]" />
+                            <input type="number" placeholder="$ Min" className="w-full bg-slate-50 border-slate-200 rounded p-1.5 text-xs outline-none focus:border-[#0026C0]" />
                             <span className="text-slate-400">-</span>
-                            <input type="number" placeholder="$ Max" className="w-full bg-slate-50 border-slate-200 dark:border-slate-700 dark:bg-slate-800 rounded p-1.5 text-xs outline-none focus:border-[#0026C0]" />
-                            <button className="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 text-xs font-bold px-3 py-1.5 rounded transition-colors">Go</button>
+                            <input type="number" placeholder="$ Max" className="w-full bg-slate-50 border-slate-200 rounded p-1.5 text-xs outline-none focus:border-[#0026C0]" />
+                            <button className="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold px-3 py-1.5 rounded transition-colors">Go</button>
                         </div>
                     </div>
                 </div>
 
                 {/* Business Credentials Filter */}
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded sm:rounded-sm overflow-hidden">
-                    <div className="bg-slate-100 dark:bg-slate-800 px-4 py-3 flex justify-between items-center border-b border-slate-200 dark:border-slate-700">
-                        <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">Business Credentials</h3>
+                <div className="bg-white border border-slate-200 rounded sm:rounded-sm overflow-hidden">
+                    <div className="bg-slate-100 px-4 py-3 flex justify-between items-center border-b border-slate-200">
+                        <h3 className="font-bold text-slate-800 text-sm">Business Credentials</h3>
                         <ChevronDown className="w-4 h-4 text-slate-500" />
                     </div>
                     <div className="p-4 flex flex-col gap-3">
                         <label className="flex items-center gap-2 cursor-pointer group">
                             <input type="checkbox" className="w-4 h-4 border-slate-300 text-[#0026C0] rounded-sm focus:ring-[#0026C0]" />
-                            <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-[#0026C0] transition-colors">Annual turnover $5M+</span>
+                            <span className="text-sm text-slate-700 group-hover:text-[#0026C0] transition-colors">Annual turnover $5M+</span>
                         </label>
                         <label className="flex items-center gap-2 cursor-pointer group">
                             <input type="checkbox" className="w-4 h-4 border-slate-300 text-[#0026C0] rounded-sm focus:ring-[#0026C0]" />
-                            <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-[#0026C0] transition-colors">Registered 3+ years</span>
+                            <span className="text-sm text-slate-700 group-hover:text-[#0026C0] transition-colors">Registered 3+ years</span>
                         </label>
                     </div>
                 </div>
 
                 {/* Location Filter */}
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded sm:rounded-sm overflow-hidden">
-                    <div className="bg-slate-100 dark:bg-slate-800 px-4 py-3 flex justify-between items-center border-b border-slate-200 dark:border-slate-700">
-                        <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">Filters</h3>
+                <div className="bg-white border border-slate-200 rounded sm:rounded-sm overflow-hidden">
+                    <div className="bg-slate-100 px-4 py-3 flex justify-between items-center border-b border-slate-200">
+                        <h3 className="font-bold text-slate-800 text-sm">Filters</h3>
                         <ChevronDown className="w-4 h-4 text-slate-400" />
                     </div>
                     <div className="p-4">
                         <label className="flex items-center gap-2 cursor-pointer group">
                             <input type="checkbox" className="w-4 h-4 border-slate-300 text-[#0026C0] rounded-sm focus:ring-[#0026C0]" />
-                            <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-[#0026C0] transition-colors">Chicago-based Suppliers</span>
+                            <span className="text-sm text-slate-700 group-hover:text-[#0026C0] transition-colors">Chicago-based Suppliers</span>
                         </label>
                     </div>
                 </div>
@@ -75,7 +75,7 @@ export default function DesktopSearchResult({ searchQuery, onProductClick }: { s
             {/* Main Content Grid */}
             <main className="flex-1">
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                    <h2 className="text-xl font-bold text-slate-900">
                         Showing results for <span className="text-[#0026C0]">"{searchQuery || 'All Products'}"</span>
                     </h2>
                     <span className="text-sm font-medium text-slate-500">1-24 of 1,240 results</span>
@@ -165,7 +165,6 @@ export default function DesktopSearchResult({ searchQuery, onProductClick }: { s
                         })}
                     />
                     
-                    {/* More filler cards mapping to layout visual density */}
                      <ProductCard
                         name="Premium Fresh Farm Eggs"
                         price="$12.50"
@@ -211,4 +210,3 @@ export default function DesktopSearchResult({ searchQuery, onProductClick }: { s
         </div>
     );
 }
-

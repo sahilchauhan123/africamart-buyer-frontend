@@ -546,7 +546,7 @@ const MobileHome: React.FC = () => {
                 <section>
                     <div className="flex justify-between items-end mb-4 sm:mb-6">
                         <div>
-                            <h2 className="text-slate-900 tracking-tight text-xl font-headline font-bold">Goods Available Near You</h2>
+                            <h2 className="text-slate-900 tracking-tight text-xl font-headline font-bold">Products Available Near You</h2>
                         </div>
                     </div>
                     {/* Horizontal High-Density Items */}
@@ -558,12 +558,9 @@ const MobileHome: React.FC = () => {
                             unit="/ Unit"
                             image="https://lh3.googleusercontent.com/aida-public/AB6AXuBKhMJpqzFX5JirQPSttiIp7sjSj-HtaFBqx2A8faI9cPDI5N96myy6KBgvL5cm9q5HlveP7-kTuWr8t_A5UkwCgYd9AoGCahwhHn_Y0QOt7aTmF2H4VgiKGfTvPAYTpixgS8fNOeUmVchq-nABUw68Liem0pRSWhtar_dKIqnLZUuKegILtUY3GcJJlCnArY3uFbjsb2R_2N_nD64cPbdNDzYo7ZEcKSCRGLlT6fi2aNIwP1U39LkX-wiOW7rmvwBCkzsrrajcoBk"
                             location="Bushrod Island, Monrovia"
-                            rating={4.8}
-                            reviews={124}
                             isVerified={true}
                             onClick={() => setIsProductDetailsOpen(true)}
                             onContact={(e) => { e.stopPropagation(); openProductDetails(true); }}
-                            onMessage={(e) => { e.stopPropagation(); setCurrentView(View.CHAT_SESSION); }}
                         />
                         <ProductCard
                             variant="horizontal"
@@ -572,12 +569,9 @@ const MobileHome: React.FC = () => {
                             unit="/ Kit"
                             image="https://lh3.googleusercontent.com/aida-public/AB6AXuDwkITnOQ3JK2meqnz-Q15Ofn2JEDFEkvFbuzr4TbT0H5G8qd7qYUD_3VM3pWxbLN-x1_mnrXHXdtCOLr6Y1xQ5VSLpHovzuesGafVVdGnbsMv_yoP_y1diHxDPWhoGCQ4ABrtAmahFYojAp37UsqQwk6XtQU-rSe8vZr7Q9LlRbnZf9zWcbhVdydB1oaESsG54c3ayh5yuH_lOfBEA6G4NjK8BJEc5Oev5iyKr8UMSrKKHZUjgpNlW3VlLLOp2sDxhmbIpXkqCSFY"
                             location="Gardnersville, Monrovia"
-                            rating={4.9}
-                            reviews={86}
                             isVerified={true}
                             onClick={() => setIsProductDetailsOpen(true)}
                             onContact={(e) => { e.stopPropagation(); setIsProductDetailsOpen(true); }}
-                            onMessage={(e) => { e.stopPropagation(); setCurrentView(View.CHAT_SESSION); }}
                         />
                     </div>
                 </section>
