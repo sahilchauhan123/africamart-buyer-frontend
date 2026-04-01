@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { ArrowLeft, Search, SlidersHorizontal, ChevronDown, BadgeCheck, Plus } from 'lucide-react';
+import { ArrowLeft, Search, SlidersHorizontal, ChevronDown, BadgeCheck, Plus, Star, MapPin } from 'lucide-react';
 import Image from 'next/image';
 
 interface Product {
@@ -68,109 +68,96 @@ const ProductListingPage: React.FC<ProductListingPageProps> = ({ subCategoryName
 
     return (
         <div className="bg-[#f6f6f8] min-h-screen font-display antialiased flex flex-col animate-in slide-in-from-right duration-300">
-            {/* Header & Search Section */}
-            <header className="sticky top-0 z-50 bg-white border-b border-slate-200">
-                <div className="flex items-center p-4 gap-3">
+            {/* Search Header - Exact copy from SearchPage */}
+            <header 
+                className="sticky top-0 left-0 w-full z-50 py-3 pb-4 border-none transition-all flex flex-col"
+                style={{ background: 'linear-gradient(180deg, hsla(224, 39%, 58%, 1) 0%, hsla(224, 39%, 81%, 1) 100%)' }}
+            >
+                <div className="max-w-screen-xl mx-auto w-full px-4 flex items-center gap-3">
                     <button
                         onClick={onBack}
-                        className="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 transition-colors shrink-0"
+                        className="flex items-center justify-center size-10 rounded-full hover:bg-white/10 transition-colors active:scale-95 shrink-0"
                     >
-                        <ArrowLeft className="w-6 h-6 text-slate-700" />
+                        <ArrowLeft className="w-6 h-6 text-white" />
                     </button>
-                    <div className="flex-1">
-                        <div className="relative">
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <Search className="w-5 h-5 text-slate-400" />
-                            </span>
-                            <input
-                                className="block w-full bg-slate-100 border-none rounded-xl py-2.5 pl-10 pr-3 placeholder:text-slate-500 focus:ring-2 focus:ring-brand-blue/20 text-sm font-medium"
-                                placeholder={`Search in ${subCategoryName}...`}
-                                type="text"
-                            />
-                        </div>
+                    <div className="flex-1 relative max-w-2xl">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                        <input
+                            className="w-full bg-white border-0 outline outline-1 outline-slate-200/50 rounded-lg pl-10 pr-3 py-2.5 text-sm font-semibold focus:outline-2 focus:outline-brand-blue/30 transition-all placeholder:text-slate-400"
+                            placeholder={`Search in ${subCategoryName}...`}
+                            type="text"
+                        />
                     </div>
-                    <button className="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 border border-slate-100 shadow-sm shrink-0">
-                        <SlidersHorizontal className="w-5 h-5 text-slate-700" />
+                    <button className="flex items-center justify-center size-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors active:scale-95 shrink-0">
+                        <SlidersHorizontal className="w-5 h-5 text-white" />
                     </button>
-                </div>
-
-                {/* Filter Chips */}
-                <div className="flex gap-2 px-4 pb-4 overflow-x-auto no-scrollbar">
-                    {['Location', 'Price', 'Supplier', 'Brand'].map((filter, idx) => (
-                        <button
-                            key={idx}
-                            className={`flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg border px-4 text-sm font-bold tracking-tight uppercase whitespace-nowrap transition-all ${idx === 0
-                                ? 'bg-brand-blue/10 border-brand-blue/20 text-brand-blue'
-                                : 'bg-white border-slate-200 text-slate-600'
-                                }`}
-                        >
-                            {filter} <ChevronDown className="w-4 h-4" />
-                        </button>
-                    ))}
                 </div>
             </header>
 
-            <main className="flex-1 pb-24">
+            <main className="flex-1 pb-24 max-w-screen-xl mx-auto w-full px-4 pt-6 lg:pt-10">
                 {/* Title Section */}
-                <div className="px-4 py-6 bg-white border-b border-slate-50">
-
-                    <h1 className="text-2xl font-black text-slate-900 leading-tight uppercase tracking-tight">{subCategoryName}</h1>
-                    <p className="text-xs font-bold text-slate-400 mt-1.5 uppercase tracking-wide">Showing 1,240 verified products</p>
+                <div className="py-3 bg-transparent mb-6">
+                    <h1 className="text-xl lg:text-3xl font-black text-slate-900 leading-tight tracking-tight">{subCategoryName}</h1>
+                    <p className="text-[10px] lg:text-xs font-bold text-slate-400 mt-0.5 tracking-wider uppercase">Showing 1,240 verified products</p>
                 </div>
 
                 {/* Product Listings */}
-                <div className="space-y-2 mt-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {products.map((product) => (
-                        <div key={product.id} className="bg-white p-4 border-b border-slate-50">
-                            <div className="flex gap-4 mb-5">
-                                <div className="w-28 h-28 shrink-0 rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 relative shadow-sm">
-                                    <Image
-                                        fill
-                                        className="object-cover"
-                                        alt={product.name}
-                                        src={product.img}
-                                    />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <h2 className="text-[15px] font-black text-slate-800 line-clamp-2 leading-[1.3] uppercase tracking-tight">{product.name}</h2>
-                                    <div className="mt-2.5">
-                                        <span className="text-lg font-black text-brand-blue">{product.price}</span>
-                                        <span className="text-[10px] font-bold text-slate-400 ml-1 uppercase">/ {product.unit}</span>
+                        <div key={product.id} className="bg-white p-4 lg:p-6 rounded-2xl border border-slate-100 flex flex-col sm:flex-row gap-4 sm:gap-6 cursor-pointer hover:shadow-xl hover:shadow-brand-blue/5 hover:border-brand-blue/10 transition-all group" onClick={() => { }}>
+                            <div className="w-full sm:w-32 lg:w-40 sm:h-32 lg:h-40 aspect-square flex-shrink-0 bg-slate-50 rounded-xl overflow-hidden relative border border-slate-100 group-hover:scale-[1.02] transition-transform">
+                                <img className="w-full h-full object-cover" alt={product.name} src={product.img} />
+                                <div className="absolute top-2 left-2 bg-brand-blue/10 text-brand-blue text-[9px] px-2 py-0.5 rounded-full font-bold uppercase">Verified</div>
+                            </div>
+                            <div className="flex-1 flex flex-col justify-between min-w-0">
+                                <div>
+                                    <div className="flex justify-between items-start">
+                                        <h2 className="font-bold text-slate-900 text-[15px] lg:text-lg leading-tight line-clamp-2">{product.name}</h2>
                                     </div>
-                                    <p className="text-[10px] font-bold text-slate-500 mt-1.5 bg-slate-50 inline-block px-2 py-0.5 rounded-full uppercase tracking-wider">Min. Order: {product.minOrder}</p>
-                                </div>
-                            </div>
+                                    <p className="text-brand-blue font-extrabold text-lg lg:text-2xl mt-1 lg:mt-2">{product.price} <span className="text-slate-400 text-[10px] lg:text-xs font-medium tracking-tighter">/ {product.unit}</span></p>
 
-                            <div className="flex items-center gap-2.5 mb-5 p-3 rounded-2xl bg-brand-blue/5 border border-brand-blue/10">
-                                <div className="size-9 rounded-xl bg-white border border-brand-blue/20 flex items-center justify-center shadow-inner">
-                                    <BadgeCheck className="w-6 h-6 text-brand-blue" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-[11px] font-black text-slate-800 truncate uppercase tracking-wide">{product.supplier.name}</p>
-                                    <p className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.05em]">{product.supplier.location} • {product.supplier.years} on Platform</p>
-                                </div>
-                            </div>
+                                    <div className="flex items-center gap-1 mt-1.5 flex-wrap">
+                                        <div className="flex items-center">
+                                            {[1, 2, 3, 4, 5].map((s) => (
+                                                <Star key={s} className="w-2.5 h-2.5 lg:w-3.5 lg:h-3.5 text-amber-500 fill-amber-500" />
+                                            ))}
+                                        </div>
+                                        <span className="text-slate-900 text-xs font-bold leading-none">4.8</span>
+                                        <span className="text-slate-400 text-xs leading-none">(124)</span>
+                                    </div>
 
-                            <div className="grid grid-cols-2 gap-3">
-                                <button className="flex items-center justify-center h-12 border-2 border-brand-blue text-brand-blue font-black rounded-xl hover:bg-brand-blue hover:text-white transition-all text-xs uppercase tracking-[0.1em] active:scale-[0.98]">
-                                    Get Quote
-                                </button>
-                                <button className="flex items-center justify-center h-12 bg-brand-blue text-white font-black rounded-xl hover:brightness-110 transition-all text-xs uppercase tracking-[0.1em] shadow-lg shadow-brand-blue/20 active:scale-[0.98]">
-                                    Contact Supplier
-                                </button>
+                                    <div className="flex items-center gap-1.5 mt-3 text-slate-500">
+                                        <div className="flex items-center justify-center size-5 rounded-full bg-slate-100">
+                                            <BadgeCheck className="w-3 h-3 text-brand-blue" />
+                                        </div>
+                                        <span className="text-[11px] lg:text-sm font-bold text-slate-700 truncate">{product.supplier.name}</span>
+                                    </div>
+
+                                    <div className="flex items-center gap-1.5 mt-1.5 text-slate-500">
+                                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                                        <span className="text-[10px] lg:text-xs font-medium truncate">{product.supplier.location}</span>
+                                    </div>
+                                </div>
+                                <div className="flex gap-2 mt-6 lg:mt-8">
+                                    <button className="flex-1 bg-brand-blue text-white text-[11px] lg:text-sm font-extrabold py-3 lg:py-4 rounded-xl active:scale-95 transition-transform shadow-md shadow-brand-blue/10">Contact Supplier</button>
+                                    <button className="flex-1 border-2 border-brand-blue text-brand-blue text-[11px] lg:text-sm font-extrabold py-3 lg:py-4 rounded-xl active:bg-brand-blue/5">Get Quote</button>
+                                </div>
                             </div>
                         </div>
                     ))}
+                </div>
 
-                    {/* Requirement Prompt */}
-                    <div className="bg-white p-10 text-center border-t border-slate-50">
-                        <div className="size-16 bg-brand-blue/5 rounded-[2rem] flex items-center justify-center mx-auto mb-5 shadow-inner">
-                            <Plus className="w-8 h-8 text-brand-blue" />
+                {/* Requirement Prompt */}
+                <div className="mt-12 bg-slate-900 p-8 lg:p-16 rounded-[2.5rem] text-center border-t border-slate-50 text-white overflow-hidden relative">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                    <div className="relative z-10 max-w-2xl mx-auto">
+                        <div className="size-16 bg-white/10 rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-inner">
+                            <Plus className="w-8 h-8 text-white" />
                         </div>
-                        <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">Didn't find what you need?</h3>
-                        <p className="text-xs font-bold text-slate-400 mt-2 mb-8 max-w-[240px] mx-auto uppercase leading-relaxed tracking-wide">Try adjusting your filters or post a requirement to get quotes from multiple sellers.</p>
-                        <button className="w-full py-4 bg-slate-900 text-white font-black rounded-2xl uppercase tracking-[0.15em] text-xs shadow-xl active:scale-[0.98] transition-transform">
-                            Post Your Requirement
+                        <h3 className="text-2xl lg:text-4xl font-black tracking-tight">Didn't find what you need?</h3>
+                        <p className="text-sm lg:text-lg text-slate-400 mt-4 mb-10 leading-relaxed tracking-wide">Tell us what you're looking for and we'll help you get multiple quotes from the most reliable suppliers across the continent.</p>
+                        <button className="px-10 py-5 bg-brand-blue text-white font-black rounded-2xl tracking-[0.15em] text-sm lg:text-base shadow-xl active:scale-[0.98] transition-transform hover:brightness-110">
+                            Post Your Requirement Now
                         </button>
                     </div>
                 </div>

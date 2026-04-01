@@ -22,7 +22,7 @@ const ChatSession: React.FC<ChatSessionProps> = ({ onBack, chatName = "Individua
     }, []);
 
     return (
-        <div className="bg-[#f3f4f6] font-display antialiased h-[100dvh] flex flex-col overflow-hidden text-gray-900">
+        <div className="fixed inset-0 bg-[#f3f4f6] font-display antialiased flex flex-col overflow-hidden text-gray-900 z-[60]">
             {/* Header */}
             <header className="bg-white shadow-sm z-30 flex-none sticky top-0">
                 <div className="flex items-center justify-between px-3 py-3 border-b border-gray-200">
@@ -39,8 +39,8 @@ const ChatSession: React.FC<ChatSessionProps> = ({ onBack, chatName = "Individua
                             </h1>
                             <div className="flex items-center text-xs text-gray-500 mt-0.5 space-x-2">
                                 <span className="flex items-center">
-                                    <MapPin className="w-3 h-3 mr-0.5" />
-                                    New Delhi
+                                    <MapPin className="w-3 h- mr-0.5" />
+                                    Monrovia, Liberia
                                 </span>
                                 <span className="flex items-center">
                                     <div className="flex mr-1">
@@ -51,10 +51,7 @@ const ChatSession: React.FC<ChatSessionProps> = ({ onBack, chatName = "Individua
                                     <span className="font-medium text-gray-700">4.8</span>
                                 </span>
                             </div>
-                            <div className="flex items-center text-[10px] mt-0.5">
-                                <BadgeCheck className="text-brand-blue w-3.5 h-3.5 mr-1" />
-                                <span className="text-gray-600 font-bold uppercase tracking-wider">GST Verified</span>
-                            </div>
+
                         </div>
                     </div>
 
@@ -84,11 +81,6 @@ const ChatSession: React.FC<ChatSessionProps> = ({ onBack, chatName = "Individua
                             )}
                         </div>
                     </div>
-                </div>
-
-                <div className="bg-blue-50 px-4 py-2 flex items-center justify-between text-[11px] border-b border-blue-100">
-                    <span className="text-gray-600 truncate mr-2 font-medium">Regarding: <span className="text-gray-900">Heavy Duty Industrial Lathe Machine</span></span>
-                    <span className="text-brand-blue font-black uppercase tracking-wider cursor-pointer whitespace-nowrap">View Details</span>
                 </div>
             </header>
 

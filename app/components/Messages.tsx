@@ -17,21 +17,21 @@ const Messages: React.FC<MessagesProps> = ({ onOpenMenu, onNavigate }) => {
     if (isSearchActive) {
         return (
             <div className="flex flex-col h-screen bg-[#F8FAFC] overflow-hidden animate-in fade-in duration-300">
-                <header className="bg-white shadow-sm z-50 relative border-b border-slate-200">
-                    <div className="flex items-center gap-2 px-3 py-4.5 sm:px-4">
+                <header className="bg-[#000042] z-50 sticky top-0 h-[60px]">
+                    <div className="flex items-center gap-2 px-3 h-full sm:px-4">
                         <button
                             onClick={() => setIsSearchActive(false)}
-                            className="p-1 rounded-full hover:bg-slate-100 transition-colors text-slate-600 active:scale-95"
+                            className="p-1 rounded-full hover:bg-white/10 transition-colors text-white active:scale-95"
                         >
-                            <ArrowLeft className="h-8 w-8" />
+                            <ArrowLeft className="h-7 w-7" />
                         </button>
                         <div className="flex-1 relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Search className="text-slate-400" size={20} />
+                                <Search className="text-white/60" size={18} />
                             </div>
                             <input
                                 autoFocus
-                                className="block w-full pl-10 pr-10 py-2.5 border-none rounded-xl leading-5 bg-slate-100 text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-blue/50 sm:text-sm transition-all shadow-inner"
+                                className="block w-full pl-10 pr-10 py-2 border-none rounded-xl leading-5 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/20 sm:text-sm transition-all shadow-inner"
                                 placeholder="Search chats..."
                                 type="text"
                                 value={searchQuery}
@@ -40,15 +40,15 @@ const Messages: React.FC<MessagesProps> = ({ onOpenMenu, onNavigate }) => {
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery("")}
-                                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none"
+                                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-white/60 hover:text-white focus:outline-none"
                                 >
-                                    <X className="p-1 bg-slate-200 rounded-full" size={20} />
+                                    <X className="p-0.5 bg-white/20 rounded-full" size={18} />
                                 </button>
                             )}
                         </div>
                         <button
                             onClick={() => setIsSearchActive(false)}
-                            className="text-brand-blue hover:text-blue-700 font-bold text-sm sm:text-base whitespace-nowrap px-2"
+                            className="text-white hover:text-white/80 font-bold text-sm sm:text-base whitespace-nowrap px-2"
                         >
                             Cancel
                         </button>
@@ -59,8 +59,8 @@ const Messages: React.FC<MessagesProps> = ({ onOpenMenu, onNavigate }) => {
                     {!searchQuery ? (
                         <div className="px-4 py-5">
                             <div className="flex items-center justify-between mb-3">
-                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Recent Searches</h3>
-                                <button className="text-[10px] text-brand-blue font-black uppercase tracking-wider hover:underline">Clear all</button>
+                                <h3 className="text-[10px] font-black text-slate-400 tracking-[0.2em]">Recent Searches</h3>
+                                <button className="text-[10px] text-brand-blue font-black tracking-wider hover:underline">Clear all</button>
                             </div>
                             <div className="flex flex-wrap gap-2">
                                 {['Invoice #4022', 'Project details', 'Sarah Williams'].map((item, idx) => (
@@ -133,28 +133,27 @@ const Messages: React.FC<MessagesProps> = ({ onOpenMenu, onNavigate }) => {
 
     return (
         <div className="flex flex-col h-screen bg-[#F8FAFC] overflow-hidden">
-            {/* Header */}
-            <header className="bg-brand-blue sticky top-0 z-50 shadow-md">
-                <div className="flex items-center justify-between px-4 py-4.5 gap-3">
+            {/* Header (Synchronized with SubCategoryPage height) */}
+            <header className="bg-[#000042] sticky top-0 z-50 h-[60px]">
+                <div className="flex items-center justify-between px-4 h-full relative">
                     <button
                         onClick={onOpenMenu}
-                        className="p-1 rounded-full hover:bg-white/10 transition-colors text-white active:scale-95"
+                        className="p-1 rounded-full hover:bg-white/10 transition-colors text-white active:scale-95 flex-shrink-0 z-10"
                     >
-                        <Menu className="h-8 w-8" />
+                        <Menu className="h-7 w-7" />
                     </button>
-                    <h1 className="text-white text-lg font-bold tracking-tight">Business Messages</h1>
+                    
+                    <h1 className="absolute inset-x-12 text-center text-base font-bold text-white tracking-tight truncate">Business Messages</h1>
+                    
                     <button
                         onClick={() => setIsSearchActive(true)}
-                        className="p-1 rounded-full hover:bg-white/10 transition-colors text-white active:scale-95"
+                        className="p-1 rounded-full hover:bg-white/10 transition-colors text-white active:scale-95 flex-shrink-0 z-10"
                     >
-                        <Search className="h-8 w-8" />
+                        <Search className="h-6 w-6" />
                     </button>
                 </div>
-                <div className="flex px-4 pb-0 space-x-6 text-sm font-medium text-blue-100 overflow-x-auto hide-scrollbar">
-                    <button className="pb-3 border-b-2 border-white text-white whitespace-nowrap uppercase tracking-wider text-[11px] font-black">All Chats</button>
-                    <button className="pb-3 border-b-2 border-transparent hover:text-white transition-colors whitespace-nowrap uppercase tracking-wider text-[11px] font-black opacity-60">Unread</button>
-                </div>
             </header>
+
 
             {/* Chat List */}
             <main className="flex-1 overflow-y-auto hide-scrollbar relative bg-[#F8FAFC]">
@@ -337,14 +336,6 @@ const Messages: React.FC<MessagesProps> = ({ onOpenMenu, onNavigate }) => {
                     </div>
                 </div>
             </main>
-
-            {/* Floating Action Button */}
-            <div className="fixed bottom-6 right-6 z-50">
-                <button className="bg-accent hover:brightness-110 text-white rounded-full px-5 py-4 shadow-xl shadow-accent/20 flex items-center justify-center gap-2 transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent/50">
-                    <BadgeCheck size={24} />
-                    <span className="font-black text-xs uppercase tracking-[0.15em]">Reach Verified Seller</span>
-                </button>
-            </div>
         </div>
     );
 };

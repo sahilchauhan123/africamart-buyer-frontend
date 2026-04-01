@@ -142,13 +142,7 @@ const Drawer: React.FC<DrawerProps> = ({
                                     <span className="text-sm font-bold">Post Requirements</span>
                                 </button>
 
-                                <button
-                                    onClick={() => { onNavigate(View.MY_ORDERS); if (window.innerWidth < 1024) onClose(); }}
-                                    className={`w-full flex items-center gap-4 px-6 py-3.5 transition-colors ${currentView === View.MY_ORDERS ? 'bg-blue-50 text-brand-blue font-bold border-r-4 border-brand-blue' : 'hover:bg-gray-50 text-gray-600'}`}
-                                >
-                                    <MapPin className={currentView === View.MY_ORDERS ? 'text-brand-blue' : 'text-gray-400'} size={24} />
-                                    <span className="text-sm font-bold">Region Search</span>
-                                </button>
+
                             </div>
 
                             <div className="px-6 py-2 mt-4 mb-1">

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,9 +8,14 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "AfricaMart | Africa's First B2B Sourcing Platform",
-  description: "Connect with thousands of verified manufacturers and wholesalers across Africa on the continent's first all-in-one B2B marketplace.",
+  title: "Industrial Curator | B2B Marketplace",
+  description: "We connect trusted manufacturers with quality-conscious buyers worldwide.",
 };
 
 export default function RootLayout({
@@ -21,10 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
       </head>
       <body
-        className={`${inter.variable} font-sans antialiased`}
+        className={`${inter.variable} ${manrope.variable} font-body bg-surface text-on-surface antialiased`}
       >
         {children}
       </body>

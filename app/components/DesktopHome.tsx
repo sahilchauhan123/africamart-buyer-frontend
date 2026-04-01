@@ -1,439 +1,531 @@
 "use client";
 
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { Search, HelpCircle, MessageSquare, User, ChevronDown, ChevronRight, ArrowRight, ShieldCheck, Truck, Clock, Rocket, Zap, Star, Shield, HelpCircle as HelpIcon } from 'lucide-react';
+import ProductCard from './ProductCard';
+import DesktopSearchResult from './DesktopSearchResult';
+import DesktopProductDetails from './DesktopProductDetails';
+import SignInOverlay from './SignInOverlay';
+import DesktopSignUpOverlay from './DesktopSignUpOverlay';
 
 export default function DesktopHome() {
-    const [showAuthPopup, setShowAuthPopup] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [isSearchSubmitted, setIsSearchSubmitted] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<any>(null);
+    const [isProductViewOpen, setIsProductViewOpen] = useState(false);
+    const [isSignInOpen, setIsSignInOpen] = useState(false);
+    const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
-    const triggerAuth = (e?: React.MouseEvent) => {
-        if (e) e.preventDefault();
-        setShowAuthPopup(true);
+    const handleProductClick = (productData: any) => {
+        setSelectedProduct({
+            ...productData,
+            isVerified: productData.isVerified ?? true
+        });
+        setIsProductViewOpen(true);
     };
 
+    const suggestions = [
+        { name: "Centrifugal Water Pump for Industrial Irrigation", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE" },
+        { name: "High Pressure Multistage Industrial Pump", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCfE1vWrW9fM1qDnsVTCzFqc2Jy15k7VP7jDw0XiI7xBOfxl7CWNKpfKdjt6a1Cn33Jpdq5MfcO_of6I22NUlUj36lgqyMCeOvmJR8GitEkCqQZiUjbEuJkeyFlPZbJJZNRjRGdjiPQ3BDTz41vT-C9Kf0fujSyKMpFqKKUoHHDvx3dsV1nvNg0cHQstk1BrURc7ItmCIAj3X9NCmR-lsetujm_o2q8jh4cOHCBQdIkTc-ghPhMwHQbQxnkO0k_crtHgpSqnHaeyeE" },
+        { name: "Submersible Deep Well Boring Pump", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBILnvcu5s-Xbr0TNxlp7XRXG7rN0_jj2EnJ1u8Q-528ofDmhIcokhHyEPLVm_oI6J4PeYomB63uykCvvejheTfbQgTRlc45jP6f6S7oMRYBnHsewJphReFev55IjHAYRAe_T671DvHBOt0wADYqEcVR-7C5Ci6Ky-pJsZwab1aQdfPFy8I-EZIrE5GUvz46hBaE0jh5D_k_ytSHQRs19E7eLcOG0ah3B2EqnFak8Dg3XgsynBpm5H0k2qIAiqQfGPYz0zV3l6xD-E" },
+        { name: "Premium Basmati Rice Bulk", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEvFQB1H88fuOka7yp8h49qObv55xA1cM6DKc7JIAZgAW7orn15wB_v3qPidwWKuzWeRACovWHghmMy9z_0m6eDQ6D-wCEVAYTqGLzJYDYx5Qcz80z-dZRZBVFzrnCxBLJuZVzJaLmmYmH9BMwTgl_SP4PrtIy-cT_TFFfhmuM6z3p5Odq5dslAFKgEvT6HTQIajdF_VHTmPM14TCJG5xU0LaTyOu7wezQl2N-cMr_i3YJYk8h8D6j8jbN1PHNfJInF62lsI9UQVE" },
+        { name: "Fresh Farm Eggs - Crate", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAgANGbe0k8YhJtNZGtOOmnyb83ndLzoL_y9ZzQBTtWd_Vk9v0DYCAvbYLN29EsJ2roxxttjp3WhFwBI1AEQkW6vXR7T54Ii8EzbY2xe9Sc1LUEhj8cQFjzYuKEcBT_dZxHWmovlsAtZbmpFKfF6hasJJ8sJhOyxFtEfAApViUkukc_L9MMFKO3wE5-RIcWo5w3aIUbgbjwKDyW4-5JNWmr7Fsc0RvPrWDPshXae61c_0AUxM54HjdFGmSqPoTXKcc0S8iUMI5XArQ" }
+    ];
+
+    const filteredSuggestions = searchQuery.length > 0 
+        ? suggestions.filter(s => s.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        : [];
+
     return (
-        <div className="min-h-screen bg-white">
-            <header className="sticky top-0 z-50 bg-white border-b border-slate-100">
-                <div className="max-w-page mx-auto px-8 lg:px-12 h-20 flex items-center justify-between gap-12">
-                    <div className="flex items-center gap-2 shrink-0">
-                        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                            <span className="text-white font-black text-xl italic">A</span>
+        <div className="bg-slate-50 dark:bg-[#0F172A] font-body text-slate-900 dark:text-slate-100 min-h-screen">
+            {/* Standardized Header */}
+            <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50">
+                <div className="px-4 lg:px-8 py-3">
+                    <div className="max-w-[1600px] mx-auto grid grid-cols-[auto_1fr_auto] items-center gap-8">
+                        {/* Brand Logo */}
+                        <div className="flex items-center gap-3 flex-shrink-0 cursor-pointer" onClick={() => { setIsSearchSubmitted(false); setIsProductViewOpen(false); setSelectedProduct(null); setSearchQuery(''); }}>
+                            <div className="w-9 h-9 bg-[#0026C0] rounded-lg flex items-center justify-center">
+                                <div className="w-5 h-5 bg-white rounded-sm rotate-45"></div>
+                            </div>
+                            <span className="text-xl font-bold tracking-tight hidden sm:block">AFRICA<span className="text-[#0026C0]">MART</span></span>
                         </div>
-                        <span className="text-2xl font-bold tracking-tight text-primary">AfricaMart</span>
-                    </div>
-                    <div className="flex-1 max-w-2xl flex items-center gap-4">
-                        <div className="relative flex-1 p-1 rounded-xl border border-slate-50 bg-slate-50/50">
-                            <div className="relative">
-                                <input
-                                    className="w-full h-11 pl-10 pr-4 rounded-lg border-slate-200 focus:ring-primary focus:border-primary text-sm bg-white"
-                                    placeholder="Search for products, suppliers, categories..."
-                                    type="text"
-                                    onFocus={() => triggerAuth()}
-                                />
-                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+
+                        {/* Centered Search Bar */}
+                        <div className="flex justify-center">
+                            <div className="w-full max-w-3xl relative">
+                                <div className="relative group">
+                                    <input
+                                        className="w-full h-11 pl-11 pr-24 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus:bg-white focus:ring-2 focus:ring-[#0026C0]/20 focus:border-[#0026C0] transition-all text-sm outline-none"
+                                        placeholder="Search for products, brands or suppliers..."
+                                        type="text"
+                                        value={searchQuery}
+                                        onChange={(e) => {
+                                            setSearchQuery(e.target.value);
+                                            setIsDropdownOpen(true);
+                                        }}
+                                        onFocus={() => setIsDropdownOpen(true)}
+                                        onBlur={() => setTimeout(() => setIsDropdownOpen(false), 200)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                setIsSearchSubmitted(true);
+                                                setIsDropdownOpen(false);
+                                            }
+                                        }}
+                                    />
+                                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#0026C0] w-5 h-5" />
+                                    <div className="absolute right-1.5 top-1/2 -translate-y-1/2 flex gap-1">
+                                        <button className="px-3 py-1.5 text-xs font-semibold text-slate-500 hover:text-[#0026C0]">All Categories</button>
+                                    </div>
+                                </div>
+
+                                {/* Search Dropdown */}
+                                {isDropdownOpen && filteredSuggestions.length > 0 && (
+                                    <div className="absolute top-full left-0 w-full bg-white dark:bg-slate-900 mt-1 rounded-xl shadow-2xl border border-slate-100 dark:border-slate-800 z-[100] py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                                        {filteredSuggestions.map((item, idx) => (
+                                            <button
+                                                key={idx}
+                                                className="w-full flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left group"
+                                                onClick={() => {
+                                                    setSearchQuery(item.name);
+                                                    setIsSearchSubmitted(true);
+                                                    setIsDropdownOpen(false);
+                                                }}
+                                            >
+                                                <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-slate-100 dark:border-slate-800">
+                                                    <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
+                                                </div>
+                                                <span className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-[#0026C0] transition-colors line-clamp-1">{item.name}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </div>
-                        <div className="relative shrink-0">
-                            <button className="flex items-center gap-2 px-4 h-11 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">
-                                <span className="material-symbols-outlined text-[20px]">location_on</span>
-                                Select Location
-                                <span className="material-symbols-outlined text-[18px]">expand_more</span>
+
+                        {/* Utility Links */}
+                        <nav className="flex items-center gap-6">
+                            <div className="hidden lg:flex items-center gap-1 text-slate-600 dark:text-slate-400 text-sm font-medium cursor-pointer hover:text-[#0026C0] transition-colors relative group/help py-2">
+                                <HelpCircle className="w-5 h-5" />
+                                <span>Help</span>
+                                <ChevronDown className="w-4 h-4 text-slate-400 group-hover/help:text-[#0026C0] group-hover/help:rotate-180 transition-transform" />
+
+                                {/* Help Dropdown */}
+                                <div className="absolute top-full left-0 mt-1 w-56 bg-white dark:bg-slate-900 shadow-2xl border border-slate-100 dark:border-slate-800 rounded-lg overflow-hidden z-[60] opacity-0 translate-y-4 group-hover/help:opacity-100 group-hover/help:translate-y-0 pointer-events-none group-hover/help:pointer-events-auto transition-all duration-300">
+                                    <div className="p-3 space-y-1">
+                                        <div className="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-md transition-colors group/item">
+                                            <HelpIcon className="w-4 h-4 text-slate-400 group-hover/item:text-[#0026C0]" />
+                                            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Help Center</span>
+                                        </div>
+                                        <div className="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-md transition-colors group/item">
+                                            <Shield className="w-4 h-4 text-slate-400 group-hover/item:text-[#0026C0]" />
+                                            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Your Feedback</span>
+                                        </div>
+                                        <div className="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-md transition-colors group/item">
+                                            <Zap className="w-4 h-4 text-slate-400 group-hover/item:text-[#0026C0]" />
+                                            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Dispute Resolution</span>
+                                        </div>
+                                        <div className="h-px bg-slate-100 dark:bg-slate-800 my-2"></div>
+                                        <div className="flex items-center gap-3 px-3 py-2 hover:bg-[#0026C0] rounded-md transition-colors group/contact">
+                                            <HelpCircle className="w-4 h-4 text-slate-400 group-hover/contact:text-white" />
+                                            <span className="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover/contact:text-white">Contact Us</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button className="relative p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors leading-none">
+                                <MessageSquare className="w-5 h-5" />
+                                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
                             </button>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-8">
-                        <div className="flex items-center gap-4 text-sm font-semibold">
-                            <a className="text-slate-600 hover:text-primary" href="#">Login</a>
-                            <span className="w-px h-4 bg-slate-200"></span>
-                            <a className="text-slate-600 hover:text-primary" href="#">Sign up</a>
-                        </div>
-                        <button
-                            onClick={triggerAuth}
-                            className="bg-accent hover:bg-orange-600 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition-colors shadow-lg shadow-orange-500/20"
-                        >
-                            Post Requirement
-                        </button>
+                            <div className="h-8 w-[1px] bg-slate-200 dark:border-slate-800"></div>
+                            <div className="flex items-center gap-3 cursor-pointer group relative">
+                                <div className="text-right hidden sm:block">
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Hello, Sign in</p>
+                                    <div className="flex items-center gap-1">
+                                        <p className="text-sm font-bold text-slate-900 dark:text-white">Account & Lists</p>
+                                        <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-[#0026C0] group-hover:rotate-180 transition-transform" />
+                                    </div>
+                                </div>
+                                <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700 group-hover:border-[#0026C0] transition-colors relative overflow-hidden">
+                                    <User className="w-5 h-5 text-slate-400 group-hover:text-[#0026C0] transition-colors" />
+                                </div>
+
+                                {/* Premium Account Dropdown */}
+                                <div className="absolute top-full right-0 mt-2 w-80 bg-white dark:bg-slate-900 shadow-2xl border border-slate-100 dark:border-slate-800 rounded-lg overflow-hidden z-[60] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none group-hover:pointer-events-auto transition-all duration-300">
+                                    <div className="p-4 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
+                                        <button 
+                                            onClick={() => setIsSignInOpen(true)}
+                                            className="w-full h-11 bg-slate-900 dark:bg-[#0026C0] text-white font-black rounded text-sm shadow-xl hover:bg-slate-800 dark:hover:bg-[#001da2] transition-all flex items-center justify-center gap-2 mb-3 active:scale-[0.98]"
+                                        >
+                                            Sign in
+                                            <ArrowRight className="w-4 h-4" />
+                                        </button>
+                                        <p className="text-[11px] text-center text-slate-500">New customer? <span className="text-[#0026C0] font-bold hover:underline cursor-pointer" onClick={() => setIsSignUpOpen(true)}>Start here.</span></p>
+                                    </div>
+                                    <div className="p-4 grid grid-cols-2 gap-x-6 gap-y-4">
+                                        <div className="space-y-3">
+                                            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Buying Hub</h4>
+                                            <div className="space-y-2">
+                                                <div className="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-[#0026C0] cursor-pointer">Your Orders</div>
+                                                <div className="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-[#0026C0] cursor-pointer">Buying Requests</div>
+                                                <div className="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-[#0026C0] cursor-pointer">Quote Requests</div>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-3">
+                                            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Account</h4>
+                                            <div className="space-y-2">
+                                                <div className="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-[#0026C0] cursor-pointer">Your Profile</div>
+                                                <div className="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-[#0026C0] cursor-pointer">Message Center</div>
+                                                <div className="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-[#0026C0] cursor-pointer">Wholesale Deals</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
                     </div>
                 </div>
             </header>
 
-            <section className="relative overflow-hidden py-16 lg:py-24 flex items-center justify-center" style={{ background: 'radial-gradient(circle at center, #0026C0 0%, #00125a 100%)' }}>
-                <div className="absolute inset-0 opacity-10">
-                    <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}></div>
-                </div>
-                <div className="max-w-page mx-auto px-8 lg:px-12 relative z-10 text-center">
-                    <h1 className="text-4xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight leading-tight">
-                        Africa's First <span className="text-orange-400">B2B Marketplace.</span>
-                    </h1>
-                    <p className="text-lg lg:text-xl text-blue-100/90 mb-8 max-w-3xl mx-auto font-medium leading-relaxed">
-                        Connecting you with thousands of verified manufacturers and wholesalers to scale your business across the continent with absolute clarity and trust.
-                    </p>
-                    <div className="max-w-4xl mx-auto bg-white p-2 lg:p-3 rounded-2xl shadow-2xl flex flex-col lg:flex-row items-stretch gap-2">
-                        <div className="flex-1 flex items-center border-b lg:border-b-0 lg:border-r border-slate-100 px-4 py-2">
-                            <span className="material-symbols-outlined text-slate-400 mr-3">search</span>
-                            <input
-                                className="w-full border-none focus:ring-0 text-slate-700 placeholder:text-slate-400 text-lg"
-                                placeholder="What are you looking for?"
-                                type="text"
-                                onFocus={() => triggerAuth()}
+            {isProductViewOpen && selectedProduct ? (
+                <DesktopProductDetails 
+                    product={selectedProduct} 
+                    onBack={() => {
+                        setIsProductViewOpen(false);
+                        setSelectedProduct(null);
+                    }} 
+                />
+            ) : isSearchSubmitted ? (
+                <DesktopSearchResult 
+                    searchQuery={searchQuery} 
+                    onProductClick={(product) => {
+                        setSelectedProduct(product);
+                        setIsProductViewOpen(true);
+                    }}
+                />
+            ) : (
+                <div className="max-w-[1600px] mx-auto">
+                    {/* Main Content - Now Full Width */}
+                    <main className="w-full p-6 lg:p-8 space-y-12">
+                    {/* Ad Video Section */}
+                    <section className="relative h-[320px] rounded-lg overflow-hidden shadow-2xl flex items-center mb-6">
+                        {/* Video Background */}
+                        <video
+                            className="absolute inset-0 w-full h-full object-cover z-0"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                        >
+                            <source src="https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+
+                        {/* Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent z-10"></div>
+
+                        {/* Content */}
+                        <div className="relative z-20 px-12 space-y-6 max-w-2xl text-left">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#0026C0] text-white rounded-full text-[10px] font-bold tracking-widest uppercase mb-4">
+                                <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span> Sponsored Spotlight
+                            </div>
+                            <h2 className="text-5xl font-black text-white leading-tight">Empower Your Supply Chain Today</h2>
+                            <p className="text-slate-200 text-lg">Connect with over 10,000+ verified global manufacturers and unlock exclusive bulk pricing on premium industrial goods.</p>
+                             <div className="flex items-center gap-3 pt-2">
+                                <button className="bg-[#0026C0] hover:bg-[#0020A0] text-white font-bold px-6 py-3 rounded-md transition-all shadow-lg flex items-center gap-2 group text-sm">
+                                    Start Exploring <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </button>
+                                <button className="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3 rounded-md transition-all backdrop-blur-md border border-white/10 text-sm">
+                                    Learn More
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Floating Badges */}
+                        <div className="absolute right-12 top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-4 z-20">
+                            {[
+                                { icon: ShieldCheck, label: '100% Verified' },
+                                { icon: Shield, label: 'Trade Assurance' },
+                                { icon: Truck, label: 'Global Logistics' }
+                            ].map((badge, idx) => (
+                                <div key={idx} className="bg-white/10 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-lg flex items-center gap-3 text-white shadow-xl">
+                                    <badge.icon className="w-5 h-5 text-blue-400" />
+                                    <span className="text-[10px] font-bold uppercase tracking-wider">{badge.label}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Grid Section 1 */}
+                    <section className="py-2">
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Products Available Near You</h2>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Sourced from verified local suppliers in Springfield, IL</p>
+                            </div>
+                            <a className="text-[#0026C0] font-bold hover:underline flex items-center gap-1 text-sm" href="#">
+                                View All Products <ChevronRight className="w-5 h-5 text-[#0026C0]" />
+                            </a>
+                        </div>
+                        <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-4">
+                            <ProductCard
+                                name="Premium Fresh Farm Eggs"
+                                price="$12.50"
+                                unit="/ crate"
+                                image="https://lh3.googleusercontent.com/aida-public/AB6AXuAgANGbe0k8YhJtNZGtOOmnyb83ndLzoL_y9ZzQBTtWd_Vk9v0DYCAvbYLN29EsJ2roxxttjp3WhFwBI1AEQkW6vXR7T54Ii8EzbY2xe9Sc1LUEhj8cQFjzYuKEcBT_dZxHWmovlsAtZbmpFKfF6hasJJ8sJhOyxFtEfAApViUkukc_L9MMFKO3wE5-RIcWo5w3aIUbgbjwKDyW4-5JNWmr7Fsc0RvPrWDPshXae61c_0AUxM54HjdFGmSqPoTXKcc0S8iUMI5XArQ"
+                                supplier="Green Harvest Farms"
+                                location="Springfield, IL"
+                                rating={4.8}
+                                reviews="1.2k"
+                                isLocal={true}
+                                onClick={() => handleProductClick({
+                                    name: "Premium Fresh Farm Eggs",
+                                    price: "$12.50",
+                                    unit: "/ crate",
+                                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAgANGbe0k8YhJtNZGtOOmnyb83ndLzoL_y9ZzQBTtWd_Vk9v0DYCAvbYLN29EsJ2roxxttjp3WhFwBI1AEQkW6vXR7T54Ii8EzbY2xe9Sc1LUEhj8cQFjzYuKEcBT_dZxHWmovlsAtZbmpFKfF6hasJJ8sJhOyxFtEfAApViUkukc_L9MMFKO3wE5-RIcWo5w3aIUbgbjwKDyW4-5JNWmr7Fsc0RvPrWDPshXae61c_0AUxM54HjdFGmSqPoTXKcc0S8iUMI5XArQ",
+                                    supplier: "Green Harvest Farms",
+                                    location: "Springfield, IL",
+                                    rating: 4.8,
+                                    isLocal: true
+                                })}
+                            />
+                            <ProductCard
+                                name="Professional Luggage Set"
+                                price="$185.00"
+                                unit="/ set"
+                                image="https://lh3.googleusercontent.com/aida-public/AB6AXuC8vMmnU2EGswtctk93XGYiSUSKOX3PSJkH0jvU1ksCMkZVramzMVySMqMj2SgDHzL5tOFDXgavf6oBtOii5Ik9XD4ZEzmg1-NHt0GmthZs-cWgAxuVG2VUVBzK10ptYsmjw-rHZAmBheYr0NXnifep8fx_YAYaVGTe1ilLUoxp9cC6AUufF1Gp5ZbRnmBt3PVI6sQVqTq7kZrs8R2nL1dJ857Mysseebdz8ftX5TXg9H60Osyx2b9Y_CVpQbuWLLdqafwsu1smDH0"
+                                supplier="Global Travel Gear"
+                                location="Chicago, IL"
+                                rating={4.9}
+                                reviews="850"
+                                onClick={() => handleProductClick({
+                                    name: "Professional Luggage Set",
+                                    price: "$185.00",
+                                    unit: "/ set",
+                                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC8vMmnU2EGswtctk93XGYiSUSKOX3PSJkH0jvU1ksCMkZVramzMVySMqMj2SgDHzL5tOFDXgavf6oBtOii5Ik9XD4ZEzmg1-NHt0GmthZs-cWgAxuVG2VUVBzK10ptYsmjw-rHZAmBheYr0NXnifep8fx_YAYaVGTe1ilLUoxp9cC6AUufF1Gp5ZbRnmBt3PVI6sQVqTq7kZrs8R2nL1dJ857Mysseebdz8ftX5TXg9H60Osyx2b9Y_CVpQbuWLLdqafwsu1smDH0",
+                                    supplier: "Global Travel Gear",
+                                    location: "Chicago, IL",
+                                    rating: 4.9
+                                })}
+                            />
+                            <ProductCard
+                                name="Premium Stationery Kit"
+                                price="$45.00"
+                                unit="/ kit"
+                                image="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ1BhCG5G7gLninBGl_TDVGtKEgVHVmC7RnULmnjJi3v18texiR2BJRgccN4XlMqzoVfT4zplngwn-_Rq99_C67whd25JOQ6j9RbO5rjwJc8apleYLFOn-vmVtoYzxx72aXFD5u2iWfgS4oFzyv4nClpx49TPal9dF1xfxSjsh2ZTvkkzteHMrJHN56UQjedl7M8l7aNJykm_N1jmUF00R4rUP5Zwxe37MuEM7yJKCsTe-iKVsSbwzxn-XzZ5EbWw9fMwh-Bae7hw"
+                                supplier="Office Pro Supplies"
+                                location="Downtown, IL"
+                                rating={4.7}
+                                reviews="430"
+                                onClick={() => handleProductClick({
+                                    name: "Premium Stationery Kit",
+                                    price: "$45.00",
+                                    unit: "/ kit",
+                                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCQ1BhCG5G7gLninBGl_TDVGtKEgVHVmC7RnULmnjJi3v18texiR2BJRgccN4XlMqzoVfT4zplngwn-_Rq99_C67whd25JOQ6j9RbO5rjwJc8apleYLFOn-vmVtoYzxx72aXFD5u2iWfgS4oFzyv4nClpx49TPal9dF1xfxSjsh2ZTvkkzteHMrJHN56UQjedl7M8l7aNJykm_N1jmUF00R4rUP5Zwxe37MuEM7yJKCsTe-iKVsSbwzxn-XzZ5EbWw9fMwh-Bae7hw",
+                                    supplier: "Office Pro Supplies",
+                                    location: "Downtown, IL",
+                                    rating: 4.7
+                                })}
+                            />
+                            <ProductCard
+                                name="Long Grain Basmati Rice"
+                                price="$2.50"
+                                unit="/ kg"
+                                image="https://lh3.googleusercontent.com/aida-public/AB6AXuCEvFQB1H88fuOka7yp8h49qObv55xA1cM6DKc7JIAZgAW7orn15wB_v3qPidwWKuzWeRACovWHghmMy9z_0m6eDQ6D-wCEVAYTqGLzJYDYx5Qcz80z-dZRZBVFzrnCxBLJuZVzJaLmmYmH9BMwTgl_SP4PrtIy-cT_TFFfhmuM6z3p5Odq5dslAFKgEvT6HTQIajdF_VHTmPM14TCJG5xU0LaTyOu7wezQl2N-cMr_i3YJYk8h8D6j8jbN1PHNfJInF62lsI9UQVE"
+                                supplier="Eastern Grains Ltd."
+                                location="Indus Hub"
+                                rating={4.5}
+                                reviews="2.1k"
+                                onClick={() => handleProductClick({
+                                    name: "Long Grain Basmati Rice",
+                                    price: "$2.50",
+                                    unit: "/ kg",
+                                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEvFQB1H88fuOka7yp8h49qObv55xA1cM6DKc7JIAZgAW7orn15wB_v3qPidwWKuzWeRACovWHghmMy9z_0m6eDQ6D-wCEVAYTqGLzJYDYx5Qcz80z-dZRZBVFzrnCxBLJuZVzJaLmmYmH9BMwTgl_SP4PrtIy-cT_TFFfhmuM6z3p5Odq5dslAFKgEvT6HTQIajdF_VHTmPM14TCJG5xU0LaTyOu7wezQl2N-cMr_i3YJYk8h8D6j8jbN1PHNfJInF62lsI9UQVE",
+                                    supplier: "Eastern Grains Ltd.",
+                                    location: "Indus Hub",
+                                    rating: 4.5
+                                })}
+                            />
+                            <ProductCard
+                                name="Precision Tool Set"
+                                price="$299.00"
+                                unit="/ kit"
+                                image="https://lh3.googleusercontent.com/aida-public/AB6AXuDlA3LLM6wSIQbwvMDpL14wLTwDS4FJkBNqZ5N8pG4gPhBJYZcSzcdl3J6pFzy14VvlGt11YJX7ANbX2Ua1qY1irVIQ2zVs0fdInvvYcrFUJyzJOW9BWuVw6HrtWTZ8_Sx5lEvJTvzqiX3KsbOprt1Y9wQpeT-POcbcmvH1zaMkVpAubp_bLrEOhFcTF8UTEPmMQPalVxBEwYwK2RvVTKvzZYnlrn3Dre_dQIMqa1n1ye0DvoRRZKwMxQF-K9uPzSpoYKRK16b0OCw"
+                                supplier="Tool Masters Co."
+                                location="Chicago, IL"
+                                rating={4.9}
+                                reviews="120"
+                                onClick={() => handleProductClick({
+                                    name: "Precision Tool Set",
+                                    price: "$299.00",
+                                    unit: "/ kit",
+                                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDlA3LLM6wSIQbwvMDpL14wLTwDS4FJkBNqZ5N8pG4gPhBJYZcSzcdl3J6pFzy14VvlGt11YJX7ANbX2Ua1qY1irVIQ2zVs0fdInvvYcrFUJyzJOW9BWuVw6HrtWTZ8_Sx5lEvJTvzqiX3KsbOprt1Y9wQpeT-POcbcmvH1zaMkVpAubp_bLrEOhFcTF8UTEPmMQPalVxBEwYwK2RvVTKvzZYnlrn3Dre_dQIMqa1n1ye0DvoRRZKwMxQF-K9uPzSpoYKRK16b0OCw",
+                                    supplier: "Tool Masters Co.",
+                                    location: "Chicago, IL",
+                                    rating: 4.9
+                                })}
                             />
                         </div>
-                        <div className="shrink-0 flex items-center border-b lg:border-b-0 lg:border-r border-slate-100 px-4 py-2">
-                            <span className="material-symbols-outlined text-slate-400 mr-2">category</span>
-                            <select className="border-none focus:ring-0 text-slate-600 font-medium cursor-pointer bg-transparent shadow-none outline-none">
-                                <option>All Categories</option>
-                                <option>Industrial</option>
-                                <option>Agriculture</option>
-                                <option>Electronics</option>
-                            </select>
-                        </div>
-                        <div className="shrink-0 flex items-center px-4 py-2">
-                            <span className="material-symbols-outlined text-slate-400 mr-2">location_on</span>
-                            <select className="border-none focus:ring-0 text-slate-600 font-medium cursor-pointer bg-transparent shadow-none outline-none">
-                                <option>All Africa</option>
-                                <option>Nigeria</option>
-                                <option>Kenya</option>
-                                <option>Ghana</option>
-                                <option>South Africa</option>
-                            </select>
-                        </div>
-                        <button
-                            onClick={triggerAuth}
-                            className="bg-accent hover:bg-orange-600 text-white px-10 py-4 rounded-xl font-bold text-lg transition-all shadow-lg shadow-orange-500/20 shrink-0 flex items-center justify-center gap-2"
-                        >
-                            <span>Search</span>
-                            <span className="material-symbols-outlined">arrow_forward</span>
-                        </button>
-                    </div>
-                    <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-white/60 text-sm font-semibold">
-                        <span className="flex items-center gap-2"><span className="material-symbols-outlined text-green-400 text-lg">check_circle</span> 100% Verified Suppliers</span>
-                        <span className="flex items-center gap-2"><span className="material-symbols-outlined text-green-400 text-lg">check_circle</span> Secure Trade Assurance</span>
-                        <span className="flex items-center gap-2"><span className="material-symbols-outlined text-green-400 text-lg">check_circle</span> Global Logistics Support</span>
-                    </div>
-                </div>
-            </section>
+                    </section>
 
-            <section className="py-8 bg-white">
-                <div className="max-w-page mx-auto px-8 lg:px-12">
-                    <div className="flex items-end justify-between mb-12">
-                        <div>
-                            <h2 className="text-4xl font-bold text-slate-900">Explore by Category</h2>
-                            <p className="text-slate-500 mt-2 text-lg">Find exactly what your business needs from specialized sectors</p>
-                        </div>
-                        <a
-                            onClick={triggerAuth}
-                            className="text-primary font-bold hover:underline flex items-center gap-2 text-lg cursor-pointer"
-                            href="#"
-                        >
-                            View All Categories <span className="material-symbols-outlined">arrow_right_alt</span>
-                        </a>
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                        <div
-                            onClick={() => triggerAuth()}
-                            className="group border border-slate-100 bg-slate-50 p-5 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                <span className="material-symbols-outlined text-[28px]">precision_manufacturing</span>
+                    {/* Professional Inquiry CTA */}
+                    <section className="bg-[#0026C0] dark:bg-slate-900 rounded-lg p-6 text-white relative overflow-hidden flex flex-col xl:flex-row items-center gap-6">
+                         <div className="relative z-10 space-y-2 max-w-xl text-center xl:text-left">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold tracking-widest uppercase mb-1 border border-white/20">
+                                <Rocket className="w-3.5 h-3.5" /> B2B Fast Track
                             </div>
-                            <h3 className="font-bold text-lg mb-1">Industrial Machinery</h3>
-                            <p className="text-slate-500 text-sm">Pumps, generators, heavy tools</p>
+                            <h2 className="text-3xl font-black leading-tight">Can't find what you're looking for?</h2>
+                            <p className="text-blue-100 text-base">Post your buying request and get verified quotes within 24 hours.</p>
                         </div>
-                        <div
-                            onClick={() => triggerAuth()}
-                            className="group border border-slate-100 bg-slate-50 p-5 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                <span className="material-symbols-outlined text-[28px]">devices</span>
+                        <div className="relative z-10 w-full xl:max-w-xl bg-white rounded-md p-1.5 flex flex-col sm:flex-row gap-2 shadow-2xl">
+                            <input className="flex-grow bg-white text-slate-900 px-4 py-2 rounded border-none focus:ring-0 text-sm outline-none" placeholder="Tell us what you need..." type="text" />
+                            <div className="flex items-center gap-2 border-l border-slate-100 pl-2">
+                                <input className="w-16 border-none bg-transparent text-slate-900 focus:ring-0 text-center font-bold outline-none" placeholder="Qty" type="number" />
+                                <select className="bg-slate-100 text-slate-600 text-[10px] font-bold border-none rounded px-2 py-1.5 outline-none">
+                                    <option>Units</option>
+                                    <option>KG</option>
+                                    <option>Metric Tons</option>
+                                </select>
                             </div>
-                            <h3 className="font-bold text-lg mb-1">Electronics</h3>
-                            <p className="text-slate-500 text-sm">Computers, phones, specialized parts</p>
+                            <button className="bg-[#0026C0] hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#0026C0]/20">
+                                Sourcing <ArrowRight className="w-5 h-5" />
+                            </button>
                         </div>
-                        <div
-                            onClick={() => triggerAuth()}
-                            className="group border border-slate-100 bg-slate-50 p-5 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                <span className="material-symbols-outlined text-[28px]">foundation</span>
-                            </div>
-                            <h3 className="font-bold text-lg mb-1">Building & Construction</h3>
-                            <p className="text-slate-500 text-sm">Steel, cement, architectural finishing</p>
-                        </div>
-                        <div
-                            onClick={() => triggerAuth()}
-                            className="group border border-slate-100 bg-slate-50 p-5 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                <span className="material-symbols-outlined text-[28px]">checkroom</span>
-                            </div>
-                            <h3 className="font-bold text-lg mb-1">Apparel</h3>
-                            <p className="text-slate-500 text-sm">Fabrics, uniforms, protective footwear</p>
-                        </div>
-                        <div
-                            onClick={() => triggerAuth()}
-                            className="group border border-slate-100 bg-slate-50 p-5 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                <span className="material-symbols-outlined text-[28px]">restaurant</span>
-                            </div>
-                            <h3 className="font-bold text-lg mb-1">Food & Agriculture</h3>
-                            <p className="text-slate-500 text-sm">Grains, bulk produce, processed oils</p>
-                        </div>
-                        <div
-                            onClick={() => triggerAuth()}
-                            className="group border border-slate-100 bg-slate-50 p-5 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                <span className="material-symbols-outlined text-[28px]">science</span>
-                            </div>
-                            <h3 className="font-bold text-lg mb-1">Chemicals</h3>
-                            <p className="text-slate-500 text-sm">Fertilizers, industrial raw materials</p>
-                        </div>
-                        <div
-                            onClick={() => triggerAuth()}
-                            className="group border border-slate-100 bg-slate-50 p-5 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                <span className="material-symbols-outlined text-[28px]">package_2</span>
-                            </div>
-                            <h3 className="font-bold text-lg mb-1">Packaging</h3>
-                            <p className="text-slate-500 text-sm">Boxes, bottles, wholesale plastics</p>
-                        </div>
-                        <div
-                            onClick={() => triggerAuth()}
-                            className="group border border-slate-100 bg-slate-50 p-5 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                <span className="material-symbols-outlined text-[28px]">directions_car</span>
-                            </div>
-                            <h3 className="font-bold text-lg mb-1">Automobile Parts</h3>
-                            <p className="text-slate-500 text-sm">Tyres, engines, precision components</p>
-                        </div>
-                        <div
-                            onClick={() => triggerAuth()}
-                            className="group border border-slate-100 bg-slate-50 p-5 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                <span className="material-symbols-outlined text-[28px]">health_and_safety</span>
-                            </div>
-                            <h3 className="font-bold text-lg mb-1">Health & Beauty</h3>
-                            <p className="text-slate-500 text-sm">Cosmetics, medical equipment, skincare</p>
-                        </div>
-                        <div
-                            onClick={() => triggerAuth()}
-                            className="group border border-slate-100 bg-slate-50 p-5 rounded-2xl hover:bg-white hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer"
-                        >
-                            <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                <span className="material-symbols-outlined text-[28px]">chair</span>
-                            </div>
-                            <h3 className="font-bold text-lg mb-1">Home & Furniture</h3>
-                            <p className="text-slate-500 text-sm">Office furniture, decor, wholesale timber</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                        {/* Abstract background decorations */}
+                        <div className="absolute -right-20 -top-20 w-80 h-80 bg-blue-400/10 rounded-full blur-3xl"></div>
+                        <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+                    </section>
 
-            <section className="py-8 bg-slate-50">
-                <div className="max-w-page mx-auto px-8 lg:px-12">
-                    <div className="text-center mb-12">
-                        <h2 className="text-4xl font-bold text-slate-900 mb-6">Sourcing Made Simple</h2>
-                        <p className="text-slate-500 max-w-2xl mx-auto text-lg">Three easy steps to find the most competitive quotes and reliable suppliers for your business requirements.</p>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
-                        <div className="text-center group">
-                            <div className="w-24 h-24 bg-blue-50 text-primary rounded-3xl flex items-center justify-center mx-auto mb-10 relative z-10 transition-transform group-hover:-translate-y-2">
-                                <span className="material-symbols-outlined text-[48px]">post_add</span>
-                                <div className="absolute -top-3 -right-3 w-10 h-10 bg-white border-2 border-primary rounded-full flex items-center justify-center font-bold text-lg">1</div>
-                            </div>
-                            <h3 className="text-2xl font-bold mb-4">Post Requirement</h3>
-                            <p className="text-slate-500 leading-relaxed px-6 text-lg">Tell us what you need. Provide specifications, quantities, and delivery timelines for a tailored response.</p>
+                    {/* Category Focused Section */}
+                    <section className="mt-8">
+                        <div className="flex items-center justify-between mb-6 pb-2 border-b border-slate-200 dark:border-slate-800">
+                            <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+                                <span className="w-1 h-6 bg-[#0026C0] rounded-full"></span>
+                                Grains & Cooking Materials
+                            </h2>
+                            <a className="text-[#0026C0] font-bold hover:underline flex items-center gap-1 text-sm" href="#">
+                                Explore Full Category <ChevronRight className="w-5 h-5 text-[#0026C0]" />
+                            </a>
                         </div>
-                        <div className="text-center group">
-                            <div className="w-24 h-24 bg-blue-50 text-primary rounded-3xl flex items-center justify-center mx-auto mb-10 relative z-10 transition-transform group-hover:-translate-y-2">
-                                <span className="material-symbols-outlined text-[48px]">request_quote</span>
-                                <div className="absolute -top-3 -right-3 w-10 h-10 bg-white border-2 border-primary rounded-full flex items-center justify-center font-bold text-lg">2</div>
-                            </div>
-                            <h3 className="text-2xl font-bold mb-4">Get Quotes</h3>
-                            <p className="text-slate-500 leading-relaxed px-6 text-lg">Receive multiple competitive quotes from verified suppliers. Compare pricing, quality, and shipping options.</p>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                            <ProductCard
+                                name="Premium Cassava Flour"
+                                price="$8.00"
+                                unit="/ kg"
+                                image="https://lh3.googleusercontent.com/aida-public/AB6AXuBhGRPfW1WHo5SEPIOLtErbNLCuG1n02pRorb-DVT0MOSsTWetlsm4v1y-0_30x2RepUyOAStW93l2ubIa4t2yR1kgEAyil0e1hMYwwOUbRwjl98Tylq-to9ZOz6jZkXioUbmyegX-Mvvlxo-J-z7TzwRXO7SSSkif_1Lu8JlydxLeWOfoLDWh6xWl7_7cx-8opBZUaHIlk2OVW4W2kqVozJ4BFB7IXvNev6l-vDr8ClQbjR9lcpe-KECOqVD814h-hTjZNwGXTkQg"
+                                supplier="Afro-Grain Mills"
+                                location="Lagos, NG"
+                                rating={3.5}
+                                reviews="85"
+                                onClick={() => handleProductClick({
+                                    name: "Premium Cassava Flour",
+                                    price: "$8.00",
+                                    unit: "/ kg",
+                                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBhGRPfW1WHo5SEPIOLtErbNLCuG1n02pRorb-DVT0MOSsTWetlsm4v1y-0_30x2RepUyOAStW93l2ubIa4t2yR1kgEAyil0e1hMYwwOUbRwjl98Tylq-to9ZOz6jZkXioUbmyegX-Mvvlxo-J-z7TzwRXO7SSSkif_1Lu8JlydxLeWOfoLDWh6xWl7_7cx-8opBZUaHIlk2OVW4W2kqVozJ4BFB7IXvNev6l-vDr8ClQbjR9lcpe-KECOqVD814h-hTjZNwGXTkQg",
+                                    supplier: "Afro-Grain Mills",
+                                    location: "Lagos, NG",
+                                    rating: 3.5
+                                })}
+                            />
+                            <ProductCard
+                                name="Stainless Steel Pot Set"
+                                price="$120.00"
+                                unit="/ set"
+                                image="https://lh3.googleusercontent.com/aida-public/AB6AXuDlA3LLM6wSIQbwvMDpL14wLTwDS4FJkBNqZ5N8pG4gPhBJYZcSzcdl3J6pFzy14VvlGt11YJX7ANbX2Ua1qY1irVIQ2zVs0fdInvvYcrFUJyzJOW9BWuVw6HrtWTZ8_Sx5lEvJTvzqiX3KsbOprt1Y9wQpeT-POcbcmvH1zaMkVpAubp_bLrEOhFcTF8UTEPmMQPalVxBEwYwK2RvVTKvzZYnlrn3Dre_dQIMqa1n1ye0DvoRRZKwMxQF-K9uPzSpoYKRK16b0OCw"
+                                supplier="Kitchen Pro Solutions"
+                                location="Dubai, UAE"
+                                rating={4.2}
+                                reviews="150"
+                                onClick={() => handleProductClick({
+                                    name: "Stainless Steel Pot Set",
+                                    price: "$120.00",
+                                    unit: "/ set",
+                                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDlA3LLM6wSIQbwvMDpL14wLTwDS4FJkBNqZ5N8pG4gPhBJYZcSzcdl3J6pFzy14VvlGt11YJX7ANbX2Ua1qY1irVIQ2zVs0fdInvvYcrFUJyzJOW9BWuVw6HrtWTZ8_Sx5lEvJTvzqiX3KsbOprt1Y9wQpeT-POcbcmvH1zaMkVpAubp_bLrEOhFcTF8UTEPmMQPalVxBEwYwK2RvVTKvzZYnlrn3Dre_dQIMqa1n1ye0DvoRRZKwMxQF-K9uPzSpoYKRK16b0OCw",
+                                    supplier: "Kitchen Pro Solutions",
+                                    location: "Dubai, UAE",
+                                    rating: 4.2
+                                })}
+                            />
+                            <ProductCard
+                                name="Pure Sunflower Oil 5L"
+                                price="$15.50"
+                                unit="/ unit"
+                                image="https://lh3.googleusercontent.com/aida-public/AB6AXuBQbzxib2tXNIEy4cn60_sVAijS2ZwaVa6IQnCloiDgBnoIhB3ZNUHmadiKdhuUAgKYtC37rsZjlwWFXL-T9rlTZyV3oLpm7NLMeCSEdPCGx12SbLLT9qNo9RrENJIuaZwnyuqfzKC884NxWCRv4TSkBQWKD9w7x7K1dMnIDEg1z_UvTzAvkklxqAApGoGLFoUSdGpgnqkqIVva4MQrNdwPXAG2NqprShkbrguZE0qKpMb_zZ3s8KGiSy7xfGHAcFc1kG5wLgfiePw"
+                                supplier="Sunny Harvest OIl"
+                                location="Odessa, UA"
+                                rating={4.0}
+                                reviews="210"
+                                onClick={() => handleProductClick({
+                                    name: "Pure Sunflower Oil 5L",
+                                    price: "$15.50",
+                                    unit: "/ unit",
+                                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBQbzxib2tXNIEy4cn60_sVAijS2ZwaVa6IQnCloiDgBnoIhB3ZNUHmadiKdhuUAgKYtC37rsZjlwWFXL-T9rlTZyV3oLpm7NLMeCSEdPCGx12SbLLT9qNo9RrENJIuaZwnyuqfzKC884NxWCRv4TSkBQWKD9w7x7K1dMnIDEg1z_UvTzAvkklxqAApGoGLFoUSdGpgnqkqIVva4MQrNdwPXAG2NqprShkbrguZE0qKpMb_zZ3s8KGiSy7xfGHAcFc1kG5wLgfiePw",
+                                    supplier: "Sunny Harvest OIl",
+                                    location: "Odessa, UA",
+                                    rating: 4.0
+                                })}
+                            />
+                            <ProductCard
+                                name="Assorted Spices Pack"
+                                price="$25.00"
+                                unit="/ pack"
+                                image="https://lh3.googleusercontent.com/aida-public/AB6AXuCdaMbzMU92R6H5bfVJ7B4SXRk959Tl1e4tTjzI7VuUQ0gsxiHr8xT6_0bYMsIavGyEgR4fsTfmnl-b2zkrAR__vZCHhdh1NCUx1q-wPZtBF59I-IgyTo49S5AGplGoecDLLa2piBGNgjSwZCBamzYABS1DYoVto8TsUmEymK2lslLRETCwdB9DXkvgnlaeZibxEoH8K53H2Gz9pJ6lxBAv4q9dv_W3kFRwef11ASTuqRxuJVlD7auYMirbNaBULgtJoqGf5mm9dvs"
+                                supplier="Spice Harbor"
+                                location="Mombasa, KE"
+                                rating={4.6}
+                                reviews="95"
+                                onClick={() => handleProductClick({
+                                    name: "Assorted Spices Pack",
+                                    price: "$25.00",
+                                    unit: "/ pack",
+                                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCdaMbzMU92R6H5bfVJ7B4SXRk959Tl1e4tTjzI7VuUQ0gsxiHr8xT6_0bYMsIavGyEgR4fsTfmnl-b2zkrAR__vZCHhdh1NCUx1q-wPZtBF59I-IgyTo49S5AGplGoecDLLa2piBGNgjSwZCBamzYABS1DYoVto8TsUmEymK2lslLRETCwdB9DXkvgnlaeZibxEoH8K53H2Gz9pJ6lxBAv4q9dv_W3kFRwef11ASTuqRxuJVlD7auYMirbNaBULgtJoqGf5mm9dvs",
+                                    supplier: "Spice Harbor",
+                                    location: "Mombasa, KE",
+                                    rating: 4.6
+                                })}
+                            />
+                            <ProductCard
+                                name="Organic Turmeric Powder"
+                                price="$4.20"
+                                unit="/ kg"
+                                image="https://lh3.googleusercontent.com/aida-public/AB6AXuCdaMbzMU92R6H5bfVJ7B4SXRk959Tl1e4tTjzI7VuUQ0gsxiHr8xT6_0bYMsIavGyEgR4fsTfmnl-b2zkrAR__vZCHhdh1NCUx1q-wPZtBF59I-IgyTo49S5AGplGoecDLLa2piBGNgjSwZCBamzYABS1DYoVto8TsUmEymK2lslLRETCwdB9DXkvgnlaeZibxEoH8K53H2Gz9pJ6lxBAv4q9dv_W3kFRwef11ASTuqRxuJVlD7auYMirbNaBULgtJoqGf5mm9dvs"
+                                supplier="Nature's Best"
+                                location="Enugu, NG"
+                                rating={5.0}
+                                reviews="120"
+                                onClick={() => handleProductClick({
+                                    name: "Organic Turmeric Powder",
+                                    price: "$4.20",
+                                    unit: "/ kg",
+                                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCdaMbzMU92R6H5bfVJ7B4SXRk959Tl1e4tTjzI7VuUQ0gsxiHr8xT6_0bYMsIavGyEgR4fsTfmnl-b2zkrAR__vZCHhdh1NCUx1q-wPZtBF59I-IgyTo49S5AGplGoecDLLa2piBGNgjSwZCBamzYABS1DYoVto8TsUmEymK2lslLRETCwdB9DXkvgnlaeZibxEoH8K53H2Gz9pJ6lxBAv4q9dv_W3kFRwef11ASTuqRxuJVlD7auYMirbNaBULgtJoqGf5mm9dvs",
+                                    supplier: "Nature's Best",
+                                    location: "Enugu, NG",
+                                    rating: 5.0
+                                })}
+                            />
                         </div>
-                        <div className="text-center group">
-                            <div className="w-24 h-24 bg-blue-50 text-primary rounded-3xl flex items-center justify-center mx-auto mb-10 relative z-10 transition-transform group-hover:-translate-y-2">
-                                <span className="material-symbols-outlined text-[48px]">handshake</span>
-                                <div className="absolute -top-3 -right-3 w-10 h-10 bg-white border-2 border-primary rounded-full flex items-center justify-center font-bold text-lg">3</div>
-                            </div>
-                            <h3 className="text-2xl font-bold mb-4">Connect & Buy</h3>
-                            <p className="text-slate-500 leading-relaxed px-6 text-lg">Directly negotiate with suppliers, verify their credentials, and finalize your purchase order with confidence.</p>
-                        </div>
-                        <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-0.5 bg-slate-100 -z-0"></div>
-                    </div>
-
-                    <div className="mt-28 bg-primary rounded-[2.5rem] p-12 lg:p-20 overflow-hidden relative">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
-                            <div className="text-center lg:text-left">
-                                <h2 className="text-4xl lg:text-5xl font-extrabold text-white mb-6">Ready to grow your business?</h2>
-                                <p className="text-blue-100 text-xl max-w-xl">Start sourcing from the most reliable, verified suppliers across the African continent today.</p>
-                            </div>
-                            <div className="flex flex-col sm:flex-row gap-6 shrink-0">
-                                <button
-                                    onClick={triggerAuth}
-                                    className="bg-white text-primary px-10 py-5 rounded-2xl font-bold text-xl hover:bg-blue-50 transition-colors shadow-xl"
-                                >
-                                    Post Requirement Now
-                                </button>
-                                <button
-                                    onClick={triggerAuth}
-                                    className="bg-white/10 text-white border border-white/20 px-10 py-5 rounded-2xl font-bold text-xl hover:bg-white/20 transition-colors"
-                                >
-                                    Register as Buyer
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="py-16 bg-white">
-                <div className="max-w-page mx-auto px-8 lg:px-12">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="relative h-64 rounded-[2rem] overflow-hidden group cursor-pointer shadow-xl transition-all hover:scale-[1.01]">
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-600/40 z-10"></div>
-                            <div className="absolute inset-0">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1000"
-                                    alt="Logistics"
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                />
-                            </div>
-                            <div className="absolute inset-0 z-20 p-10 flex flex-col justify-center">
-                                <span className="bg-accent text-white px-4 py-1 rounded-full text-xs font-bold w-fit mb-4 uppercase tracking-wider">New Service</span>
-                                <h3 className="text-3xl font-extrabold text-white mb-2 italic">Global Logistics</h3>
-                                <p className="text-blue-100 max-w-xs font-medium">Ship your goods across Africa with our verified logistics partners.</p>
-                                <div className="mt-6 flex items-center gap-2 text-white font-bold group/btn">
-                                    Learn More <span className="material-symbols-outlined transition-transform group-hover/btn:translate-x-1">arrow_forward</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="relative h-64 rounded-[2rem] overflow-hidden group cursor-pointer shadow-xl transition-all hover:scale-[1.01]">
-                            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-slate-800/40 z-10"></div>
-                            <div className="absolute inset-0">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000"
-                                    alt="Trade Finance"
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                />
-                            </div>
-                            <div className="absolute inset-0 z-20 p-10 flex flex-col justify-center">
-                                <span className="bg-green-500 text-white px-4 py-1 rounded-full text-xs font-bold w-fit mb-4 uppercase tracking-wider">Featured</span>
-                                <h3 className="text-3xl font-extrabold text-white mb-2 italic">Trade Finance</h3>
-                                <p className="text-slate-100 max-w-xs font-medium">Access flexible credit solutions and secure digital payment terms.</p>
-                                <div className="mt-6 flex items-center gap-2 text-white font-bold group/btn">
-                                    Get Started <span className="material-symbols-outlined transition-transform group-hover/btn:translate-x-1">arrow_forward</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <footer className="bg-slate-900 py-20 text-slate-400">
-                <div className="max-w-page mx-auto px-8 lg:px-12">
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
-                        <div>
-                            <h4 className="text-white font-bold mb-8 text-lg">About AfricaMart</h4>
-                            <ul className="space-y-5 text-base">
-                                <li><a className="hover:text-white transition-colors" href="#">Our Story</a></li>
-                                <li><a className="hover:text-white transition-colors" href="#">How it works</a></li>
-                                <li><a className="hover:text-white transition-colors" href="#">Verified Suppliers</a></li>
-                                <li><a className="hover:text-white transition-colors" href="#">Press & Media</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-white font-bold mb-8 text-lg">Support</h4>
-                            <ul className="space-y-5 text-base">
-                                <li><a className="hover:text-white transition-colors" href="#">Help Center</a></li>
-                                <li><a className="hover:text-white transition-colors" href="#">Trade Assurance</a></li>
-                                <li><a className="hover:text-white transition-colors" href="#">Contact Us</a></li>
-                                <li><a className="hover:text-white transition-colors" href="#">Report Abuse</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-white font-bold mb-8 text-lg">Trade Services</h4>
-                            <ul className="space-y-5 text-base">
-                                <li><a className="hover:text-white transition-colors" href="#">Logistics Services</a></li>
-                                <li><a className="hover:text-white transition-colors" href="#">Inspection Services</a></li>
-                                <li><a className="hover:text-white transition-colors" href="#">Sourcing Agent</a></li>
-                                <li><a className="hover:text-white transition-colors" href="#">Credit Solutions</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-white font-bold mb-8 text-lg">Newsletter</h4>
-                            <p className="text-base mb-6">Get the latest insights on African trade and market trends.</p>
-                            <div className="flex gap-3">
-                                <input className="bg-white/5 border-slate-700 rounded-lg text-sm flex-1 focus:ring-primary focus:border-primary px-4" placeholder="Your business email" type="email" />
-                                <button className="bg-primary hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition-colors">Join</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-8 text-sm">
-                        <p>© 2024 AfricaMart Marketplace. Empowering African Trade. All rights reserved.</p>
-                        <div className="flex items-center gap-8">
-                            <a className="hover:text-white transition-colors" href="#">Terms of Service</a>
-                            <a className="hover:text-white transition-colors" href="#">Privacy Policy</a>
-                            <div className="flex items-center gap-4 ml-6">
-                                <a className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors" href="#">
-                                    <span className="material-symbols-outlined text-[20px]">share</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-
-            {showAuthPopup && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                    <div
-                        className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-                        onClick={() => setShowAuthPopup(false)}
-                    ></div>
-                    <div className="relative bg-white w-full max-w-md rounded-[2rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
-                        <div className="p-8 lg:p-12">
-                            <div className="text-center mb-10">
-                                <div className="w-16 h-16 bg-blue-50 text-primary rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                    <span className="material-symbols-outlined text-[32px]">lock</span>
-                                </div>
-                                <h3 className="text-3xl font-bold text-slate-900 mb-2">Join AfricaMart</h3>
-                                <p className="text-slate-500">Log in or create an account to access verified suppliers and trade services.</p>
-                            </div>
-
-                            <div className="space-y-4">
-                                <button className="w-full py-4 bg-primary text-white rounded-xl font-bold text-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-3">
-                                    Continue
-                                </button>
-                                <button className="w-full py-4 bg-white text-slate-700 border-2 border-slate-100 rounded-xl font-bold text-lg hover:bg-slate-50 transition-all">
-                                    Create Free Account
-                                </button>
-                            </div>
-
-                            <div className="mt-10 text-center">
-                                <p className="text-sm text-slate-400">
-                                    By continuing, you agree to our <a href="#" className="text-primary hover:underline">Terms of Service</a> and <a href="#" className="text-primary hover:underline">Privacy Policy</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <button
-                            onClick={() => setShowAuthPopup(false)}
-                            className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center text-slate-400 hover:text-slate-900 transition-colors"
-                        >
-                            <span className="material-symbols-outlined">close</span>
-                        </button>
-                    </div>
-                </div>
+                    </section>
+                </main>
+            </div>
             )}
+            {/* Auth Overlays */}
+            <SignInOverlay 
+                isOpen={isSignInOpen} 
+                onClose={() => setIsSignInOpen(false)}
+                onSwitchToSignUp={() => {
+                    setIsSignInOpen(false);
+                    setIsSignUpOpen(true);
+                }}
+            />
+            <DesktopSignUpOverlay 
+                isOpen={isSignUpOpen}
+                onClose={() => setIsSignUpOpen(false)}
+                onLogin={() => {
+                    setIsSignUpOpen(false);
+                    setIsSignInOpen(true);
+                }}
+            />
         </div>
     );
 }
