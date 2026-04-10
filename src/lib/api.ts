@@ -209,3 +209,11 @@ export async function searchProducts(query: string, selectedAttributes: string[]
     const res = await fetch(url);
     return res;
 }
+
+export async function fetchBuyerLeads() {
+    const res = await fetch(`${API_BASE_URL}/leads/buyer/leads`, {
+        method: 'GET',
+        credentials: 'include'
+    });
+    return res;
+}
