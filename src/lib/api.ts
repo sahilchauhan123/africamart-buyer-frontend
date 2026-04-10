@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://165.232.47.156:4000/api/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://[IP_ADDRESS]/api/v1';
 
 export async function fetchProducts(query: string) {
     try {
