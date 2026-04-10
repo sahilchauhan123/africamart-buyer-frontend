@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Phone, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { COUNTRY_CODES } from '@/src/constants/constanst';
-
-const API_BASE_URL = 'http://localhost:4000/api/v1';
+import { buyerLogin } from '@/src/lib/api';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -23,15 +22,7 @@ export default function LoginPage() {
 
     try {
       const phone_no = `${country.code} ${phoneNumber}`;
-      const res = await fetch(`${API_BASE_URL}/auth/buyer/login`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phone_no: phone_no,
-          password: password
-        })
-      });
+      const res = await buyerLogin(phone_no, password);
       const data = await res.json();
       if (res.ok) {
         // Store buyer profile only, tokens are in cookies
