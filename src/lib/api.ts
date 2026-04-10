@@ -10,6 +10,51 @@ export async function buyerLogin(phone_no: string, password?: string) {
     return res;
 }
 
+export async function buyerCheckNumber(phone_no: string) {
+    const res = await fetch(`${API_BASE_URL}/auth/buyer/number-exists?phone_no=${encodeURIComponent(phone_no)}`, {
+        credentials: 'include'
+    });
+    return res;
+}
+
+export async function buyerSendOtp(full_name: string, email: string, phone_no: string, password?: string) {
+    const res = await fetch(`${API_BASE_URL}/auth/buyer/registration/sendotp`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ full_name, email, phone_no, password }),
+    });
+    return res;
+}
+
+export async function buyerSubmitOtp(phone_no: string, otp: number) {
+    const res = await fetch(`${API_BASE_URL}/auth/buyer/registration/submitotp`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone_no, otp }),
+    });
+    return res;
+}
+
+export async function buyerSubmitLead(seller_id: number, product_id: string, quantity: string) {
+    const res = await fetch(`${API_BASE_URL}/leads/buyer/leads`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ seller_id, product_id, quantity }),
+    });
+    return res;
+}
+
+export async function buyerLogout() {
+    const res = await fetch(`${API_BASE_URL}/auth/buyer/logout`, {
+        method: 'GET',
+        credentials: 'include'
+    });
+    return res;
+}
+
 export async function fetchProducts(query: string) {
     try {
         const searchQuery = query || '*';
@@ -151,4 +196,16 @@ export async function fetchCategoryBySlug(slug: string) {
         console.error("Error fetching category by slug:", error);
         return null;
     }
+}
+
+export async function searchProducts(query: string, selectedAttributes: string[] = []) {
+    let url = `${API_BASE_URL}/search/unprotected/products?query=${encodeURIComponent(query)}`;
+
+    // Add attribute filters
+    selectedAttributes.forEach(attr => {
+        url += `&filters[attributes]=${encodeURIComponent(attr)}`;
+    });
+
+    const res = await fetch(url);
+    return res;
 }

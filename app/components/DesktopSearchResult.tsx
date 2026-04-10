@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 import { ChevronDown, SlidersHorizontal } from 'lucide-react';
+import { searchProducts } from '@/src/lib/api';
 
 export default function DesktopSearchResult({
     searchQuery,
@@ -31,14 +32,7 @@ export default function DesktopSearchResult({
 
             setIsLoading(true);
             try {
-                let url = `http://localhost:4000/api/v1/search/unprotected/products?query=${encodeURIComponent(searchQuery)}`;
-
-                // Add attribute filters
-                selectedAttributes.forEach(attr => {
-                    url += `&filters[attributes]=${encodeURIComponent(attr)}`;
-                });
-
-                const res = await fetch(url);
+                const res = await searchProducts(searchQuery, selectedAttributes);
                 const data = await res.json();
 
                 const fetchedProducts = data.data?.hits?.map((hit: any) => {

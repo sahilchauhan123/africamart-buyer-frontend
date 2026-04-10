@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, HelpCircle, User, ChevronDown, Rocket, Menu, X, ArrowRight } from 'lucide-react';
-import { fetchSuggestions } from '@/src/lib/api';
+import { fetchSuggestions, buyerLogout } from '@/src/lib/api';
 
 export default function Header() {
     const router = useRouter();
@@ -28,10 +28,7 @@ export default function Header() {
         const storedBuyer = localStorage.getItem('buyer');
         if (storedBuyer) {
             try {
-                await fetch('http://localhost:4000/api/v1/auth/buyer/logout', {
-                    method: 'GET',
-                    credentials: 'include'
-                });
+                await buyerLogout();
             } catch (err) {
                 console.error("Logout API failed", err);
             }

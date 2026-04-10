@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Phone, Lock, Eye, EyeOff, ArrowRight, ArrowLeft, Mail, User } from 'lucide-react';
 import { COUNTRY_CODES } from '@/src/constants/constanst';
-
-const API_BASE_URL = 'http://localhost:4000/api/v1';
+import { buyerLogin, buyerSendOtp, buyerSubmitOtp } from '@/src/lib/api';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -27,17 +26,7 @@ export default function SignupPage() {
 
     try {
       const phone_no = `${country.code} ${phoneNumber}`;
-      const res = await fetch(`${API_BASE_URL}/auth/buyer/registration/sendotp`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          full_name: fullName,
-          email: email,
-          phone_no: phone_no,
-          password: password
-        })
-      });
+      const res = await buyerSendOtp(fullName, email, phone_no, password);
       const data = await res.json();
       if (res.ok) {
         setOtpSent(true);
@@ -58,28 +47,12 @@ export default function SignupPage() {
 
     try {
       const phone_no = `${country.code} ${phoneNumber}`;
-      const res = await fetch(`${API_BASE_URL}/auth/buyer/registration/submitotp`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phone_no: phone_no,
-          otp: parseInt(otp)
-        })
-      });
+      const res = await buyerSubmitOtp(phone_no, parseInt(otp));
       const data = await res.json();
       if (res.ok) {
         // Automatically login after successful signup
         try {
-          const loginRes = await fetch(`${API_BASE_URL}/auth/buyer/login`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              phone_no: phone_no,
-              password: password
-            })
-          });
+          const loginRes = await buyerLogin(phone_no, password);
           const loginData = await loginRes.json();
           if (loginRes.ok) {
             localStorage.setItem('buyer', JSON.stringify(loginData.data.buyer));

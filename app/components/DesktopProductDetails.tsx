@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ArrowLeft, MapPin, Star, ShieldCheck, Truck, Clock, MessageSquare, Phone, Share2, Heart, ChevronRight, Info, X, Loader2, CheckCircle2, Lock, User as UserIcon, Mail, ArrowRight } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { COUNTRY_CODES } from '@/src/constants/constanst';
+import { buyerCheckNumber, buyerLogin, buyerSendOtp, buyerSubmitLead, buyerSubmitOtp } from '@/src/lib/api';
 
 interface DesktopProductDetailsProps {
     product: {
@@ -48,25 +49,13 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
     const [successMessage, setSuccessMessage] = React.useState("");
     const [activeImage, setActiveImage] = React.useState(product.image);
 
-    const API_BASE_URL = 'http://localhost:4000/api/v1';
 
     const handleLeadsUpload = async () => {
         const buyer = localStorage.getItem('buyer');
         if (!buyer) return;
 
         try {
-            const res = await fetch(`${API_BASE_URL}/leads/buyer/leads`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    seller_id: parseInt(product.seller_id) || 0,
-                    product_id: product.id,
-                    quantity: quantity
-                })
-            });
+            const res = await buyerSubmitLead(parseInt(product.seller_id) || 0, product.id, quantity);
             if (res.ok) {
                 setSuccessMessage("Requirement submitted successfully!");
                 setTimeout(() => {
@@ -105,9 +94,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
         setError("");
         try {
             const phone_no = `${country.code} ${phoneNumber}`;
-            const res = await fetch(`${API_BASE_URL}/auth/buyer/number-exists?phone_no=${encodeURIComponent(phone_no)}`, {
-                credentials: 'include'
-            });
+            const res = await buyerCheckNumber(phone_no);
             if (res.ok) {
                 // Not exists -> Go to Signup
                 setAuthStep('signup');
@@ -127,12 +114,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
         setError("");
         try {
             const phone_no = `${country.code} ${phoneNumber}`;
-            const res = await fetch(`${API_BASE_URL}/auth/buyer/login`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ phone_no, password })
-            });
+            const res = await buyerLogin(phone_no, password);
             const data = await res.json();
             if (res.ok) {
                 localStorage.setItem('buyer', JSON.stringify(data.data.buyer));
@@ -152,12 +134,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
         setError("");
         try {
             const phone_no = `${country.code} ${phoneNumber}`;
-            const res = await fetch(`${API_BASE_URL}/auth/buyer/registration/sendotp`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ full_name: fullName, email, phone_no, password })
-            });
+            const res = await buyerSendOtp(fullName, email, phone_no, password);
             if (res.ok) {
                 setAuthStep('otp');
             } else {
@@ -176,20 +153,10 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
         setError("");
         try {
             const phone_no = `${country.code} ${phoneNumber}`;
-            const res = await fetch(`${API_BASE_URL}/auth/buyer/registration/submitotp`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ phone_no, otp: parseInt(otp) })
-            });
+            const res = await buyerSubmitOtp(phone_no, parseInt(otp));
             if (res.ok) {
                 // Auto login logic
-                const loginRes = await fetch(`${API_BASE_URL}/auth/buyer/login`, {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ phone_no, password })
-                });
+                const loginRes = await buyerLogin(phone_no, password);
                 const loginData = await loginRes.json();
                 if (loginRes.ok) {
                     localStorage.setItem('buyer', JSON.stringify(loginData.data.buyer));
