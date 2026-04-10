@@ -1,5 +1,4 @@
-const isBrowser = typeof window !== 'undefined';
-const API_BASE_URL = isBrowser ? '/api/v1' : 'http://localhost:4000/api/v1';
+const API_BASE_URL = 'http://localhost:4000/api/v1';
 
 export async function fetchProducts(query: string) {
     try {

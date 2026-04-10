@@ -1,15 +1,31 @@
-import MobileHome from './components/MobileHome';
 import DesktopHome from './components/DesktopHome';
+import { fetchProducts } from '@/src/lib/api';
+import { Metadata } from 'next';
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: 'AfricaMart | Leading Global B2B Marketplace for Africa',
+  description: 'Connect with over 10,000+ verified African and global manufacturers. Source industrial machinery, grains, and agricultural products across the continent.',
+  keywords: 'Africa B2B, African manufacturers, African exporters, B2B marketplace, Africa trade',
+  openGraph: {
+    title: 'AfricaMart | The Ultimate African B2B Marketplace',
+    description: 'Grow your business by connecting with thousands of verified suppliers across the African continent.',
+    url: 'https://africamart.com',
+    siteName: 'AfricaMart',
+    type: 'website',
+  },
+};
+
+export const revalidate = 3600; // ISR: Revalidate every hour
+
+export default async function Home() {
+  // Fetch initial featured products for ISR
+  const result = await fetchProducts('');
+  const initialProducts = result.products;
+  const initialFacets = result.facets;
+
   return (
     <main>
-      <div className="lg:hidden">
-        <MobileHome />
-      </div>
-      <div className="hidden lg:block">
-        <DesktopHome />
-      </div>
+      <DesktopHome initialProducts={initialProducts} initialFacets={initialFacets} />
     </main>
   );
 }
