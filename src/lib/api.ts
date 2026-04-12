@@ -1,4 +1,6 @@
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
+export const MESSAGING_BASE_URL = `${API_BASE_URL}/messaging/protected`;
+export const MESSAGING_WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:4000/api/v1/messaging/ws';
 
 export async function buyerLogin(phone_no: string, password?: string) {
     const res = await fetch(`${API_BASE_URL}/auth/buyer/login`, {
@@ -71,7 +73,7 @@ export async function fetchProducts(query: string) {
                 price: doc.min_price ? `₹${doc.min_price}` : 'Price on request',
                 unit: doc.unit || 'Piece',
                 name: doc.title,
-                location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_location || 'India',
+                location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || 'India',
                 seller_id: doc.seller_id,
             };
         }) || [];
@@ -136,7 +138,8 @@ export async function fetchProductById(id: string) {
                 city: doc.city,
                 state: doc.state,
                 country: doc.country,
-                seller_id: doc.seller_id
+                seller_id: doc.seller_id,
+                seller_address: doc.seller_address,
             };
         }
         return null;
@@ -217,3 +220,13 @@ export async function fetchBuyerLeads() {
     });
     return res;
 }
+
+// Messaging Endpoints
+export const fetchConversations = () => fetch(`${MESSAGING_BASE_URL}/conversations`, { credentials: 'include' });
+export const fetchMessages = (convID: string) => fetch(`${MESSAGING_BASE_URL}/conversations/${convID}/messages`, { credentials: 'include' });
+export const sendChatMessage = (sellerID: number, content: string) => fetch(`${API_BASE_URL}/messaging/protected/messages`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ seller_id: sellerID, content }),
+    credentials: 'include'
+});

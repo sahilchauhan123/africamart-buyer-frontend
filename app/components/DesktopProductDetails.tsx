@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { ArrowLeft, MapPin, Star, ShieldCheck, Truck, Clock, MessageSquare, Phone, Share2, Heart, ChevronRight, Info, X, Loader2, CheckCircle2, Lock, User as UserIcon, Mail, ArrowRight } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { COUNTRY_CODES } from '@/src/constants/constanst';
-import { buyerCheckNumber, buyerLogin, buyerSendOtp, buyerSubmitLead, buyerSubmitOtp } from '@/src/lib/api';
+import { buyerCheckNumber, buyerLogin, buyerSendOtp, buyerSubmitLead, buyerSubmitOtp, sendChatMessage } from '@/src/lib/api';
 
 interface DesktopProductDetailsProps {
     product: {
@@ -29,6 +29,7 @@ interface DesktopProductDetailsProps {
         parent_category_ids?: { id: string, name: string, slug: string }[];
         attributes?: string[];
         raw_attributes?: Record<string, any>;
+        seller_address?: string;
     };
     onBack?: () => void;
 }
@@ -49,6 +50,8 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
     const [successMessage, setSuccessMessage] = React.useState("");
     const [activeImage, setActiveImage] = React.useState(product.image);
 
+
+    const [afterAuthAction, setAfterAuthAction] = React.useState<'lead' | 'chat' | null>(null);
 
     const handleLeadsUpload = async () => {
         const buyer = localStorage.getItem('buyer');
@@ -71,6 +74,33 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
         }
     };
 
+    const handleChatInitiate = async () => {
+        try {
+            setLoading(true);
+            const content = `Hi, I am interested in ${product.name}. Could you provide more details?`;
+            const res = await sendChatMessage(parseInt(product.seller_id) || 0, content);
+            if (res.ok) {
+                router.push('/dashboard?tab=messages');
+            } else {
+                const data = await res.json();
+                setError(data.message || "Failed to start chat.");
+            }
+        } catch (err) {
+            setError("Something went wrong while starting the chat.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const onAuthSuccess = async () => {
+        if (afterAuthAction === 'lead') {
+            await handleLeadsUpload();
+        } else if (afterAuthAction === 'chat') {
+            await handleChatInitiate();
+        }
+        setShowAuthModal(false);
+    }
+
     const handleInitialRequirementSubmit = async () => {
         if (!quantity) {
             setError("Please enter quantity first.");
@@ -84,6 +114,18 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
             await handleLeadsUpload();
             setLoading(false);
         } else {
+            setAfterAuthAction('lead');
+            setShowAuthModal(true);
+            setAuthStep('phone');
+        }
+    };
+
+    const handleContactSupplierClick = async () => {
+        const buyer = localStorage.getItem('buyer');
+        if (buyer) {
+            await handleChatInitiate();
+        } else {
+            setAfterAuthAction('chat');
             setShowAuthModal(true);
             setAuthStep('phone');
         }
@@ -118,7 +160,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
             const data = await res.json();
             if (res.ok) {
                 localStorage.setItem('buyer', JSON.stringify(data.data.buyer));
-                await handleLeadsUpload();
+                await onAuthSuccess();
             } else {
                 setError(data.message || "Invalid credentials.");
             }
@@ -160,7 +202,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                 const loginData = await loginRes.json();
                 if (loginRes.ok) {
                     localStorage.setItem('buyer', JSON.stringify(loginData.data.buyer));
-                    await handleLeadsUpload();
+                    await onAuthSuccess();
                 } else {
                     router.push('/login');
                 }
@@ -208,19 +250,21 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                             </div>
 
                             {/* Thumbnail Strip (Horizontal on Mobile, Vertical on Desktop) */}
-                            <div className="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-hide order-last lg:order-first">
-                                {(product.images?.length > 0 ? product.images : [product.image]).map((img, idx) => (
-                                    <div
-                                        key={idx}
-                                        onClick={() => setActiveImage(img)}
-                                        className={`w-16 h-16 lg:w-20 lg:h-20 flex-shrink-0 rounded-lg border-2 overflow-hidden cursor-pointer transition-all ${activeImage === img ? 'border-[#0026C0]' : 'border-slate-100 hover:border-slate-300'}`}
-                                    >
-                                        <div className="relative w-full h-full bg-white flex items-center justify-center p-1">
-                                            <Image src={img} alt={`${product.name} thumbnail ${idx + 1}`} fill className="object-contain opacity-80" />
+                            {product.images && product.images.length > 1 && (
+                                <div className="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-hide order-last lg:order-first">
+                                    {product.images.map((img, idx) => (
+                                        <div
+                                            key={idx}
+                                            onClick={() => setActiveImage(img)}
+                                            className={`w-16 h-16 lg:w-20 lg:h-20 flex-shrink-0 rounded-lg border-2 overflow-hidden cursor-pointer transition-all ${activeImage === img ? 'border-[#0026C0]' : 'border-slate-100 hover:border-slate-300'}`}
+                                        >
+                                            <div className="relative w-full h-full bg-white flex items-center justify-center p-1">
+                                                <Image src={img} alt={`${product.name} thumbnail ${idx + 1}`} fill className="object-contain opacity-80" />
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -245,14 +289,14 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                             <span className="text-slate-900 truncate max-w-[150px] lg:max-w-none">{product.name}</span>
                         </nav>
 
-                        <h1 className="text-2xl lg:text-3xl font-black text-slate-900 leading-tight">
+                        <h1 className="text-xl lg:text-3xl font-black text-slate-900 leading-tight">
                             {product.name}
                         </h1>
 
                         <div className="flex flex-wrap items-baseline gap-2 pb-4 lg:pb-6">
-                            <span className="text-3xl lg:text-4xl font-black text-slate-900 tracking-tighter">{product.price + " /"}</span>
-                            <span className="text-base lg:text-lg font-bold text-slate-500">{product.unit[0].toUpperCase() + product.unit.slice(1)}</span>
-                            <button className="text-xs lg:text-sm font-bold text-[#0026C0] hover:underline ml-2 lg:ml-4">Get Latest Price</button>
+                            <span className="text-2xl lg:text-4xl font-black text-slate-900 tracking-tighter">{product.price + " /"}</span>
+                            <span className="text-sm lg:text-lg font-bold text-slate-500">{product.unit[0].toUpperCase() + product.unit.slice(1)}</span>
+                            <button className="text-[10px] lg:text-sm font-bold text-[#0026C0] hover:underline ml-1 lg:ml-4">Get Latest Price</button>
                         </div>
 
                         {/* Action Area (Boxed) */}
@@ -260,17 +304,17 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                             {successMessage && (
                                 <div className="absolute inset-0 bg-white/95 backdrop-blur-sm z-50 flex items-center justify-center p-6 text-center animate-in fade-in duration-300">
                                     <div className="space-y-3">
-                                        <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto" />
-                                        <p className="text-sm font-black text-slate-900 uppercase tracking-widest">{successMessage}</p>
+                                        <CheckCircle2 className="w-10 h-10 lg:w-12 lg:h-12 text-green-500 mx-auto" />
+                                        <p className="text-xs lg:text-sm font-black text-slate-900 uppercase tracking-widest">{successMessage}</p>
                                     </div>
                                 </div>
                             )}
 
-                            {error && !showAuthModal && <div className="p-3 bg-red-50 border border-red-100 text-red-600 rounded text-[10px] font-black uppercase tracking-widest">{error}</div>}
+                            {error && !showAuthModal && <div className="p-3 bg-red-50 border border-red-100 text-red-600 rounded text-[9px] lg:text-[10px] font-black uppercase tracking-widest">{error}</div>}
 
                             <div className="w-full flex flex-col sm:flex-row gap-3">
                                 <input
-                                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded px-5 font-bold text-base outline-none focus:border-[#0026C0] transition-colors"
+                                    className="w-full h-11 lg:h-12 bg-slate-50 border border-slate-200 rounded px-4 lg:px-5 font-bold text-sm lg:text-base outline-none focus:border-[#0026C0] transition-colors"
                                     placeholder="Enter Quantity"
                                     value={quantity}
                                     onChange={(e) => setQuantity(e.target.value)}
@@ -279,34 +323,34 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                             <button
                                 onClick={handleInitialRequirementSubmit}
                                 disabled={loading}
-                                className="w-full h-14 bg-[#0026C0] hover:bg-[#001da2] text-white font-black rounded transition-all shadow-lg shadow-[#0026C0]/15 text-lg uppercase tracking-wider flex items-center justify-center gap-3 disabled:opacity-50"
+                                className="w-full h-12 lg:h-14 bg-[#0026C0] hover:bg-[#001da2] text-white font-black rounded transition-all shadow-lg shadow-[#0026C0]/15 text-base lg:text-lg uppercase tracking-wider flex items-center justify-center gap-2 lg:gap-3 disabled:opacity-50"
                             >
-                                {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Submit Requirement"}
+                                {loading ? <Loader2 className="w-5 h-5 lg:w-6 lg:h-6 animate-spin" /> : "Submit Requirement"}
                             </button>
                         </div>
 
                         {/* Specs Table */}
                         {(product.attributes?.length || product.raw_attributes) && (
                             <div className="bg-white rounded border border-slate-100 shadow-sm overflow-hidden">
-                                <div className="bg-slate-50/50 px-6 py-4 border-b border-slate-100">
-                                    <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Product Specifications</h4>
+                                <div className="bg-slate-50/50 px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100">
+                                    <h4 className="text-[10px] lg:text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Product Specifications</h4>
                                 </div>
                                 <div className="divide-y divide-slate-50">
                                     {product.attributes?.map((attr) => {
                                         const [label, ...valueParts] = attr.split(':');
                                         return (
-                                            <div key={attr} className="grid grid-cols-2 px-6 py-4 hover:bg-slate-50/50 transition-colors">
-                                                <span className="text-sm font-medium text-slate-400">{label}</span>
-                                                <span className="text-sm font-bold text-slate-900 capitalize">{valueParts.join(':')}</span>
+                                            <div key={attr} className="grid grid-cols-2 px-4 lg:px-6 py-3 lg:py-4 hover:bg-slate-50/50 transition-colors">
+                                                <span className="text-xs lg:text-sm font-medium text-slate-400">{label}</span>
+                                                <span className="text-xs lg:text-sm font-bold text-slate-900 capitalize">{valueParts.join(':')}</span>
                                             </div>
                                         );
                                     })}
                                     {/* Fallback to raw attributes if simple attributes list is empty */}
                                     {(!product.attributes || product.attributes.length === 0) && product.raw_attributes &&
                                         Object.entries(product.raw_attributes).map(([label, value]) => (
-                                            <div key={label} className="grid grid-cols-2 px-6 py-4 hover:bg-slate-50/50 transition-colors">
-                                                <span className="text-sm font-medium text-slate-400">{label}</span>
-                                                <span className="text-sm font-bold text-slate-900 capitalize">{String(value)}</span>
+                                            <div key={label} className="grid grid-cols-2 px-4 lg:px-6 py-3 lg:py-4 hover:bg-slate-50/50 transition-colors">
+                                                <span className="text-xs lg:text-sm font-medium text-slate-400">{label}</span>
+                                                <span className="text-xs lg:text-sm font-bold text-slate-900 capitalize">{String(value)}</span>
                                             </div>
                                         ))
                                     }
@@ -315,10 +359,15 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                         )}
 
                         {product.description && (
-                            <div className="max-w-none pt-4">
-                                <p className="text-slate-600 leading-relaxed italic">
-                                    {product.description}
-                                </p>
+                            <div className="bg-white rounded border border-slate-100 shadow-sm overflow-hidden">
+                                <div className="bg-slate-50/50 px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100">
+                                    <h4 className="text-[10px] lg:text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Product Description</h4>
+                                </div>
+                                <div className="px-4 lg:px-6 py-4 lg:py-6">
+                                    <p className="text-slate-600 leading-relaxed text-sm lg:text-base">
+                                        {product.description}
+                                    </p>
+                                </div>
                             </div>
                         )}
                     </main>
@@ -328,9 +377,9 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                         <div className="bg-white rounded-lg p-5 border border-slate-200 shadow-sm italic">
                             <div className="flex items-center gap-1 text-[13px] text-slate-500 mb-2">
                                 <MapPin className="w-4 h-4" />
-                                <span>{product.location || 'Ludhiana'}</span>
+                                <span>{product.seller_address || 'Address Not Found'}</span>
                             </div>
-                            <h3 className="text-xl font-black text-slate-900 mb-2">{product.supplier || 'Bansal Enterprises'}</h3>
+                            <h3 className="text-xl font-black text-slate-900 mb-2">{product.supplier || 'Supplier Name Not Available'}</h3>
 
                             <div className="flex items-center gap-2 mb-3">
                                 <div className="flex items-center gap-1.5 bg-green-500/10 text-green-600 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">
@@ -357,7 +406,10 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                     <Phone className="w-4 h-4" />
                                     Call Now
                                 </button>
-                                <button className="w-full h-11 rounded border border-slate-200 flex items-center justify-center gap-3 text-sm font-black text-[#0026C0] hover:bg-slate-100 transition-all">
+                                <button
+                                    onClick={handleContactSupplierClick}
+                                    className="w-full h-11 rounded border border-slate-200 flex items-center justify-center gap-3 text-sm font-black text-[#0026C0] hover:bg-slate-100 transition-all font-sans"
+                                >
                                     <MessageSquare className="w-5 h-5 rotate-[-5deg]" />
                                     Contact Supplier
                                 </button>
@@ -365,7 +417,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                         </div>
 
                         {/* Legal/Firm Status Section */}
-                        <div className="bg-white rounded-lg p-5 border border-slate-200 shadow-sm space-y-6">
+                        {/* <div className="bg-white rounded-lg p-5 border border-slate-200 shadow-sm space-y-6">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Legal Status</p>
@@ -386,7 +438,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                     <p className="text-sm font-black text-slate-800">Nov 2024</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </aside>
 
                 </div>

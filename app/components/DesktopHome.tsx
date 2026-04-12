@@ -105,21 +105,21 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
             ) : (
                 <div className="max-w-[1600px] mx-auto">
                     <main className="w-full p-6 lg:p-8 space-y-12">
-                        <section className="relative h-[420px] rounded-2xl overflow-hidden shadow-2xl bg-slate-900 flex items-center">
+                        <section className="relative h-[280px] lg:h-[420px] rounded-2xl overflow-hidden shadow-2xl bg-slate-900 flex items-center">
                             <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/40 to-transparent z-10"></div>
-                            <div className="relative z-20 px-12 space-y-6 max-w-2xl text-left">
-                                <h1 className="text-5xl font-black text-white leading-tight tracking-tight">Africa's Leading B2B Marketplace.</h1>
-                                <p className="text-slate-200 text-lg">Connect with over 10,000+ verified global manufacturers and unlock exclusive bulk pricing.</p>
-                                <button className="bg-[#0026C0] hover:bg-[#0020A0] text-white font-bold px-8 py-4 rounded-md transition-all shadow-lg flex items-center gap-2 group text-base">
-                                    Browse Quality Products <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            <div className="relative z-20 px-6 lg:px-12 space-y-4 lg:space-y-6 max-w-2xl text-left">
+                                <h1 className="text-3xl lg:text-5xl font-black text-white leading-tight tracking-tight">Africa's Leading <br className="lg:hidden" /> B2B Marketplace.</h1>
+                                <p className="text-slate-200 text-sm lg:text-lg">Connect with over 10,000+ verified global manufacturers and unlock exclusive bulk pricing.</p>
+                                <button className="bg-[#0026C0] hover:bg-[#0020A0] text-white font-bold px-6 py-3 lg:px-8 lg:py-4 rounded-md transition-all shadow-lg flex items-center gap-2 group text-sm lg:text-base">
+                                    Browse Products <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 group-hover:translate-x-1 transition-transform" />
                                 </button>
                             </div>
                         </section>
 
                         {/* Looking for something, like? (Circular Categories) */}
-                        <section className="py-12 flex flex-col items-center">
-                            <h2 className="text-3xl font-bold text-slate-900 mb-12">Looking for something, like?</h2>
-                            <div className="flex flex-wrap justify-center gap-10 lg:gap-16">
+                        <section className="py-8 lg:py-12 flex flex-col items-center">
+                            <h2 className="text-xl lg:text-3xl font-bold text-slate-900 mb-8 lg:mb-12">Looking for something, like?</h2>
+                            <div className="flex flex-wrap justify-center gap-6 lg:gap-16">
                                 {[
                                     { name: "Raw Materials", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80" },
                                     { name: "Construction", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&q=80" },
@@ -127,59 +127,58 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                     { name: "Machinery", img: "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=400&q=80" },
                                     { name: "Agriculture", img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&q=80" }
                                 ].map((cat, idx) => (
-                                    <div key={idx} className="flex flex-col items-center gap-4 group cursor-pointer">
-                                        <div className="w-28 h-28 lg:w-36 lg:h-36 rounded-full overflow-hidden border-2 border-transparent group-hover:border-[#0026C0] transition-all duration-300 shadow-lg">
+                                    <div key={idx} className="flex flex-col items-center gap-3 lg:gap-4 group cursor-pointer">
+                                        <div className="w-20 h-20 lg:w-36 lg:h-36 rounded-full overflow-hidden border-2 border-transparent group-hover:border-[#0026C0] transition-all duration-300 shadow-lg">
                                             <img src={cat.img} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                         </div>
-                                        <span className="text-xs font-black text-slate-700 uppercase tracking-wider group-hover:text-[#0026C0] transition-colors">{cat.name}</span>
+                                        <span className="text-[10px] lg:text-xs font-black text-slate-700 uppercase tracking-wider group-hover:text-[#0026C0] transition-colors">{cat.name}</span>
                                     </div>
                                 ))}
                                 <div
                                     onClick={() => router.push('/categories')}
-                                    className="flex flex-col items-center gap-4 group cursor-pointer"
+                                    className="flex flex-col items-center gap-3 lg:gap-4 group cursor-pointer"
                                 >
-                                    <div className="w-28 h-28 lg:w-36 lg:h-36 rounded-full bg-slate-900 flex items-center justify-center text-white shadow-lg group-hover:bg-[#0026C0] transition-all duration-300">
-                                        <ChevronRight className="w-8 h-8 group-hover:translate-x-1 transition-transform" />
+                                    <div className="w-20 h-20 lg:w-36 lg:h-36 rounded-full bg-slate-900 flex items-center justify-center text-white shadow-lg group-hover:bg-[#0026C0] transition-all duration-300">
+                                        <ChevronRight className="w-6 h-6 lg:w-8 lg:h-8 group-hover:translate-x-1 transition-transform" />
                                     </div>
-                                    <span className="text-xs font-black text-slate-700 uppercase tracking-wider group-hover:text-[#0026C0] transition-colors">All Categories</span>
+                                    <span className="text-[10px] lg:text-xs font-black text-slate-700 uppercase tracking-wider group-hover:text-[#0026C0] transition-colors">More</span>
                                 </div>
                             </div>
                         </section>
 
                         {/* Sourcing Request Banner */}
-                        <section className="relative bg-[#0026C0] rounded-xl p-8 lg:p-10 overflow-hidden shadow-2xl">
-                            <div className="flex flex-col xl:flex-row items-center justify-between gap-8 relative z-10">
-                                <div className="text-left space-y-3 max-w-xl">
-                                    <div className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                        <section className="relative bg-[#0026C0] rounded-xl p-6 lg:p-10 overflow-hidden shadow-2xl">
+                            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
+                                <div className="text-left space-y-2 lg:space-y-3 max-w-xl">
+                                    <div className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 px-3 py-1 rounded-full text-[9px] lg:text-[10px] font-black uppercase tracking-widest">
                                         <Rocket className="w-3 h-3" />
                                         B2B Fast Track
                                     </div>
-                                    <h2 className="text-3xl lg:text-4xl font-black text-white leading-tight">Can't find what you're looking for?</h2>
-                                    <p className="text-blue-100 font-medium">Post your buying request and get verified quotes within 24 hours.</p>
+                                    <h2 className="text-2xl lg:text-4xl font-black text-white leading-tight">Can't find it?</h2>
+                                    <p className="text-blue-100 text-sm lg:text-base font-medium">Post your buying request and get verified quotes fast.</p>
                                 </div>
 
-                                <div className="w-full lg:max-w-3xl bg-white rounded-lg p-1.5 flex flex-col md:flex-row gap-2 shadow-inner">
+                                <div className="w-full lg:max-w-3xl bg-white rounded-lg p-1 flex flex-col md:flex-row gap-1.5 shadow-inner">
                                     <input
                                         type="text"
-                                        placeholder="Tell us what you need..."
-                                        className="flex-1 h-12 px-6 bg-transparent outline-none font-bold text-slate-700 border-b md:border-b-0 md:border-r border-slate-100"
+                                        placeholder="What do you need?"
+                                        className="flex-1 h-11 lg:h-12 px-4 lg:px-6 bg-transparent outline-none font-bold text-slate-700 text-sm border-b md:border-b-0 md:border-r border-slate-100"
                                     />
                                     <div className="flex items-center">
                                         <input
                                             type="number"
                                             placeholder="Qty"
-                                            className="w-24 h-12 px-4 bg-transparent outline-none font-bold text-slate-700"
+                                            className="w-20 lg:w-24 h-11 lg:h-12 px-4 bg-transparent outline-none font-bold text-slate-700 text-sm"
                                         />
-                                        <div className="h-8 w-px bg-slate-100"></div>
-                                        <select className="h-12 px-4 bg-transparent outline-none font-black text-slate-600 text-xs cursor-pointer appearance-none">
+                                        <div className="h-6 w-px bg-slate-100"></div>
+                                        <select className="h-11 lg:h-12 px-3 lg:px-4 bg-transparent outline-none font-black text-slate-600 text-[10px] lg:text-xs cursor-pointer appearance-none">
                                             <option>Units</option>
                                             <option>Kg</option>
                                             <option>Tons</option>
-                                            <option>Bags</option>
                                         </select>
-                                        <ChevronDown className="w-4 h-4 text-slate-400 mr-2" />
+                                        <ChevronDown className="w-3 h-3 text-slate-400 mr-2" />
                                     </div>
-                                    <button className="bg-[#0026C0] hover:bg-[#001da2] text-white font-black px-10 py-3 rounded-md transition-all flex items-center justify-center gap-2 group whitespace-nowrap">
+                                    <button className="bg-[#0026C0] hover:bg-[#001da2] text-white font-black px-6 lg:px-10 py-3 lg:py-3 rounded-md transition-all flex items-center justify-center gap-2 group whitespace-nowrap text-sm">
                                         Sourcing <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                     </button>
                                 </div>
@@ -187,10 +186,10 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                         </section>
 
                         <section className="py-2">
-                            <div className="flex items-center justify-between mb-8">
+                            <div className="flex items-center justify-between mb-6 lg:mb-8">
                                 <div>
-                                    <h2 className="text-3xl font-black tracking-tight text-slate-900">Featured Manufacturers</h2>
-                                    <p className="text-slate-500 font-medium">Top-rated goods from across the continent.</p>
+                                    <h2 className="text-xl lg:text-3xl font-black tracking-tight text-slate-900">Featured Manufacturers</h2>
+                                    <p className="text-slate-500 text-xs lg:text-sm font-medium">Top-rated goods from across the continent.</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
@@ -211,47 +210,47 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                         </section>
 
                         {/* Why Choose Us Section */}
-                        <section className="py-12 border-t border-slate-100">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                                <div className="space-y-4">
-                                    <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-[#0026C0]">
-                                        <ShieldCheck className="w-8 h-8" />
+                        <section className="py-8 lg:py-12 border-t border-slate-100">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+                                <div className="space-y-3 lg:space-y-4 text-center lg:text-left">
+                                    <div className="w-12 h-12 lg:w-14 lg:h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-[#0026C0] mx-auto lg:mx-0">
+                                        <ShieldCheck className="w-6 h-6 lg:w-8 lg:h-8" />
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-900">Verified Sellers Only</h3>
-                                    <p className="text-slate-500 leading-relaxed">Every manufacturer undergoes a rigorous 5-step background check ensuring quality and trust.</p>
+                                    <h3 className="text-lg lg:text-xl font-bold text-slate-900">Verified Sellers Only</h3>
+                                    <p className="text-slate-500 text-sm leading-relaxed">Every manufacturer undergoes a rigorous 5-step background check.</p>
                                 </div>
-                                <div className="space-y-4">
-                                    <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
-                                        <Truck className="w-8 h-8" />
+                                <div className="space-y-3 lg:space-y-4 text-center lg:text-left">
+                                    <div className="w-12 h-12 lg:w-14 lg:h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mx-auto lg:mx-0">
+                                        <Truck className="w-6 h-6 lg:w-8 lg:h-8" />
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-900">Global Logistics</h3>
-                                    <p className="text-slate-500 leading-relaxed">Integrated shipping solutions that handle customs and last-mile delivery across Africa.</p>
+                                    <h3 className="text-lg lg:text-xl font-bold text-slate-900">Global Logistics</h3>
+                                    <p className="text-slate-500 text-sm leading-relaxed">Integrated shipping solutions across Africa.</p>
                                 </div>
-                                <div className="space-y-4">
-                                    <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600">
-                                        <Zap className="w-8 h-8" />
+                                <div className="space-y-3 lg:space-y-4 text-center lg:text-left">
+                                    <div className="w-12 h-12 lg:w-14 lg:h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 mx-auto lg:mx-0">
+                                        <Zap className="w-6 h-6 lg:w-8 lg:h-8" />
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-900">Bulk Pricing</h3>
-                                    <p className="text-slate-500 leading-relaxed">Connect directly with factories to unlock manufacturing prices without the middleman markups.</p>
+                                    <h3 className="text-lg lg:text-xl font-bold text-slate-900">Bulk Pricing</h3>
+                                    <p className="text-slate-500 text-sm leading-relaxed">Connect directly with factories to unlock manufacturing prices.</p>
                                 </div>
                             </div>
                         </section>
 
                         {/* Seller CTA Banner */}
-                        <section className="bg-[#0026C0] rounded-3xl p-12 overflow-hidden relative shadow-2xl">
+                        <section className="bg-[#0026C0] rounded-3xl p-8 lg:p-12 overflow-hidden relative shadow-2xl">
                             <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
                                 <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                                     <path d="M0 0 L100 0 L100 100 Z" fill="white" />
                                 </svg>
                             </div>
-                            <div className="relative z-10 max-w-2xl space-y-6">
-                                <h2 className="text-4xl font-black text-white">Ready to take your manufacturing business global?</h2>
-                                <p className="text-blue-100 text-lg">Join 50,000+ African enterprises already selling on AfricaMart and reach millions of buyers worldwide.</p>
-                                <div className="flex flex-wrap gap-4">
-                                    <button className="bg-white text-[#0026C0] font-black px-8 py-4 rounded-xl hover:bg-blue-50 transition-all shadow-xl">
-                                        Start Selling Today
+                            <div className="relative z-10 max-w-2xl space-y-4 lg:space-y-6">
+                                <h2 className="text-2xl lg:text-4xl font-black text-white leading-tight">Ready to take your business global?</h2>
+                                <p className="text-blue-100 text-sm lg:text-lg">Join 50,000+ African enterprises already selling on AfricaMart.</p>
+                                <div className="flex flex-wrap gap-3 lg:gap-4">
+                                    <button className="bg-white text-[#0026C0] font-black px-6 py-3 lg:px-8 lg:py-4 rounded-xl hover:bg-blue-50 transition-all shadow-xl text-sm lg:text-base">
+                                        Start Selling
                                     </button>
-                                    <button className="bg-white/10 text-white border border-white/20 font-bold px-8 py-4 rounded-xl hover:bg-white/20 transition-all backdrop-blur-sm">
+                                    <button className="bg-white/10 text-white border border-white/20 font-bold px-6 py-3 lg:px-8 lg:py-4 rounded-xl hover:bg-white/20 transition-all backdrop-blur-sm text-sm lg:text-base">
                                         Learn More
                                     </button>
                                 </div>

@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   description: "We connect trusted manufacturers with quality-conscious buyers worldwide.",
 };
 
+import { MessagingProvider } from "../src/hooks/MessagingContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,7 +33,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${manrope.variable} font-body bg-surface text-on-surface antialiased`}
       >
-        {children}
+        <MessagingProvider>
+          {children}
+        </MessagingProvider>
       </body>
     </html>
   );

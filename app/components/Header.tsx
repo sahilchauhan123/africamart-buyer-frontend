@@ -172,6 +172,12 @@ export default function Header() {
                                         <p className="text-xs font-black text-slate-900 line-clamp-1">{buyer.full_name}</p>
                                         <p className="text-[10px] font-bold text-slate-400 line-clamp-1">{buyer.email}</p>
                                     </div>
+                                    <button
+                                        onClick={() => router.push('/dashboard')}
+                                        className="w-full text-left px-4 py-3 text-xs font-black text-slate-600 hover:bg-slate-50 transition-colors uppercase tracking-widest"
+                                    >
+                                        Dashboard
+                                    </button>
                                     <button className="w-full text-left px-4 py-3 text-xs font-black text-slate-600 hover:bg-slate-50 transition-colors uppercase tracking-widest">My Profile</button>
                                     <button className="w-full text-left px-4 py-3 text-xs font-black text-slate-600 hover:bg-slate-50 transition-colors uppercase tracking-widest">Settings</button>
                                     <button
@@ -271,63 +277,74 @@ export default function Header() {
                 {isMobileMenuOpen && (
                     <div className="lg:hidden fixed inset-0 top-[125px] bg-white z-[100] animate-in fade-in slide-in-from-bottom-5 duration-300 p-6 flex flex-col gap-8">
                         {buyer && (
-                            <div className="p-3 bg-slate-50 rounded-xl mb-4">
+                            <div className="p-4 bg-slate-50 rounded-xl">
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 bg-[#0026C0] rounded-xl flex items-center justify-center text-white font-black text-lg shadow-lg">
                                         {buyer.full_name?.charAt(0).toUpperCase() || 'U'}
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Member</span>
-                                        <span className="text-sm font-black text-slate-900">{buyer.full_name}</span>
+                                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Welcome</span>
+                                        <span className="text-sm font-black text-slate-900">Hi, {buyer.full_name?.split(' ')[0]}</span>
                                     </div>
                                 </div>
                             </div>
                         )}
 
-                        <div className="space-y-4">
-                            <button className="w-full text-left font-black text-slate-900 flex items-center justify-between group p-3 hover:bg-slate-50 rounded-xl transition-all">
-                                <span>Trending Categories</span>
-                                <ArrowRight className="w-4 h-4 text-slate-400" />
+                        <div className="space-y-2">
+                            <button
+                                onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    router.push('/categories');
+                                }}
+                                className="w-full text-left font-black text-slate-900 flex items-center justify-between group p-4 hover:bg-slate-50 rounded-xl transition-all"
+                            >
+                                <span>Categories</span>
+                                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
                             </button>
-                            {buyer && (
-                                <>
-                                    <button className="w-full text-left font-black text-slate-900 flex items-center justify-between group p-3 hover:bg-slate-50 rounded-xl transition-all">
-                                        <span>My Business Profile</span>
-                                        <ArrowRight className="w-4 h-4 text-slate-400" />
-                                    </button>
-                                    <button className="w-full text-left font-black text-slate-900 flex items-center justify-between group p-3 hover:bg-slate-50 rounded-xl transition-all">
-                                        <span>Settings</span>
-                                        <ArrowRight className="w-4 h-4 text-slate-400" />
-                                    </button>
-                                </>
-                            )}
-                            <button className="w-full text-left font-black text-slate-900 flex items-center justify-between group p-3 hover:bg-slate-50 rounded-xl transition-all">
-                                <span>Sourcing Solutions</span>
-                                <ArrowRight className="w-4 h-4 text-slate-400" />
-                            </button>
-                            <button className="w-full text-left font-black text-slate-900 flex items-center justify-between group p-3 hover:bg-slate-50 rounded-xl transition-all">
-                                <span>Help Center</span>
-                                <ArrowRight className="w-4 h-4 text-slate-400" />
-                            </button>
-                        </div>
 
-                        <div className="mt-auto border-t border-slate-100 pt-8 flex flex-col gap-4 text-center">
-                            {buyer ? (
+                            {buyer && (
+                                <button
+                                    onClick={() => {
+                                        setIsMobileMenuOpen(false);
+                                        router.push('/dashboard');
+                                    }}
+                                    className="w-full text-left font-black text-slate-900 flex items-center justify-between group p-4 hover:bg-slate-50 rounded-xl transition-all"
+                                >
+                                    <span>Dashboard</span>
+                                    <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+                                </button>
+                            )}
+
+                            <button className="w-full text-left font-black text-slate-900 flex items-center justify-between group p-4 hover:bg-slate-50 rounded-xl transition-all">
+                                <span>Help</span>
+                                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+                            </button>
+
+                            {buyer && (
                                 <button
                                     onClick={handleLogout}
-                                    className="bg-red-50 text-red-600 font-black py-4 rounded-xl hover:bg-red-100 transition-all uppercase tracking-widest text-xs"
+                                    className="w-full text-left font-black text-red-600 flex items-center justify-between group p-4 hover:bg-red-50 rounded-xl transition-all mt-4 border-t border-slate-50"
                                 >
-                                    Log Out
+                                    <span>Sign Out</span>
+                                    <ArrowRight className="w-4 h-4 text-red-400 group-hover:translate-x-1 transition-transform" />
                                 </button>
-                            ) : (
-                                <>
-                                    <p className="text-sm font-black text-slate-400 uppercase tracking-widest mb-2">Are you a manufacturer?</p>
-                                    <button className="bg-slate-900 text-white font-black py-4 rounded-xl shadow-xl hover:bg-black transition-all">
-                                        Register as Seller
-                                    </button>
-                                </>
                             )}
                         </div>
+
+                        {!buyer && (
+                            <div className="mt-auto pt-8">
+                                <button
+                                    onClick={() => {
+                                        setIsMobileMenuOpen(false);
+                                        router.push('/signup');
+                                    }}
+                                    className="w-full bg-[#0026C0] text-white font-black py-4 rounded-xl shadow-[0_10px_20px_-5px_rgba(0,38,192,0.3)] hover:bg-[#001da2] transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
+                                >
+                                    <User className="w-4 h-4" />
+                                    Sign Up / Sign In
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

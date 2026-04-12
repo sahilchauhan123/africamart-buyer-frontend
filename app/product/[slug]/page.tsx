@@ -56,7 +56,7 @@ function ProductPageContent({ product }: { product: any }) {
     description: product.description,
     brand: {
       '@type': 'Brand',
-      name: product.supplier || 'AfricaMart',
+      name: product.supplier || 'Supplier Name Not Available',
     },
     offers: {
       '@type': 'Offer',
