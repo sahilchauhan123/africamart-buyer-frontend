@@ -81,7 +81,7 @@ export default function Header() {
                         <div className="w-10 h-10 bg-[#0026C0] rounded-xl flex items-center justify-center shadow-lg shadow-[#0026C0]/20">
                             <div className="w-6 h-6 bg-white rounded-sm rotate-45"></div>
                         </div>
-                        <span className="text-2xl font-black tracking-tight text-slate-900">AFRICA<span className="text-[#0026C0]">MART</span></span>
+                        <span className="text-2xl font-black tracking-tight text-slate-900">LASOMA<span className="text-[#0026C0]">A</span></span>
                     </div>
 
                     {/* Centered Search Bar */}

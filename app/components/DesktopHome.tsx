@@ -267,7 +267,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                         <div className="w-10 h-10 bg-[#0026C0] rounded-xl flex items-center justify-center">
                                             <div className="w-6 h-6 bg-white rounded-sm rotate-45"></div>
                                         </div>
-                                        <span className="text-2xl font-black tracking-tight">AFRICA<span className="text-[#0026C0]">MART</span></span>
+                                        <span className="text-2xl font-black tracking-tight">LASOMA<span className="text-[#0026C0]">A</span></span>
                                     </div>
                                     <p className="text-slate-500 max-w-sm leading-relaxed">
                                         Africa's largest B2B wholesale marketplace connecting global buyers with certified African manufacturers.
