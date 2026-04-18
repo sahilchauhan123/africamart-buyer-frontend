@@ -21,7 +21,7 @@ jobs:
 
       - name: Build
         env:
-          NEXT_PUBLIC_API_URL: http://165.232.47.156:4000/api/v1
+          NEXT_PUBLIC_API_URL: https://api.lasomaa.com/api/v1
         run: npm run build
 
       - name: Create deployment package
@@ -47,4 +47,10 @@ jobs:
             tar -xzf /tmp/release.tar.gz -C /var/www/Lasomaa/buyer-app/
             cd /var/www/Lasomaa/buyer-app/
             npm install --production
-            pm2 restart Lasomaa-buyer || pm2 start npm --name "Lasomaa-buyer" -- start -- -p 3000
+            
+            # Clean up old process if it exists
+            pm2 delete africamart-buyer || true
+            
+            # Start/Restart new process
+            pm2 delete Lasomaa-buyer || true
+            pm2 start npm --name "Lasomaa-buyer" -- start -- -p 3000
