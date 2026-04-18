@@ -309,7 +309,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                 </div>
                             </div>
                             <div className="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
-                                <p className="text-slate-400 text-xs font-bold uppercase tracking-wider">© 2026 Lasomaa Global Ltd. All rights reserved.</p>
+                                <p className="text-slate-400 text-xs font-bold uppercase tracking-wider">© 2026 Lasomaa B2B. All rights reserved.</p>
                                 <div className="flex gap-8">
                                     <span className="text-slate-400 text-[10px] font-black hover:text-[#0026C0] cursor-pointer uppercase tracking-widest">Privacy Policy</span>
                                     <span className="text-slate-400 text-[10px] font-black hover:text-[#0026C0] cursor-pointer uppercase tracking-widest">Terms of Service</span>
