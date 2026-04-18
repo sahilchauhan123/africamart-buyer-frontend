@@ -9,8 +9,8 @@ export async function generateMetadata(
 ): Promise<Metadata> {
     const q = (await searchParams).q as string || '';
     return {
-        title: q ? `Search Results for "${q}" | AfricaMart` : 'Search Products | AfricaMart',
-        description: `Explore the best quality products matching your search query for ${q} on AfricaMart's global B2B marketplace.`,
+        title: q ? `Search Results for "${q}" | Lasomaa` : 'Search Products | Lasomaa',
+        description: `Explore the best quality products matching your search query for ${q} on Lasomaa's global B2B marketplace.`,
     }
 }
 

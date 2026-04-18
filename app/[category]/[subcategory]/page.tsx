@@ -8,8 +8,8 @@ interface SubCategoryPageProps {
 export async function generateMetadata({ params }: SubCategoryPageProps): Promise<Metadata> {
   const { category, subcategory } = await params;
   return {
-    title: `${subcategory.charAt(0).toUpperCase() + subcategory.slice(1)} | ${category} | AfricaMart`,
-    description: `Browse ${subcategory} in ${category} category on AfricaMart.`,
+    title: `${subcategory.charAt(0).toUpperCase() + subcategory.slice(1)} | ${category} | Lasomaa`,
+    description: `Browse ${subcategory} in ${category} category on Lasomaa.`,
   };
 }
 

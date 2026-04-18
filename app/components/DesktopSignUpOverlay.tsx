@@ -116,7 +116,7 @@ const DesktopSignUpOverlay: React.FC<DesktopSignUpOverlayProps> = ({ isOpen, onC
                         <div className="animate-in slide-in-from-right-4 duration-300">
                             <div className="mb-6">
                                 <h3 className="text-[10px] font-black text-[#0026C0] uppercase tracking-widest mb-1">Personal Details</h3>
-                                <p className="text-slate-500 text-xs font-medium">Join AfricaMart B2B.</p>
+                                <p className="text-slate-500 text-xs font-medium">Join Lasomaa B2B.</p>
                             </div>
 
                             <div className="space-y-4">

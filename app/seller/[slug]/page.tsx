@@ -7,8 +7,8 @@ interface SellerPageProps {
 export async function generateMetadata({ params }: SellerPageProps): Promise<Metadata> {
   const { slug } = await params;
   return {
-    title: `${slug} | Seller Profile | AfricaMart`,
-    description: `View ${slug}'s profile and products on AfricaMart.`,
+    title: `${slug} | Seller Profile | Lasomaa`,
+    description: `View ${slug}'s profile and products on Lasomaa.`,
   };
 }
 

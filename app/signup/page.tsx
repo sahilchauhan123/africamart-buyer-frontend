@@ -91,7 +91,7 @@ export default function SignupPage() {
           <h1 className="text-5xl font-black text-white leading-tight uppercase italic">Fast-Track Your <br /><span className="text-blue-300">B2B Trade.</span></h1>
           <p className="text-blue-100 text-lg font-medium opacity-80">Join the most trusted manufacturing network in Africa in seconds.</p>
         </div>
-        <div className="relative z-10 text-blue-200 text-[10px] font-black uppercase tracking-widest">© 2026 AfricaMart Corp.</div>
+        <div className="relative z-10 text-blue-200 text-[10px] font-black uppercase tracking-widest">© 2026 Lasomaa Corp.</div>
       </div>
 
       {/* Right side */}

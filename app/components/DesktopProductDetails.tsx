@@ -272,7 +272,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                     <main className="flex-1 min-w-0 space-y-4 lg:space-y-6">
                         {/* Breadcrumbs */}
                         <nav className="flex flex-wrap items-center gap-y-1 gap-x-2 text-[10px] lg:text-[11px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">
-                            <span className="hover:text-[#0026C0] cursor-pointer">AfricaMart</span>
+                            <span className="hover:text-[#0026C0] cursor-pointer">Lasomaa</span>
                             {product.parent_category_ids?.map((cat) => (
                                 <React.Fragment key={cat.id}>
                                     <ChevronRight className="w-3 h-3 flex-shrink-0" />
@@ -472,7 +472,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                 unit={item.unit}
                                 image={item.img}
                                 supplier="Verified Supplier"
-                                location="AfricaMart Hub"
+                                location="Lasomaa Hub"
                                 rating={4.5 + (idx % 0.5)}
                                 reviews={50 + idx * 20}
                             />
@@ -640,7 +640,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                     <div className="w-6 h-6 bg-[#0026C0] rounded-lg p-1">
                                         <ShieldCheck className="w-full h-full text-white" />
                                     </div>
-                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Secure AfricaMart Verification</span>
+                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Secure Lasomaa Verification</span>
                                 </div>
                             </div>
                         </div>

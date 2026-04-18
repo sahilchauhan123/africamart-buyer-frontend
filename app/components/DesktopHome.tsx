@@ -245,7 +245,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                             </div>
                             <div className="relative z-10 max-w-2xl space-y-4 lg:space-y-6">
                                 <h2 className="text-2xl lg:text-4xl font-black text-white leading-tight">Ready to take your business global?</h2>
-                                <p className="text-blue-100 text-sm lg:text-lg">Join 50,000+ African enterprises already selling on AfricaMart.</p>
+                                <p className="text-blue-100 text-sm lg:text-lg">Join 50,000+ African enterprises already selling on Lasomaa.</p>
                                 <div className="flex flex-wrap gap-3 lg:gap-4">
                                     <button className="bg-white text-[#0026C0] font-black px-6 py-3 lg:px-8 lg:py-4 rounded-xl hover:bg-blue-50 transition-all shadow-xl text-sm lg:text-base">
                                         Start Selling
@@ -301,7 +301,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                 <div className="space-y-6">
                                     <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs">Business</h4>
                                     <ul className="space-y-3 text-slate-500 text-sm font-medium">
-                                        <li className="hover:text-[#0026C0] cursor-pointer">Sell on AfricaMart</li>
+                                        <li className="hover:text-[#0026C0] cursor-pointer">Sell on Lasomaa</li>
                                         <li className="hover:text-[#0026C0] cursor-pointer">Enterprise Solutions</li>
                                         <li className="hover:text-[#0026C0] cursor-pointer">Market Analysis</li>
                                         <li className="hover:text-[#0026C0] cursor-pointer">Advertise</li>
@@ -309,7 +309,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                 </div>
                             </div>
                             <div className="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
-                                <p className="text-slate-400 text-xs font-bold uppercase tracking-wider">© 2026 AfricaMart Global Ltd. All rights reserved.</p>
+                                <p className="text-slate-400 text-xs font-bold uppercase tracking-wider">© 2026 Lasomaa Global Ltd. All rights reserved.</p>
                                 <div className="flex gap-8">
                                     <span className="text-slate-400 text-[10px] font-black hover:text-[#0026C0] cursor-pointer uppercase tracking-widest">Privacy Policy</span>
                                     <span className="text-slate-400 text-[10px] font-black hover:text-[#0026C0] cursor-pointer uppercase tracking-widest">Terms of Service</span>

@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact Us | AfricaMart',
-  description: 'Get in touch with AfricaMart support.',
+  title: 'Contact Us | Lasomaa',
+  description: 'Get in touch with Lasomaa support.',
 };
 
 export default function ContactPage() {

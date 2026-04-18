@@ -16,13 +16,13 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
   if (!product) {
     return {
-      title: 'Product Not Found | AfricaMart',
+      title: 'Product Not Found | Lasomaa',
       description: 'The requested product could not be found.',
     };
   }
 
-  const title = `${product.title || product.name} | AfricaMart`;
-  const description = product.description?.substring(0, 160) || `Buy ${product.title || product.name} at the best price on AfricaMart. Verified suppliers, high quality, and fast shipping.`;
+  const title = `${product.title || product.name} | Lasomaa`;
+  const description = product.description?.substring(0, 160) || `Buy ${product.title || product.name} at the best price on Lasomaa. Verified suppliers, high quality, and fast shipping.`;
 
   return {
     title,
@@ -63,7 +63,7 @@ function ProductPageContent({ product }: { product: any }) {
       price: product.min_price || 0,
       priceCurrency: 'INR',
       availability: 'https://schema.org/InStock',
-      url: `https://africamart.com/product/${product.title.toLowerCase()}-${product.id}`,
+      url: `https://Lasomaa.com/product/${product.title.toLowerCase()}-${product.id}`,
     },
   };
 
@@ -84,7 +84,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const product = await fetchProductById(slug);
 
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50 font-black text-[#0026C0] uppercase tracking-widest text-xs">AfricaMart is loading...</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50 font-black text-[#0026C0] uppercase tracking-widest text-xs">Lasomaa is loading...</div>}>
       <ProductPageContent product={product} />
     </Suspense>
   );

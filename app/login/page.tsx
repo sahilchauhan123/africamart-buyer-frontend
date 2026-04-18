@@ -58,7 +58,7 @@ export default function LoginPage() {
           </h1>
           <p className="text-blue-100 text-xl font-medium opacity-80 leading-relaxed font-black uppercase">Your gateway to global manufacturing network.</p>
         </div>
-        <div className="relative z-10 font-black uppercase tracking-widest text-blue-200 text-[10px]">© 2026 AfricaMart Corp.</div>
+        <div className="relative z-10 font-black uppercase tracking-widest text-blue-200 text-[10px]">© 2026 Lasomaa Corp.</div>
       </div>
 
       {/* Right side */}

@@ -3,14 +3,14 @@ import { fetchProducts } from '@/src/lib/api';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'AfricaMart | Leading Global B2B Marketplace for Africa',
+  title: 'Lasomaa | Leading Global B2B Marketplace for Africa',
   description: 'Connect with over 10,000+ verified African and global manufacturers. Source industrial machinery, grains, and agricultural products across the continent.',
   keywords: 'Africa B2B, African manufacturers, African exporters, B2B marketplace, Africa trade',
   openGraph: {
-    title: 'AfricaMart | The Ultimate African B2B Marketplace',
+    title: 'Lasomaa | The Ultimate African B2B Marketplace',
     description: 'Grow your business by connecting with thousands of verified suppliers across the African continent.',
-    url: 'https://africamart.com',
-    siteName: 'AfricaMart',
+    url: 'https://Lasomaa.com',
+    siteName: 'Lasomaa',
     type: 'website',
   },
 };

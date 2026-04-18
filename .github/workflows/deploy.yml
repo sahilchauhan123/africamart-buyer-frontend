@@ -43,8 +43,8 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            mkdir -p /var/www/africamart/buyer-app
-            tar -xzf /tmp/release.tar.gz -C /var/www/africamart/buyer-app/
-            cd /var/www/africamart/buyer-app/
+            mkdir -p /var/www/Lasomaa/buyer-app
+            tar -xzf /tmp/release.tar.gz -C /var/www/Lasomaa/buyer-app/
+            cd /var/www/Lasomaa/buyer-app/
             npm install --production
-            pm2 restart africamart-buyer || pm2 start npm --name "africamart-buyer" -- start -- -p 3000
+            pm2 restart Lasomaa-buyer || pm2 start npm --name "Lasomaa-buyer" -- start -- -p 3000
