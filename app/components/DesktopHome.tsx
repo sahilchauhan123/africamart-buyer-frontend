@@ -138,30 +138,35 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                             </div>
                         </section>
 
-                        {/* Looking for something, like? (Circular Categories) */}
-                        <section className="py-8 lg:py-12 flex flex-col items-center">
-                            <h2 className="text-xl lg:text-3xl font-bold text-slate-900 mb-8 lg:mb-12">Looking for something, like?</h2>
-                            <div className="flex flex-wrap justify-center gap-6 lg:gap-16">
+                        {/* Looking for something, like? (Square Categories) */}
+                        <section className="py-8 lg:py-16 flex flex-col items-center">
+                            <h2 className="text-xl lg:text-3xl font-black text-slate-900 mb-8 lg:mb-14 uppercase tracking-tight">Looking for something, like?</h2>
+                            <div className="flex flex-wrap justify-center gap-4 lg:gap-10">
                                 {(initialCategories || []).slice(0, 5).map((cat: any, idx) => (
                                     <div
                                         key={idx}
-                                        className="flex flex-col items-center gap-3 lg:gap-4 group cursor-pointer"
+                                        className="flex flex-col items-center gap-3 lg:gap-5 group cursor-pointer"
                                         onClick={() => router.push(`/categories/${cat.slug}`)}
                                     >
-                                        <div className="w-20 h-20 lg:w-36 lg:h-36 rounded-full overflow-hidden border-2 border-transparent group-hover:border-[#0026C0] transition-all duration-300 shadow-lg">
-                                            <img src={getCategoryImage(cat)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                        <div className="w-24 h-24 lg:w-48 lg:h-48 rounded-2xl lg:rounded-[32px] overflow-hidden border-2 border-transparent group-hover:border-[#0026C0] transition-all duration-500 shadow-xl bg-white p-1">
+                                            <div className="w-full h-full rounded-xl lg:rounded-[24px] overflow-hidden">
+                                                <img src={getCategoryImage(cat)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                            </div>
                                         </div>
-                                        <span className="text-[10px] lg:text-xs font-black text-slate-700 uppercase tracking-wider group-hover:text-[#0026C0] transition-colors">{cat.name}</span>
+                                        <span className="text-[10px] lg:text-[13px] font-black text-slate-700 uppercase tracking-widest group-hover:text-[#0026C0] transition-colors">{cat.name}</span>
                                     </div>
                                 ))}
                                 <div
                                     onClick={() => router.push('/categories')}
-                                    className="flex flex-col items-center gap-3 lg:gap-4 group cursor-pointer"
+                                    className="flex flex-col items-center gap-3 lg:gap-5 group cursor-pointer"
                                 >
-                                    <div className="w-20 h-20 lg:w-36 lg:h-36 rounded-full bg-slate-900 flex items-center justify-center text-white shadow-lg group-hover:bg-[#0026C0] transition-all duration-300">
-                                        <ChevronRight className="w-6 h-6 lg:w-8 lg:h-8 group-hover:translate-x-1 transition-transform" />
+                                    <div className="w-24 h-24 lg:w-48 lg:h-48 rounded-2xl lg:rounded-[32px] bg-slate-900 flex items-center justify-center text-white shadow-xl group-hover:bg-[#0026C0] transition-all duration-500">
+                                        <div className="flex flex-col items-center gap-1">
+                                            <ChevronRight className="w-6 h-6 lg:w-10 lg:h-10 group-hover:translate-x-1 transition-transform" />
+                                            <span className="text-[10px] lg:text-xs font-black uppercase tracking-widest lg:hidden">More</span>
+                                        </div>
                                     </div>
-                                    <span className="text-[10px] lg:text-xs font-black text-slate-700 uppercase tracking-wider group-hover:text-[#0026C0] transition-colors">More</span>
+                                    <span className="hidden lg:block text-[10px] lg:text-[13px] font-black text-slate-700 uppercase tracking-widest group-hover:text-[#0026C0] transition-colors">See All</span>
                                 </div>
                             </div>
                         </section>
@@ -316,7 +321,9 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                 <div className="space-y-6">
                                     <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs">Business</h4>
                                     <ul className="space-y-3 text-slate-500 text-sm font-medium">
-                                        <li className="hover:text-[#0026C0] cursor-pointer">Sell on Lasomaa</li>
+                                        <li className="hover:text-[#0026C0] cursor-pointer">
+                                            <a href="https://seller.lasomaa.com" target="_blank" rel="noopener noreferrer">Sell on Lasomaa</a>
+                                        </li>
                                         <li className="hover:text-[#0026C0] cursor-pointer">Enterprise Solutions</li>
                                         <li className="hover:text-[#0026C0] cursor-pointer">Market Analysis</li>
                                         <li className="hover:text-[#0026C0] cursor-pointer">Advertise</li>

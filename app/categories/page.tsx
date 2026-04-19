@@ -18,27 +18,23 @@ export default async function CategoriesPage() {
                     <p className="text-slate-500 text-sm lg:text-lg font-medium">Connect with verified manufacturers across all major sectors.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-6">
                     {categories.map((category: any) => (
                         <Link
                             key={category.id}
                             href={category.is_leaf ? `/search?q=${encodeURIComponent(category.name)}` : `/categories/${category.slug}`}
-                            className="group bg-white rounded-2xl p-4 lg:p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center"
+                            className="group bg-white rounded-xl sm:rounded-2xl p-2 sm:p-4 border border-slate-100 shadow-sm hover:shadow-xl hover:border-[#0026C0]/20 transition-all duration-500 flex flex-col items-center text-center gap-2 sm:gap-4"
                         >
-                            <div className="w-full aspect-[16/9] rounded-xl overflow-hidden mb-4 lg:mb-6 relative">
+                            <div className="w-full aspect-square rounded-lg sm:rounded-xl bg-slate-50 overflow-hidden relative shrink-0 shadow-inner">
                                 <img
-                                    src={category.img_url}
+                                    src={category.img_url || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80'}
                                     alt={category.name}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             </div>
-                            <h2 className="text-lg lg:text-xl font-black text-slate-800 group-hover:text-[#0026C0] transition-colors mb-2 uppercase tracking-wide">
+                            <span className="font-bold text-slate-800 group-hover:text-[#0026C0] transition-colors line-clamp-2 uppercase tracking-tight text-[8px] sm:text-xs">
                                 {category.name}
-                            </h2>
-                            <div className="flex items-center gap-2 text-slate-400 group-hover:text-[#0026C0] transition-colors font-bold text-[10px] lg:text-xs uppercase tracking-widest mt-auto">
-                                {category.is_leaf ? 'Shop Now' : 'View Subcategories'} <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                            </div>
+                            </span>
                         </Link>
                     ))}
                 </div>

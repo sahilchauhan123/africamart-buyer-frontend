@@ -230,3 +230,32 @@ export const sendChatMessage = (sellerID: number, content: string) => fetch(`${A
     body: JSON.stringify({ seller_id: sellerID, content }),
     credentials: 'include'
 });
+
+export async function fetchRecommendations(categoryId: string) {
+    if (!categoryId) return [];
+    try {
+        const res = await fetch(`${API_BASE_URL}/search/unprotected/recommendations?categoryID=${encodeURIComponent(categoryId)}`, {
+            cache: 'no-store'
+        });
+        const data = await res.json();
+
+        // Handle Typesense response structure
+        const hits = data.data?.hits || [];
+        return hits.map((hit: any) => {
+            const doc = hit.document;
+            const images = doc.picture_url?.map((p: any) => p.img_url) || [];
+            return {
+                ...doc,
+                image: images.length > 0 ? images[0] : null,
+                price: doc.min_price ? `₹${doc.min_price}` : 'Price on request',
+                unit: doc.unit || 'Piece',
+                name: doc.title,
+                location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || doc.seller_location || 'India',
+                seller_id: doc.seller_id,
+            };
+        });
+    } catch (error) {
+        console.error("Error fetching recommendations:", error);
+        return [];
+    }
+}
