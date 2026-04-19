@@ -16,7 +16,7 @@ const ProductCard = ({ name, price, unit, image, supplier, location, rating = 4.
                 <img
                     alt={name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    src={image}
+                    src={String(image).replace("_800", "_400")}
                 />
                 {isVerified && (
                     <span className="absolute top-2 left-2 bg-blue-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm">VERIFIED</span>
@@ -146,7 +146,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                     <div
                                         key={idx}
                                         className="flex flex-col items-center gap-3 lg:gap-4 group cursor-pointer"
-                                        onClick={() => router.push(`/category/${cat.slug}`)}
+                                        onClick={() => router.push(`/categories/${cat.slug}`)}
                                     >
                                         <div className="w-20 h-20 lg:w-36 lg:h-36 rounded-full overflow-hidden border-2 border-transparent group-hover:border-[#0026C0] transition-all duration-300 shadow-lg">
                                             <img src={getCategoryImage(cat)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
@@ -212,7 +212,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                     <p className="text-slate-500 text-xs lg:text-sm font-medium">Top-rated goods from across the continent.</p>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                            <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-2">
                                 {(initialProducts && initialProducts.length > 0 ? initialProducts : [])
                                     .map((p, idx) => (
                                         <ProductCard
