@@ -1,5 +1,5 @@
 import DesktopHome from './components/DesktopHome';
-import { fetchProducts } from '@/src/lib/api';
+import { fetchProducts, fetchCategories } from '@/src/lib/api';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -18,14 +18,22 @@ export const metadata: Metadata = {
 export const revalidate = 3600; // ISR: Revalidate every hour
 
 export default async function Home() {
-  // Fetch initial featured products for ISR
-  const result = await fetchProducts('');
-  const initialProducts = result.products;
-  const initialFacets = result.facets;
+  // Fetch initial featured products and categories for ISR
+  const [productResult, initialCategories] = await Promise.all([
+    fetchProducts(''),
+    fetchCategories()
+  ]);
+
+  const initialProducts = productResult.products;
+  const initialFacets = productResult.facets;
 
   return (
     <main>
-      <DesktopHome initialProducts={initialProducts} initialFacets={initialFacets} />
+      <DesktopHome
+        initialProducts={initialProducts}
+        initialFacets={initialFacets}
+        initialCategories={initialCategories}
+      />
     </main>
   );
 }

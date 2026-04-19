@@ -62,11 +62,24 @@ const ProductCard = ({ name, price, unit, image, supplier, location, rating = 4.
 // --- Page Components ---
 import DesktopSearchResult from './DesktopSearchResult';
 
-export default function DesktopHome({ initialSearchQuery = '', initialProducts = [], initialFacets = [] }: { initialSearchQuery?: string, initialProducts?: any[], initialFacets?: any[] }) {
+export default function DesktopHome({ initialSearchQuery = '', initialProducts = [], initialFacets = [], initialCategories = [] }: { initialSearchQuery?: string, initialProducts?: any[], initialFacets?: any[], initialCategories?: any[] }) {
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState(initialSearchQuery || '');
     const [submittedQuery, setSubmittedQuery] = useState(initialSearchQuery || '');
     const [isSearchSubmitted, setIsSearchSubmitted] = useState(!!initialSearchQuery);
+
+    const FALLBACK_CATEGORY_IMAGES: Record<string, string> = {
+        'raw-materials': "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80",
+        'construction': "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&q=80",
+        'electronics': "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80",
+        'machinery': "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=400&q=80",
+        'agriculture': "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&q=80"
+    };
+
+    const getCategoryImage = (cat: any) => {
+        if (cat.img_url) return cat.img_url;
+        return FALLBACK_CATEGORY_IMAGES[cat.slug] || "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80";
+    };
 
     const createSlug = (name: string) => {
         return name
@@ -129,16 +142,14 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                         <section className="py-8 lg:py-12 flex flex-col items-center">
                             <h2 className="text-xl lg:text-3xl font-bold text-slate-900 mb-8 lg:mb-12">Looking for something, like?</h2>
                             <div className="flex flex-wrap justify-center gap-6 lg:gap-16">
-                                {[
-                                    { name: "Raw Materials", img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80" },
-                                    { name: "Construction", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&q=80" },
-                                    { name: "Electronics", img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80" },
-                                    { name: "Machinery", img: "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=400&q=80" },
-                                    { name: "Agriculture", img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&q=80" }
-                                ].map((cat, idx) => (
-                                    <div key={idx} className="flex flex-col items-center gap-3 lg:gap-4 group cursor-pointer">
+                                {(initialCategories || []).slice(0, 5).map((cat: any, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="flex flex-col items-center gap-3 lg:gap-4 group cursor-pointer"
+                                        onClick={() => router.push(`/category/${cat.slug}`)}
+                                    >
                                         <div className="w-20 h-20 lg:w-36 lg:h-36 rounded-full overflow-hidden border-2 border-transparent group-hover:border-[#0026C0] transition-all duration-300 shadow-lg">
-                                            <img src={cat.img} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                            <img src={getCategoryImage(cat)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                         </div>
                                         <span className="text-[10px] lg:text-xs font-black text-slate-700 uppercase tracking-wider group-hover:text-[#0026C0] transition-colors">{cat.name}</span>
                                     </div>
@@ -202,19 +213,14 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                                {(initialProducts && initialProducts.length > 0 ? initialProducts : [
-                                    { name: "Industrial Milling Machine", price: "₹2,50,000", unit: "Unit", image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop", supplier: "Global Machineries Ltd", location: "Mumbai, India", isVerified: true },
-                                    { name: "Raw Coffee Beans - Bulk", price: "₹450", unit: "kg", image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&auto=format&fit=crop", supplier: "East Africa Exports", location: "Addis Ababa, Ethiopia", isVerified: true },
-                                    { name: "Hydraulic Jack 10T", price: "₹12,400", unit: "piece", image: "https://images.unsplash.com/photo-1530124560677-bdaea92c5a31?w=800&auto=format&fit=crop", supplier: "AutoTools India", location: "Pune, India", isVerified: false },
-                                    { name: "Solar Panel 400W Mono", price: "₹8,500", unit: "panel", image: "https://images.unsplash.com/photo-1509391366360-fe5bb6583e2c?w=800&auto=format&fit=crop", supplier: "GreenEnergy Solutions", location: "Nairobi, Kenya", isVerified: true },
-                                    { name: "Textile Cotton Fabric", price: "₹120", unit: "meter", image: "https://images.unsplash.com/photo-1520038410233-7141f71df421?w=800&auto=format&fit=crop", supplier: "Surat Textiles", location: "Surat, India", isVerified: false }
-                                ]).map((p, idx) => (
-                                    <ProductCard
-                                        key={idx}
-                                        {...p}
-                                        onClick={() => handleProductClick(p)}
-                                    />
-                                ))}
+                                {(initialProducts && initialProducts.length > 0 ? initialProducts : [])
+                                    .map((p, idx) => (
+                                        <ProductCard
+                                            key={idx}
+                                            {...p}
+                                            onClick={() => handleProductClick(p)}
+                                        />
+                                    ))}
                             </div>
                         </section>
 

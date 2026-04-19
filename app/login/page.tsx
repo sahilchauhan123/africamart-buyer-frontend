@@ -49,7 +49,7 @@ export default function LoginPage() {
           <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-2xl">
             <div className="w-6 h-6 bg-[#0026C0] rounded-sm rotate-45"></div>
           </div>
-          <span className="text-2xl font-black tracking-tight text-white uppercase italic">AFRICA<span className="text-blue-200">MART</span></span>
+          <span className="text-2xl font-black tracking-tight text-white uppercase italic">LASOMA<span className="text-blue-200">A</span></span>
         </div>
         <div className="relative z-10 space-y-6">
           <h1 className="text-6xl font-black text-white leading-tight uppercase italic">
@@ -68,7 +68,7 @@ export default function LoginPage() {
             <div className="w-8 h-8 bg-[#0026C0] rounded-lg flex items-center justify-center">
               <div className="w-4 h-4 bg-white rounded-sm rotate-45"></div>
             </div>
-            <span className="text-lg font-black tracking-tight text-slate-900 italic uppercase">AFRICA<span className="text-[#0026C0]">MART</span></span>
+            <span className="text-lg font-black tracking-tight text-slate-900 italic uppercase">LASOMA<span className="text-[#0026C0]">A</span></span>
           </div>
         </div>
 

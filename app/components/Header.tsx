@@ -203,10 +203,11 @@ export default function Header() {
                 {/* --- MOBILE HEADER (max lg) --- */}
                 <div className="lg:hidden flex flex-col px-4 py-2 pb-3">
                     <div className="flex items-center justify-between gap-4 mb-2.5">
-                        <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push('/')}>
+                        <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
                             <div className="w-8 h-8 bg-[#0026C0] rounded-lg flex items-center justify-center shadow-lg shadow-[#0026C0]/15">
                                 <div className="w-4.5 h-4.5 bg-white rounded-sm rotate-45"></div>
                             </div>
+                            <span className="text-lg font-black tracking-tighter text-slate-900">LASOMA<span className="text-[#0026C0]">A</span></span>
                         </div>
 
                         <div className="flex items-center gap-2">
