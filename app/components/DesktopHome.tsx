@@ -106,7 +106,16 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                 <div className="max-w-[1600px] mx-auto">
                     <main className="w-full p-6 lg:p-8 space-y-12">
                         <section className="relative h-[280px] lg:h-[420px] rounded-2xl overflow-hidden shadow-2xl bg-slate-900 flex items-center">
-                            <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/40 to-transparent z-10"></div>
+                            <video
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="hidden lg:block absolute inset-0 w-full h-full object-cover z-0 opacity-80"
+                            >
+                                <source src="https://pub-f7a836f6fb2b4d8dbef935fc1009971a.r2.dev/lassomaherosectionvideo.mp4" type="video/mp4" />
+                            </video>
+                            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent z-10"></div>
                             <div className="relative z-20 px-6 lg:px-12 space-y-4 lg:space-y-6 max-w-2xl text-left">
                                 <h1 className="text-3xl lg:text-5xl font-black text-white leading-tight tracking-tight">Africa's Leading <br className="lg:hidden" /> B2B Marketplace.</h1>
                                 <p className="text-slate-200 text-sm lg:text-lg">Connect with over 10,000+ verified global manufacturers and unlock exclusive bulk pricing.</p>
