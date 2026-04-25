@@ -30,6 +30,7 @@ interface DesktopProductDetailsProps {
         attributes?: string[];
         raw_attributes?: Record<string, any>;
         seller_address?: string;
+        seller_phone?: string;
         category_id?: string;
     };
     onBack?: () => void;
@@ -456,37 +457,11 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                     onClick={handleViewPhoneClick}
                                 >
                                     <Phone className={`w-4 h-4 ${showPhone ? 'fill-green-600' : ''}`} />
-                                    {showPhone ? "+234 812 XXX XXXX" : "View Phone Number"}
+                                    {showPhone ? (product.seller_phone || "+234 XXX XXX XXXX") : "View Phone Number"}
                                 </button>
                             </div>
                         </div>
 
-                        {/* Business Summary Card */}
-                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
-                            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Business Credibility</h4>
-                            <div className="space-y-4">
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-slate-500 font-medium font-sans">Legal Status</span>
-                                    <span className="text-slate-900 font-black">Proprietorship</span>
-                                </div>
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-slate-500 font-medium font-sans">Membership</span>
-                                    <span className="text-slate-900 font-black">Gold Supplier</span>
-                                </div>
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-slate-500 font-medium font-sans">Verification</span>
-                                    <span className="text-green-600 font-black flex items-center gap-1">
-                                        On-site <ShieldCheck className="w-3.5 h-3.5" />
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="mt-5 pt-5 border-t border-slate-50">
-                                <button className="w-full text-[10px] font-black text-[#0026C0] uppercase tracking-widest flex items-center justify-center gap-2 group">
-                                    View Business Profile
-                                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            </div>
-                        </div>
                     </aside>
 
                 </div>

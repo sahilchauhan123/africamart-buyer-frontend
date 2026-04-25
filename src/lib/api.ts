@@ -140,6 +140,7 @@ export async function fetchProductById(id: string) {
                 country: doc.country,
                 seller_id: doc.seller_id,
                 seller_address: doc.seller_address,
+                seller_phone: doc.seller_phone,
             };
         }
         return null;
