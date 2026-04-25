@@ -26,10 +26,10 @@ const ProductCard = ({ name, price, unit, image, supplier, location, rating = 4.
                 )}
             </div>
             <div className="p-2.5 flex-1 flex flex-col">
-                <h3 className="font-headline font-bold text-slate-800 text-sm leading-tight line-clamp-2 mb-1 group-hover:text-[#0026C0] transition-colors">{name}</h3>
+                <h3 className="font-headline font-bold text-slate-800 text-sm leading-tight line-clamp-2 mb-1 group-hover:text-[#0026C0] transition-colors">{name.length > 35 ? name.substring(0, 35) + "..." : name}</h3>
                 <div className="flex items-baseline gap-1 mb-2">
                     <span className="text-base font-black text-[#0026C0]">{price}</span>
-                    <span className="text-[10px] text-slate-500 font-medium">{unit}</span>
+                    <span className="text-[10px] text-slate-500 font-medium">{" / " + unit}</span>
                 </div>
 
                 <button

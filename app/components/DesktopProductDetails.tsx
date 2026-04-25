@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { ArrowLeft, MapPin, Star, ShieldCheck, Truck, Clock, MessageSquare, Phone, Share2, Heart, ChevronRight, Info, X, Loader2, CheckCircle2, Lock, User as UserIcon, Mail, ArrowRight } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { COUNTRY_CODES } from '@/src/constants/constanst';
-import { buyerCheckNumber, buyerLogin, buyerSendOtp, buyerSubmitLead, buyerSubmitOtp, sendChatMessage } from '@/src/lib/api';
+import { buyerCheckNumber, buyerLogin, buyerSendOtp, buyerSubmitLead, buyerSubmitOtp, sendChatMessage, fetchRecommendations } from '@/src/lib/api';
 
 interface DesktopProductDetailsProps {
     product: {
@@ -30,6 +30,7 @@ interface DesktopProductDetailsProps {
         attributes?: string[];
         raw_attributes?: Record<string, any>;
         seller_address?: string;
+        category_id?: string;
     };
     onBack?: () => void;
 }
@@ -49,9 +50,22 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
     const [error, setError] = React.useState("");
     const [successMessage, setSuccessMessage] = React.useState("");
     const [activeImage, setActiveImage] = React.useState(product.image);
+    const [recommendations, setRecommendations] = React.useState<any[]>([]);
+    const [recLoading, setRecLoading] = React.useState(false);
+
+    React.useEffect(() => {
+        if (product.category_id) {
+            setRecLoading(true);
+            fetchRecommendations(product.category_id).then(data => {
+                setRecommendations(data);
+                setRecLoading(false);
+            });
+        }
+    }, [product.category_id]);
 
 
-    const [afterAuthAction, setAfterAuthAction] = React.useState<'lead' | 'chat' | null>(null);
+    const [showPhone, setShowPhone] = React.useState(false);
+    const [afterAuthAction, setAfterAuthAction] = React.useState<'lead' | 'chat' | 'phone' | null>(null);
 
     const handleLeadsUpload = async () => {
         const buyer = localStorage.getItem('buyer');
@@ -97,6 +111,8 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
             await handleLeadsUpload();
         } else if (afterAuthAction === 'chat') {
             await handleChatInitiate();
+        } else if (afterAuthAction === 'phone') {
+            setShowPhone(true);
         }
         setShowAuthModal(false);
     }
@@ -126,6 +142,17 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
             await handleChatInitiate();
         } else {
             setAfterAuthAction('chat');
+            setShowAuthModal(true);
+            setAuthStep('phone');
+        }
+    };
+
+    const handleViewPhoneClick = () => {
+        const buyer = localStorage.getItem('buyer');
+        if (buyer) {
+            setShowPhone(true);
+        } else {
+            setAfterAuthAction('phone');
             setShowAuthModal(true);
             setAuthStep('phone');
         }
@@ -333,7 +360,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                         {(product.attributes?.length || product.raw_attributes) && (
                             <div className="bg-white rounded border border-slate-100 shadow-sm overflow-hidden">
                                 <div className="bg-slate-50/50 px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100">
-                                    <h4 className="text-[10px] lg:text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Product Specifications</h4>
+                                    <h4 className="text-[10px] lg:text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Specifications</h4>
                                 </div>
                                 <div className="divide-y divide-slate-50">
                                     {product.attributes?.map((attr) => {
@@ -361,7 +388,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                         {product.description && (
                             <div className="bg-white rounded border border-slate-100 shadow-sm overflow-hidden">
                                 <div className="bg-slate-50/50 px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100">
-                                    <h4 className="text-[10px] lg:text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Product Description</h4>
+                                    <h4 className="text-[10px] lg:text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Description</h4>
                                 </div>
                                 <div className="px-4 lg:px-6 py-4 lg:py-6">
                                     <p className="text-slate-600 leading-relaxed text-sm lg:text-base">
@@ -373,72 +400,93 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                     </main>
 
                     {/* Right Column: Seller/Supplier Sidebar */}
-                    <aside className="w-full lg:w-[320px] shrink-0 space-y-4">
-                        <div className="bg-white rounded-lg p-5 border border-slate-200 shadow-sm italic">
-                            <div className="flex items-center gap-1 text-[13px] text-slate-500 mb-2">
-                                <MapPin className="w-4 h-4" />
-                                <span>{product.seller_address || 'Address Not Found'}</span>
+                    <aside className="w-full lg:w-[340px] shrink-0 space-y-5">
+                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm transition-all hover:shadow-md">
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="space-y-1">
+                                    <h3 className="text-xl font-black text-slate-900 leading-tight">
+                                        {product.supplier || 'Supplier Name Not Available'}
+                                    </h3>
+                                    <div className="flex items-center gap-1.5 text-slate-500">
+                                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                                        <span className="text-xs font-medium truncate max-w-[180px]">{product.seller_address || 'Address Not Found'}</span>
+                                    </div>
+                                </div>
+                                <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center border border-slate-100">
+                                    <Store className="w-6 h-6 text-[#0026C0]" />
+                                </div>
                             </div>
-                            <h3 className="text-xl font-black text-slate-900 mb-2">{product.supplier || 'Supplier Name Not Available'}</h3>
 
-                            <div className="flex items-center gap-2 mb-3">
-                                <div className="flex items-center gap-1.5 bg-green-500/10 text-green-600 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">
-                                    <ShieldCheck className="w-3 h-3" />
+                            <div className="flex flex-wrap gap-2 mb-6">
+                                <div className="flex items-center gap-1.5 bg-blue-50 text-[#0026C0] px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider border border-blue-100">
+                                    <ShieldCheck className="w-3 h-3 fill-[#0026C0] text-white" />
                                     Verified
                                 </div>
-                                <span className="text-[11px] font-bold text-slate-400">2 yrs Member</span>
+                                <div className="flex items-center gap-1.5 bg-slate-50 text-slate-600 px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider border border-slate-100">
+                                    <Clock className="w-3 h-3" />
+                                    2 yrs Member
+                                </div>
                             </div>
 
-                            {/* <div className="flex items-center gap-2 mb-6">
-                                <div className="flex text-amber-400">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star key={i} className={`w-3.5 h-3.5 ${i < 3 ? 'fill-current' : 'text-slate-100'}`} />
-                                    ))}
+                            <div className="grid grid-cols-2 gap-4 py-4 border-y border-slate-50 mb-6">
+                                <div className="space-y-1">
+                                    <div className="flex items-center gap-1">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Star key={i} className={`w-3 h-3 ${i < 4 ? 'fill-amber-400 text-amber-400' : 'text-slate-200'}`} />
+                                        ))}
+                                    </div>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">4.8 Rating</p>
                                 </div>
-                                <span className="text-sm font-bold text-slate-900">2.9</span>
-                                <span className="text-xs text-[#0026C0] font-bold hover:underline cursor-pointer">(10)</span>
-                                <div className="h-3 w-px bg-slate-200 mx-2"></div>
-                                <span className="text-[10px] font-bold text-green-600 uppercase">88% Response</span>
-                            </div> */}
+                                <div className="space-y-1 border-l border-slate-50 pl-4">
+                                    <div className="text-sm font-black text-green-600">88%</div>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Response Rate</p>
+                                </div>
+                            </div>
 
                             <div className="space-y-3">
-                                <button className="w-full h-11 rounded border border-slate-200 flex items-center justify-center gap-3 text-sm font-black text-[#0026C0] hover:bg-slate-100 transition-all">
-                                    <Phone className="w-4 h-4" />
-                                    Call Now
-                                </button>
                                 <button
                                     onClick={handleContactSupplierClick}
-                                    className="w-full h-11 rounded border border-slate-200 flex items-center justify-center gap-3 text-sm font-black text-[#0026C0] hover:bg-slate-100 transition-all font-sans"
+                                    className="w-full h-12 bg-[#0026C0] text-white rounded-lg flex items-center justify-center gap-3 text-sm font-black hover:bg-[#001da2] transition-all shadow-lg shadow-blue-600/10 active:scale-[0.98]"
                                 >
-                                    <MessageSquare className="w-5 h-5 rotate-[-5deg]" />
-                                    Contact Supplier
+                                    <MessageSquare className="w-5 h-5" />
+                                    Message Supplier
+                                </button>
+                                <button
+                                    className={`w-full h-12 rounded-lg flex items-center justify-center gap-3 text-sm font-black transition-all active:scale-[0.98] ${showPhone ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'}`}
+                                    onClick={handleViewPhoneClick}
+                                >
+                                    <Phone className={`w-4 h-4 ${showPhone ? 'fill-green-600' : ''}`} />
+                                    {showPhone ? "+234 812 XXX XXXX" : "View Phone Number"}
                                 </button>
                             </div>
                         </div>
 
-                        {/* Legal/Firm Status Section */}
-                        {/* <div className="bg-white rounded-lg p-5 border border-slate-200 shadow-sm space-y-6">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Legal Status</p>
-                                    <p className="text-sm font-black text-slate-800">Proprietorship</p>
+                        {/* Business Summary Card */}
+                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Business Credibility</h4>
+                            <div className="space-y-4">
+                                <div className="flex justify-between items-center text-sm">
+                                    <span className="text-slate-500 font-medium font-sans">Legal Status</span>
+                                    <span className="text-slate-900 font-black">Proprietorship</span>
                                 </div>
-                                <div>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">GST Reg. Date</p>
-                                    <p className="text-sm font-black text-slate-800">17-12-2020</p>
+                                <div className="flex justify-between items-center text-sm">
+                                    <span className="text-slate-500 font-medium font-sans">Membership</span>
+                                    <span className="text-slate-900 font-black">Gold Supplier</span>
                                 </div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100">
-                                <div>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Annual Turnover</p>
-                                    <p className="text-sm font-black text-slate-800">1.5 - 5 Cr</p>
-                                </div>
-                                <div>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Member Since</p>
-                                    <p className="text-sm font-black text-slate-800">Nov 2024</p>
+                                <div className="flex justify-between items-center text-sm">
+                                    <span className="text-slate-500 font-medium font-sans">Verification</span>
+                                    <span className="text-green-600 font-black flex items-center gap-1">
+                                        On-site <ShieldCheck className="w-3.5 h-3.5" />
+                                    </span>
                                 </div>
                             </div>
-                        </div> */}
+                            <div className="mt-5 pt-5 border-t border-slate-50">
+                                <button className="w-full text-[10px] font-black text-[#0026C0] uppercase tracking-widest flex items-center justify-center gap-2 group">
+                                    View Business Profile
+                                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                                </button>
+                            </div>
+                        </div>
                     </aside>
 
                 </div>
@@ -457,26 +505,34 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                     </div>
 
                     <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-                        {[
-                            { name: "Long Grain Parboiled Rice", price: "$2.80", unit: "kg", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEvFQB1H88fuOka7yp8h49qObv55xA1cM6DKc7JIAZgAW7orn15wB_v3qPidwWKuzWeRACovWHghmMy9z_0m6eDQ6D-wCEVAYTqGLzJYDYx5Qcz80z-dZRZBVFzrnCxBLJuZVzJaLmmYmH9BMwTgl_SP4PrtIy-cT_TFFfhmuM6z3p5Odq5dslAFKgEvT6HTQIajdF_VHTmPM14TCJG5xU0LaTyOu7wezQl2N-cMr_i3YJYk8h8D6j8jbN1PHNfJInF62lsI9UQVE" },
-                            { name: "Golden Sella Basmati", price: "$4.50", unit: "kg", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEvFQB1H88fuOka7yp8h49qObv55xA1cM6DKc7JIAZgAW7orn15wB_v3qPidwWKuzWeRACovWHghmMy9z_0m6eDQ6D-wCEVAYTqGLzJYDYx5Qcz80z-dZRZBVFzrnCxBLJuZVzJaLmmYmH9BMwTgl_SP4PrtIy-cT_TFFfhmuM6z3p5Odq5dslAFKgEvT6HTQIajdF_VHTmPM14TCJG5xU0LaTyOu7wezQl2N-cMr_i3YJYk8h8D6j8jbN1PHNfJInF62lsI9UQVE" },
-                            { name: "Premium Jasmine Rice 5kg", price: "$12.00", unit: "bag", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBH550H-P9P5K5b6eG8q_0K4_lR5S8Q_yK7B3-H9B0G7-M8P0-b6B1E9Y1a5I7G8aX3X5B0Q8R6V5w8k5C7G6h7l3K3M2h6_w5D0U8p5J9s1U1l9K8n3P8p1u9h2S6T7Y6N5Q1P4I9l6k7n9T1U8h8k5L0s0Z91H2Q3N91l_l4G_l1L_2A2f9C6g5e9Q1O4-B6G-_0M0G_4L_7T8W2c7B90f_A8h_i6D7b3Z2N_2e_H1x_P2D-_A9I8t3-F9L-_F7T-_x-_H_A_9W-_" },
-                            { name: "Indrayani Scented Rice", price: "$3.10", unit: "kg", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEvFQB1H88fuOka7yp8h49qObv55xA1cM6DKc7JIAZgAW7orn15wB_v3qPidwWKuzWeRACovWHghmMy9z_0m6eDQ6D-wCEVAYTqGLzJYDYx5Qcz80z-dZRZBVFzrnCxBLJuZVzJaLmmYmH9BMwTgl_SP4PrtIy-cT_TFFfhmuM6z3p5Odq5dslAFKgEvT6HTQIajdF_VHTmPM14TCJG5xU0LaTyOu7wezQl2N-cMr_i3YJYk8h8D6j8jbN1PHNfJInF62lsI9UQVE" },
-                            { name: "Bulk Brown Rice - Tonne", price: "$980.00", unit: "tonne", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEvFQB1H88fuOka7yp8h49qObv55xA1cM6DKc7JIAZgAW7orn15wB_v3qPidwWKuzWeRACovWHghmMy9z_0m6eDQ6D-wCEVAYTqGLzJYDYx5Qcz80z-dZRZBVFzrnCxBLJuZVzJaLmmYmH9BMwTgl_SP4PrtIy-cT_TFFfhmuM6z3p5Odq5dslAFKgEvT6HTQIajdF_VHTmPM14TCJG5xU0LaTyOu7wezQl2N-cMr_i3YJYk8h8D6j8jbN1PHNfJInF62lsI9UQVE" },
-                            { name: "Organic Black Rice", price: "$8.50", unit: "kg", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCEvFQB1H88fuOka7yp8h49qObv55xA1cM6DKc7JIAZgAW7orn15wB_v3qPidwWKuzWeRACovWHghmMy9z_0m6eDQ6D-wCEVAYTqGLzJYDYx5Qcz80z-dZRZBVFzrnCxBLJuZVzJaLmmYmH9BMwTgl_SP4PrtIy-cT_TFFfhmuM6z3p5Odq5dslAFKgEvT6HTQIajdF_VHTmPM14TCJG5xU0LaTyOu7wezQl2N-cMr_i3YJYk8h8D6j8jbN1PHNfJInF62lsI9UQVE" }
-                        ].map((item, idx) => (
-                            <ProductCard
-                                key={idx}
-                                name={item.name}
-                                price={item.price}
-                                unit={item.unit}
-                                image={item.img}
-                                supplier="Verified Supplier"
-                                location="Lasomaa Hub"
-                                rating={4.5 + (idx % 0.5)}
-                                reviews={50 + idx * 20}
-                            />
-                        ))}
+                        {recLoading ? (
+                            Array(6).fill(0).map((_, i) => (
+                                <div key={i} className="aspect-[4/5] bg-white rounded-lg border border-slate-100 animate-pulse flex flex-col p-4 gap-4">
+                                    <div className="aspect-square bg-slate-50 rounded" />
+                                    <div className="h-4 bg-slate-50 w-3/4 rounded" />
+                                    <div className="h-4 bg-slate-50 w-1/2 rounded" />
+                                </div>
+                            ))
+                        ) : recommendations.length > 0 ? (
+                            recommendations.map((item, idx) => (
+                                <ProductCard
+                                    key={item.id || idx}
+                                    name={item.name}
+                                    price={item.price}
+                                    unit={item.unit}
+                                    image={item.image}
+                                    supplier={item.seller_name || "Verified Supplier"}
+                                    location={item.location}
+                                    rating={4.5}
+                                    reviews={20}
+                                    onClick={() => router.push(`/product/${item.id}`)}
+                                />
+                            ))
+                        ) : (
+                            <div className="col-span-full py-12 text-center bg-white rounded-xl border border-dashed border-slate-200">
+                                <p className="text-slate-400 font-bold">No similar products found in this category.</p>
+                            </div>
+                        )}
                     </div>
                     {/* Authentication Modal Overlay */}
                     {showAuthModal && (
