@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowLeft, MapPin, Star, ShieldCheck, Truck, Clock, MessageSquare, Phone, Share2, Heart, ChevronRight, Info, X, Loader2, CheckCircle2, Lock, User as UserIcon, Mail, ArrowRight } from 'lucide-react';
+import { ArrowLeft, MapPin, Star, ShieldCheck, Truck, Clock, MessageSquare, Phone, Share2, Heart, ChevronRight, Info, X, Loader2, CheckCircle2, Lock, User as UserIcon, Mail, ArrowRight, Store } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { COUNTRY_CODES } from '@/src/constants/constanst';
 import { buyerCheckNumber, buyerLogin, buyerSendOtp, buyerSubmitLead, buyerSubmitOtp, sendChatMessage, fetchRecommendations } from '@/src/lib/api';
