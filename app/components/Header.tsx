@@ -9,7 +9,7 @@ export default function Header() {
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [apiSuggestions, setApiSuggestions] = useState<{ name: string, img: string }[]>([]);
+    const [apiSuggestions, setApiSuggestions] = useState<{ name: string, img: string, category: string }[]>([]);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [buyer, setBuyer] = useState<any>(null);
 
@@ -57,7 +57,8 @@ export default function Header() {
                 const suggs = await fetchSuggestions(searchQuery);
                 setApiSuggestions(suggs.map((s: any) => ({
                     name: s.name,
-                    img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop'
+                    img: s.picture_url?.[0]?.img_url || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop',
+                    category: s.category_name || 'General'
                 })));
             } catch (err) {
                 console.error(err);
@@ -113,23 +114,23 @@ export default function Header() {
                             </form>
 
                             {isDropdownOpen && apiSuggestions.length > 0 && (
-                                <div className="absolute top-full left-0 w-full bg-white mt-2 rounded-2xl shadow-2xl border border-slate-100 z-[100] py-3 animate-in fade-in slide-in-from-top-2 duration-200">
+                                <div className="absolute top-full left-0 w-full bg-white mt-2 rounded-2xl shadow-2xl border-2 border-slate-200 z-[100] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 divide-y divide-slate-100">
                                     {apiSuggestions.map((item, idx) => (
                                         <button
                                             key={idx}
-                                            className="w-full flex items-center gap-4 px-5 py-3 hover:bg-slate-50 transition-colors text-left group"
+                                            className="w-full flex items-center gap-3 px-4 py-2 hover:bg-slate-50 transition-colors text-left group"
                                             onClick={() => {
                                                 setSearchQuery(item.name);
                                                 setIsDropdownOpen(false);
                                                 router.push(`/search?q=${encodeURIComponent(item.name)}`);
                                             }}
                                         >
-                                            <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 border border-slate-100 bg-slate-50">
+                                            <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-slate-100 bg-slate-50 shadow-sm">
                                                 <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                             </div>
                                             <div className="flex flex-col">
                                                 <span className="text-sm font-bold text-slate-800 group-hover:text-[#0026C0] transition-colors line-clamp-1">{item.name}</span>
-                                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">In Machinery</span>
+                                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">In {item.category}</span>
                                             </div>
                                         </button>
                                     ))}
@@ -252,21 +253,24 @@ export default function Header() {
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#0026C0] w-4.5 h-4.5 transition-colors" />
 
                         {isDropdownOpen && apiSuggestions.length > 0 && (
-                            <div className="absolute top-full left-0 w-full bg-white mt-1.5 rounded-xl shadow-2xl border border-slate-100 z-[110] py-2 animate-in fade-in slide-in-from-top-1 duration-200">
+                            <div className="absolute top-full left-0 w-full bg-white mt-1.5 rounded-xl shadow-2xl border-2 border-slate-200 z-[110] overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200 divide-y divide-slate-100">
                                 {apiSuggestions.map((item, idx) => (
                                     <button
                                         key={idx}
-                                        className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors text-left group"
+                                        className="w-full flex items-center gap-3 px-4 py-2 hover:bg-slate-50 transition-colors text-left group"
                                         onClick={() => {
                                             setSearchQuery(item.name);
                                             setIsDropdownOpen(false);
                                             router.push(`/search?q=${encodeURIComponent(item.name)}`);
                                         }}
                                     >
-                                        <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-slate-100 bg-slate-50">
+                                        <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 border border-slate-100 bg-slate-50 shadow-sm">
                                             <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
                                         </div>
-                                        <span className="text-sm font-bold text-slate-800 line-clamp-1">{item.name}</span>
+                                        <div className="flex flex-col min-w-0">
+                                            <span className="text-sm font-bold text-slate-800 line-clamp-1">{item.name}</span>
+                                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">In {item.category}</span>
+                                        </div>
                                     </button>
                                 ))}
                             </div>

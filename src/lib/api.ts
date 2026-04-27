@@ -90,7 +90,7 @@ export async function fetchSuggestions(query: string) {
     try {
         const res = await fetch(`${API_BASE_URL}/search/unprotected/suggestions?query=${encodeURIComponent(query)}`);
         const data = await res.json();
-        return data.data?.hits?.map((h: any) => ({ name: h.document.title })) || [];
+        return data.data?.hits || [];
     } catch (error) {
         console.error("Error fetching suggestions server-side:", error);
         return [];
