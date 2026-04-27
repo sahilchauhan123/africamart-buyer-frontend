@@ -56,9 +56,9 @@ export default function Header() {
             try {
                 const suggs = await fetchSuggestions(searchQuery);
                 setApiSuggestions(suggs.map((s: any) => ({
-                    name: s.name,
-                    img: s.picture_url?.[0]?.img_url || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop',
-                    category: s.category_name || 'General'
+                    name: s.document.title,
+                    img: s.document.picture_url?.[0]?.img_url || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop',
+                    category: s.document.category_name || 'General'
                 })));
             } catch (err) {
                 console.error(err);
