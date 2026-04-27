@@ -467,15 +467,15 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                 </div>
 
                 {/* Bottom Section: Similar Products / Recommended */}
-                <div className="mt-16 pt-16 border-t border-slate-200">
-                    <div className="flex items-center justify-between mb-8">
+                <div className="mt-10 lg:mt-16 pt-10 lg:pt-16 border-t border-slate-200">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 lg:mb-8">
                         <div>
-                            <h2 className="text-2xl font-black text-slate-900">Recommended for You</h2>
-                            <p className="text-slate-500 text-sm mt-1">Based on your recent interest in {product.name}</p>
+                            <h2 className="text-lg lg:text-2xl font-black text-slate-900">Recommended for You</h2>
+                            <p className="text-xs lg:text-sm text-slate-500 mt-0.5 lg:mt-1">Based on your recent interest in {product.name}</p>
                         </div>
-                        <button className="text-[#0026C0] font-black flex items-center gap-1 hover:underline text-sm uppercase tracking-wider">
+                        <button className="text-[#0026C0] font-black flex items-center gap-1 hover:underline text-[10px] lg:text-sm uppercase tracking-widest self-start sm:self-auto">
                             See More Results
-                            <ChevronRight className="w-4 h-4" />
+                            <ChevronRight className="w-3 h-3 lg:w-4 h-4" />
                         </button>
                     </div>
 
