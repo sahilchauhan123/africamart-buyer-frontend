@@ -3,8 +3,8 @@ import { fetchProducts, fetchCategories } from '@/src/lib/api';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Lasomaa | Leading Global B2B Marketplace for Africa',
-  description: 'Connect with over 10,000+ verified African and global manufacturers. Source industrial machinery, grains, and agricultural products across the continent.',
+  title: 'Lasomaa | Marketplace for Africa',
+  description: 'Africa first marketplace for African businesses, manufacturers, suppliers and buyers connect with each other',
   keywords: 'Africa B2B, African manufacturers, African exporters, B2B marketplace, Africa trade',
   openGraph: {
     title: 'Lasomaa | The Ultimate African B2B Marketplace',
