@@ -265,7 +265,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                             </div>
                             <div className="relative z-10 max-w-2xl space-y-4 lg:space-y-6">
                                 <h2 className="text-2xl lg:text-4xl font-black text-white leading-tight">Ready to take your business global?</h2>
-                                <p className="text-blue-100 text-sm lg:text-lg">Join 50,000+ African enterprises already selling on Lasomaa.</p>
+                                <p className="text-blue-100 text-sm lg:text-lg">Become the first members of Lasomaa and experience growth in your business</p>
                                 <div className="flex flex-wrap gap-3 lg:gap-4">
                                     <button className="bg-white text-[#0026C0] font-black px-6 py-3 lg:px-8 lg:py-4 rounded-xl hover:bg-blue-50 transition-all shadow-xl text-sm lg:text-base">
                                         Start Selling
