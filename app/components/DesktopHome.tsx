@@ -131,7 +131,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent z-10"></div>
                             <div className="relative z-20 px-6 lg:px-12 space-y-4 lg:space-y-6 max-w-2xl text-left">
                                 <h1 className="text-3xl lg:text-5xl font-black text-white leading-tight tracking-tight">Africa's Leading <br className="lg:hidden" /> B2B Marketplace.</h1>
-                                <p className="text-slate-200 text-sm lg:text-lg">Connect with over 10,000+ verified global manufacturers and unlock exclusive bulk pricing.</p>
+                                <p className="text-slate-200 text-sm lg:text-lg">First marketplace for African businesses, manufacturers, suppliers and buyers connect with each other</p>
                                 <button className="bg-[#0026C0] hover:bg-[#0020A0] text-white font-bold px-6 py-3 lg:px-8 lg:py-4 rounded-md transition-all shadow-lg flex items-center gap-2 group text-sm lg:text-base">
                                     Browse Products <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 group-hover:translate-x-1 transition-transform" />
                                 </button>
