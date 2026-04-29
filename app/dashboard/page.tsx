@@ -96,14 +96,17 @@ export default function DashboardPage() {
   if (!buyer) return null;
 
   return (
-    <div className="h-screen max-h-screen bg-[#F8FAFC] font-body text-slate-900 flex flex-col overflow-hidden">
+    <div className="h-screen h-[100dvh] bg-[#F8FAFC] font-body text-slate-900 flex flex-col overflow-hidden">
       <style jsx global>{`
         body, html {
           overflow: hidden !important;
           height: 100% !important;
         }
       `}</style>
-      <Header />
+      
+      <div className="flex-none z-50">
+        <Header />
+      </div>
 
       <div className="flex-1 flex flex-col lg:flex-row w-full overflow-hidden">
 
@@ -165,7 +168,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden bg-white border-t border-slate-100 flex items-center justify-around py-4 flex-none">
+      <div className="lg:hidden bg-white border-t border-slate-100 flex items-center justify-around py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] flex-none z-50">
         <button
           onClick={() => setActiveTab('leads')}
           className={`flex flex-col items-center gap-1 ${activeTab === 'leads' ? 'text-[#0026C0]' : 'text-slate-400'}`}
@@ -211,11 +214,7 @@ function MessagesView({ onOpenDrawer }: { onOpenDrawer: () => void }) {
 function LeadsView({ leads, loading }: { leads: Lead[], loading: boolean }) {
   return (
     <div className="p-4 lg:p-10 space-y-8 animate-in fade-in duration-500 overflow-y-auto h-full">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h2 className="text-2xl lg:text-3xl font-black text-slate-900 uppercase tracking-tighter">My Inquiries</h2>
-          <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">Track your business requirements</p>
-        </div>
+      <div className="flex flex-col md:flex-row justify-end items-start md:items-center gap-4">
         <div className="flex gap-4">
           <StatMini count={leads.length} label="Total" color="blue" />
           <StatMini count={leads.filter(l => l.status === 'NEW').length} label="New" color="amber" />
@@ -291,10 +290,6 @@ function LeadsView({ leads, loading }: { leads: Lead[], loading: boolean }) {
 function ProfileSettingsView({ buyer }: { buyer: any }) {
   return (
     <div className="p-4 lg:p-10 max-w-3xl space-y-10 animate-in fade-in slide-in-from-bottom-5 duration-500 overflow-y-auto h-full">
-      <div className="space-y-1">
-        <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Profile Settings</h2>
-        <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">Manage your personal & business information</p>
-      </div>
 
       <div className="space-y-8">
         {/* Profile Section */}

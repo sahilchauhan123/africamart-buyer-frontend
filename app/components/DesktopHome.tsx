@@ -305,22 +305,14 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                         ))}
                                     </div>
                                 </div>
-                                <div className="space-y-6">
-                                    <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs">Platform</h4>
-                                    <ul className="space-y-3 text-slate-500 text-sm font-medium">
-                                        <li className="hover:text-[#0026C0] cursor-pointer">Buyer Central</li>
-                                        <li className="hover:text-[#0026C0] cursor-pointer">Verify Business</li>
-                                        <li className="hover:text-[#0026C0] cursor-pointer">How it Works</li>
-                                        <li className="hover:text-[#0026C0] cursor-pointer">Pricing</li>
-                                    </ul>
-                                </div>
+
                                 <div className="space-y-6">
                                     <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs">Help & Support</h4>
                                     <ul className="space-y-3 text-slate-500 text-sm font-medium">
                                         <li className="hover:text-[#0026C0] cursor-pointer">Contact Support</li>
                                         <li className="hover:text-[#0026C0] cursor-pointer">FAQ</li>
-                                        <li className="hover:text-[#0026C0] cursor-pointer">Logistics Partners</li>
-                                        <li className="hover:text-[#0026C0] cursor-pointer">Safety Guidelines</li>
+                                        {/* <li className="hover:text-[#0026C0] cursor-pointer">Logistics Partners</li> */}
+                                        {/* <li className="hover:text-[#0026C0] cursor-pointer">Safety Guidelines</li> */}
                                     </ul>
                                 </div>
                                 <div className="space-y-6">
@@ -329,9 +321,9 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                         <li className="hover:text-[#0026C0] cursor-pointer">
                                             <a href="https://seller.lasomaa.com" target="_blank" rel="noopener noreferrer">Sell on Lasomaa</a>
                                         </li>
-                                        <li className="hover:text-[#0026C0] cursor-pointer">Enterprise Solutions</li>
-                                        <li className="hover:text-[#0026C0] cursor-pointer">Market Analysis</li>
-                                        <li className="hover:text-[#0026C0] cursor-pointer">Advertise</li>
+                                        {/* <li className="hover:text-[#0026C0] cursor-pointer">Enterprise Solutions</li> */}
+                                        {/* <li className="hover:text-[#0026C0] cursor-pointer">Market Analysis</li>
+                                        <li className="hover:text-[#0026C0] cursor-pointer">Advertise</li> */}
                                     </ul>
                                 </div>
                             </div>

@@ -29,7 +29,6 @@ const BusinessMessagesView: React.FC<Props> = ({ onOpenDrawer, showChat, setShow
 
                 {/* Desktop Sidebar Header */}
                 <header className="hidden lg:flex flex-col bg-white border-b border-slate-100 flex-none px-6 py-4">
-                    <h1 className="text-xl font-black text-slate-800 tracking-tight mb-4 uppercase">Messages</h1>
                     <div className="relative w-full mb-2">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                         <input
@@ -49,7 +48,6 @@ const BusinessMessagesView: React.FC<Props> = ({ onOpenDrawer, showChat, setShow
                         >
                             <Menu size={24} />
                         </button>
-                        <h1 className="text-white text-sm font-black tracking-tight uppercase">Messages</h1>
                         <button className="p-2 text-white">
                             <MoreVertical size={20} />
                         </button>
