@@ -51,8 +51,8 @@ export default function LoginPage() {
           <Image
             src={logo}
             alt="LASOMAA"
-            width={205}
-            height={40}
+            width={164}
+            height={32}
             className="brightness-0 invert object-contain"
           />
         </div>
@@ -73,8 +73,8 @@ export default function LoginPage() {
             <Image
               src={logo}
               alt="LASOMAA"
-              width={164}
-              height={32}
+              width={143}
+              height={28}
               className="object-contain"
             />
           </div>

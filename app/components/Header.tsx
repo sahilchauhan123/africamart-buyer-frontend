@@ -84,8 +84,8 @@ export default function Header() {
                         <Image
                             src={logo}
                             alt="LASOMAA"
-                            width={205}
-                            height={40}
+                            width={164}
+                            height={32}
                             className="object-contain"
                         />
                     </div>
@@ -213,8 +213,8 @@ export default function Header() {
                             <Image
                                 src={logo}
                                 alt="LASOMAA"
-                                width={164}
-                                height={32}
+                                width={123}
+                                height={24}
                                 className="object-contain"
                             />
                         </div>

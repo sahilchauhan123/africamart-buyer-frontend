@@ -289,8 +289,8 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                         <Image
                                             src={logo}
                                             alt="LASOMAA"
-                                            width={164}
-                                            height={32}
+                                            width={143}
+                                            height={28}
                                             className="object-contain"
                                         />
                                     </div>
