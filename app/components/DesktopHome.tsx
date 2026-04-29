@@ -94,8 +94,9 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
 
     const handleProductClick = (productData: any) => {
         const slug = createSlug(productData.name || productData.title);
-        const idOrSlug = productData.id ? `${slug}-${productData.id}` : slug;
-        router.push(`/product/${idOrSlug}`);
+        // Using the new format: /product/[uniqueId]/[slug]
+        // productData.id is now the url_id from Typesense
+        router.push(`/product/${productData.id}/${slug}`);
     };
 
     useEffect(() => {
@@ -295,15 +296,9 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                         />
                                     </div>
                                     <p className="text-slate-500 max-w-sm leading-relaxed">
-                                        Africa's largest B2B wholesale marketplace connecting global buyers with certified African manufacturers.
+                                        Africa's largest B2B wholesale marketplace connecting global buyers with certified African manufacturers,suppliers,exporters.
                                     </p>
-                                    <div className="flex gap-4">
-                                        {['fb', 'tw', 'ln', 'ig'].map(s => (
-                                            <div key={s} className="w-10 h-10 rounded-full border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#0026C0] hover:border-[#0026C0] cursor-pointer transition-all">
-                                                <span className="uppercase text-[10px] font-black">{s}</span>
-                                            </div>
-                                        ))}
-                                    </div>
+
                                 </div>
 
                                 <div className="space-y-6">

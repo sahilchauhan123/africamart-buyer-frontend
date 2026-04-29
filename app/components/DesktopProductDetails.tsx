@@ -500,7 +500,10 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                     location={item.location}
                                     rating={4.5}
                                     reviews={20}
-                                    onClick={() => router.push(`/product/${item.id}`)}
+                                    onClick={() => {
+                                        const slug = item.name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+                                        router.push(`/product/${item.id}/${slug}`);
+                                    }}
                                 />
                             ))
                         ) : (

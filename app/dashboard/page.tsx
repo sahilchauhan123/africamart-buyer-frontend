@@ -252,7 +252,7 @@ function LeadsView({ leads, loading }: { leads: Lead[], loading: boolean }) {
               ) : leads.map((lead) => (
                 <tr key={lead.id} className="hover:bg-slate-50/50 transition-colors">
                   <td className="px-6 py-5">
-                    <Link href={`/product/${lead.product_id}`} className="flex items-center gap-4 group cursor-pointer w-fit">
+                    <Link href={`/product/${lead.product_id}/${(lead.product_name || 'product').toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()}`} className="flex items-center gap-4 group cursor-pointer w-fit">
                       <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden border border-slate-100 flex-none shadow-sm transition-transform group-hover:scale-105">
                         {lead.product_image ? (
                           <img src={lead.product_image} alt={lead.product_name} className="w-full h-full object-cover" />

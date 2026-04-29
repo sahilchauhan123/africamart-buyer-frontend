@@ -6,13 +6,13 @@ import Header from '../../components/Header';
 import { fetchProductById } from '@/src/lib/api';
 
 interface ProductPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ id: string; slug: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const product = await fetchProductById(slug);
+  const { id } = await params;
+  const product = await fetchProductById(id);
 
   if (!product) {
     return {
@@ -47,6 +47,15 @@ function ProductPageContent({ product }: { product: any }) {
     notFound();
   }
 
+  const createSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/-+/g, '-') // Replace multiple hyphens with single
+      .trim();
+  };
+
   // Generate structured data for SEO
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -63,7 +72,7 @@ function ProductPageContent({ product }: { product: any }) {
       price: product.min_price || 0,
       priceCurrency: 'INR',
       availability: 'https://schema.org/InStock',
-      url: `https://Lasomaa.com/product/${product.title.toLowerCase()}-${product.id}`,
+      url: `https://Lasomaa.com/product/${product.id}/${createSlug(product.title)}`,
     },
   };
 
@@ -80,8 +89,8 @@ function ProductPageContent({ product }: { product: any }) {
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const { slug } = await params;
-  const product = await fetchProductById(slug);
+  const { id } = await params;
+  const product = await fetchProductById(id);
 
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50 font-black text-[#0026C0] uppercase tracking-widest text-xs">Lasomaa is loading...</div>}>
