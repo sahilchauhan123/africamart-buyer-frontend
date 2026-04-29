@@ -102,7 +102,7 @@ export async function fetchProductById(id: string) {
         const res = await fetch(`${API_BASE_URL}/search/unprotected/products/${id}`, {
             cache: 'no-store' // Ensure it's SSR
         });
-        
+
         const data = await res.json();
         if (data.data) {
             const doc = data.data;

@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
-import DesktopProductDetails from '../../components/DesktopProductDetails';
-import Header from '../../components/Header';
+import DesktopProductDetails from '../../../components/DesktopProductDetails';
+import Header from '../../../components/Header';
 import { fetchProductById } from '@/src/lib/api';
 
 interface ProductPageProps {
@@ -12,6 +12,7 @@ interface ProductPageProps {
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { id } = await params;
+  console.log("id : ", id)
   const product = await fetchProductById(id);
 
   if (!product) {
