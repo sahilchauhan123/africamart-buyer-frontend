@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, HelpCircle, User, ChevronDown, Rocket, Menu, X, ArrowRight } from 'lucide-react';
 import { fetchSuggestions, buyerLogout } from '@/src/lib/api';
+import Image from 'next/image';
+import logo from '../logo.png';
 
 export default function Header() {
     const router = useRouter();
@@ -79,10 +81,13 @@ export default function Header() {
                 <div className="hidden lg:grid grid-cols-[auto_1fr_auto] items-center gap-10 px-8 py-3">
                     {/* Brand Logo */}
                     <div className="flex items-center gap-3 flex-shrink-0 cursor-pointer" onClick={() => router.push('/')}>
-                        <div className="w-10 h-10 bg-[#0026C0] rounded-xl flex items-center justify-center shadow-lg shadow-[#0026C0]/20">
-                            <div className="w-6 h-6 bg-white rounded-sm rotate-45"></div>
-                        </div>
-                        <span className="text-2xl font-black tracking-tight text-slate-900">LASOMA<span className="text-[#0026C0]">A</span></span>
+                        <Image
+                            src={logo}
+                            alt="LASOMAA"
+                            width={205}
+                            height={40}
+                            className="object-contain"
+                        />
                     </div>
 
                     {/* Centered Search Bar */}
@@ -205,10 +210,13 @@ export default function Header() {
                 <div className="lg:hidden flex flex-col px-4 py-2 pb-3">
                     <div className="flex items-center justify-between gap-4 mb-2.5">
                         <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
-                            <div className="w-8 h-8 bg-[#0026C0] rounded-lg flex items-center justify-center shadow-lg shadow-[#0026C0]/15">
-                                <div className="w-4.5 h-4.5 bg-white rounded-sm rotate-45"></div>
-                            </div>
-                            <span className="text-lg font-black tracking-tighter text-slate-900">LASOMA<span className="text-[#0026C0]">A</span></span>
+                            <Image
+                                src={logo}
+                                alt="LASOMAA"
+                                width={164}
+                                height={32}
+                                className="object-contain"
+                            />
                         </div>
 
                         <div className="flex items-center gap-2">

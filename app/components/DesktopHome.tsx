@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronDown, ChevronRight, ArrowRight, ShieldCheck, Truck, Clock, Rocket, Zap, Star, Shield, HelpCircle as HelpIcon, Send, MapPin } from 'lucide-react';
 import Header from './Header';
+import Image from 'next/image';
+import logo from '../logo.png';
 
 // --- UI Components ---
 const ProductCard = ({ name, price, unit, image, supplier, location, rating = 4.5, reviews = 0, isVerified = false, isLocal = false, onClick, onContact }: any) => {
@@ -130,7 +132,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                             </video>
                             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent z-10"></div>
                             <div className="relative z-20 px-6 lg:px-12 space-y-4 lg:space-y-6 max-w-2xl text-left">
-                                <h1 className="text-3xl lg:text-5xl font-black text-white leading-tight tracking-tight">Africa's Leading <br className="lg:hidden" /> B2B Marketplace.</h1>
+                                <h1 className="text-3xl lg:text-5xl font-black text-white leading-tight tracking-tight">Africa's First <br className="lg:hidden" /> B2B Marketplace.</h1>
                                 <p className="text-slate-200 text-sm lg:text-lg">First marketplace for African businesses, manufacturers, suppliers and buyers connect with each other</p>
                                 <button className="bg-[#0026C0] hover:bg-[#0020A0] text-white font-bold px-6 py-3 lg:px-8 lg:py-4 rounded-md transition-all shadow-lg flex items-center gap-2 group text-sm lg:text-base">
                                     Browse Products <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 group-hover:translate-x-1 transition-transform" />
@@ -284,10 +286,13 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
                                 <div className="col-span-2 space-y-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 bg-[#0026C0] rounded-xl flex items-center justify-center">
-                                            <div className="w-6 h-6 bg-white rounded-sm rotate-45"></div>
-                                        </div>
-                                        <span className="text-2xl font-black tracking-tight">LASOMA<span className="text-[#0026C0]">A</span></span>
+                                        <Image
+                                            src={logo}
+                                            alt="LASOMAA"
+                                            width={164}
+                                            height={32}
+                                            className="object-contain"
+                                        />
                                     </div>
                                     <p className="text-slate-500 max-w-sm leading-relaxed">
                                         Africa's largest B2B wholesale marketplace connecting global buyers with certified African manufacturers.

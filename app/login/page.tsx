@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Phone, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { COUNTRY_CODES } from '@/src/constants/constanst';
 import { buyerLogin } from '@/src/lib/api';
+import Image from 'next/image';
+import logo from '../logo.png';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -46,10 +48,13 @@ export default function LoginPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent scale-150"></div>
         </div>
         <div className="relative z-10 flex items-center gap-3 cursor-pointer" onClick={() => router.push('/')}>
-          <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-2xl">
-            <div className="w-6 h-6 bg-[#0026C0] rounded-sm rotate-45"></div>
-          </div>
-          <span className="text-2xl font-black tracking-tight text-white uppercase italic">LASOMA<span className="text-blue-200">A</span></span>
+          <Image
+            src={logo}
+            alt="LASOMAA"
+            width={205}
+            height={40}
+            className="brightness-0 invert object-contain"
+          />
         </div>
         <div className="relative z-10 space-y-6">
           <h1 className="text-6xl font-black text-white leading-tight uppercase italic">
@@ -64,11 +69,14 @@ export default function LoginPage() {
       {/* Right side */}
       <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 lg:p-24 bg-white lg:rounded-l-[30px] shadow-2xl z-20">
         <div className="lg:hidden w-full flex items-center justify-center mb-10">
-          <div className="flex items-center gap-2" onClick={() => router.push('/')}>
-            <div className="w-8 h-8 bg-[#0026C0] rounded-lg flex items-center justify-center">
-              <div className="w-4 h-4 bg-white rounded-sm rotate-45"></div>
-            </div>
-            <span className="text-lg font-black tracking-tight text-slate-900 italic uppercase">LASOMA<span className="text-[#0026C0]">A</span></span>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
+            <Image
+              src={logo}
+              alt="LASOMAA"
+              width={164}
+              height={32}
+              className="object-contain"
+            />
           </div>
         </div>
 
