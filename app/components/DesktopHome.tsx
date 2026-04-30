@@ -88,15 +88,14 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
         return name
             .toLowerCase()
             .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-            .replace(/\s+/g, '-') // Replace spaces with hyphens
-            .replace(/-+/g, '-') // Replace multiple hyphens with single
-            .trim();
+            .trim()
+            .replace(/\s+/g, '-')         // Replace spaces with hyphens
+            .replace(/-+/g, '-')
+            .replace(/^-+|-+$/g, '');
     };
 
     const handleProductClick = (productData: any) => {
         const slug = createSlug(productData.name || productData.title);
-        // Using the new format: /product/[uniqueId]/[slug]
-        // productData.id is now the url_id from Typesense
         router.push(`/product/${productData.id}/${slug}`);
     };
 
