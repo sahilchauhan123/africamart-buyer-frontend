@@ -296,7 +296,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                         />
                                     </div>
                                     <p className="text-slate-500 max-w-sm leading-relaxed">
-                                        Africa's largest B2B wholesale marketplace connecting global buyers with certified African manufacturers,suppliers,exporters.
+                                        First Digital Marketplace in Africa connecting buyers with manufacturers,suppliers and exporters.
                                     </p>
 
                                 </div>
