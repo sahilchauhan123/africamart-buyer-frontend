@@ -88,8 +88,8 @@ export async function fetchProducts(query: string, filters: any = {}, page: numb
             };
         }) || [];
 
-        return { 
-            products, 
+        return {
+            products,
             facets: data.data?.facet_counts || [],
             found: data.data?.found || 0
         };
@@ -249,31 +249,74 @@ export const sendChatMessage = (sellerID: number, content: string) => fetch(`${A
     credentials: 'include'
 });
 
-export async function fetchRecommendations(categoryId: string) {
-    if (!categoryId) return [];
+export async function fetchRecommendations(productName: string, productID: string) {
+    if (!productName || !productID) return [];
     try {
-        const res = await fetch(`${API_BASE_URL}/search/unprotected/recommendations?categoryID=${encodeURIComponent(categoryId)}`, {
+        const res = await fetch(`${API_BASE_URL}/search/unprotected/recommendations?productName=${encodeURIComponent(productName)}`, {
             cache: 'no-store'
         });
         const data = await res.json();
 
-        // Handle Typesense response structure
+
+        // Handle Typesense response structure and exclude the current product from recommendations
+        const hits = data.data?.hits || [];
+        return hits
+            .filter((hit: any) => hit.document.id !== productID)
+            .map((hit: any) => {
+                const doc = hit.document;
+                const images = doc.picture_url?.map((p: any) => p.img_url) || [];
+                return {
+                    ...doc,
+                    image: images.length > 0 ? images[0] : null,
+                    price: doc.min_price ? `₹${doc.min_price}` : 'Price on request',
+                    unit: doc.unit || 'Piece',
+                    name: doc.title,
+                    location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || doc.seller_location || 'India',
+                    seller_id: doc.seller_id,
+                };
+            });
+    } catch (error) {
+        console.error("Error fetching recommendations:", error);
+        return [];
+    }
+}
+
+export async function fetchProductsByCategorySlug(slug: string) {
+    if (!slug) return [];
+    try {
+        const res = await fetch(`${API_BASE_URL}/search/unprotected/products/category/${encodeURIComponent(slug)}`, {
+            cache: 'no-store'
+        });
+        const data = await res.json();
+        
         const hits = data.data?.hits || [];
         return hits.map((hit: any) => {
             const doc = hit.document;
             const images = doc.picture_url?.map((p: any) => p.img_url) || [];
             return {
                 ...doc,
+                id: doc.id,
                 image: images.length > 0 ? images[0] : null,
                 price: doc.min_price ? `₹${doc.min_price}` : 'Price on request',
                 unit: doc.unit || 'Piece',
                 name: doc.title,
                 location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || doc.seller_location || 'India',
                 seller_id: doc.seller_id,
+                seller_name: doc.seller_name || 'Verified Supplier'
             };
         });
     } catch (error) {
-        console.error("Error fetching recommendations:", error);
+        console.error("Error fetching products by category slug:", error);
         return [];
     }
 }
+
+export const createSlug = (name: string) => {
+    return name
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+        .trim()
+        .replace(/\s+/g, '-')         // Replace spaces with hyphens
+        .replace(/-+/g, '-')          // Replace multiple hyphens with single
+        .replace(/^-+|-+$/g, '');     // Remove leading/trailing hyphens
+};

@@ -216,7 +216,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                         <section className="py-2">
                             <div className="flex items-center justify-between mb-6 lg:mb-8">
                                 <div>
-                                    <h2 className="text-xl lg:text-3xl font-black tracking-tight text-slate-900">Featured Manufacturers</h2>
+                                    <h2 className="text-xl lg:text-3xl font-black tracking-tight text-slate-900">Featured Products</h2>
                                     <p className="text-slate-500 text-xs lg:text-sm font-medium">Top-rated goods from across the continent.</p>
                                 </div>
                             </div>

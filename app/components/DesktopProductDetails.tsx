@@ -55,14 +55,17 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
     const [recLoading, setRecLoading] = React.useState(false);
 
     React.useEffect(() => {
-        if (product.category_id) {
+        if (product.id) {
             setRecLoading(true);
-            fetchRecommendations(product.category_id).then(data => {
+            fetchRecommendations(product.name, product.id).then(data => {
                 setRecommendations(data);
+                setRecLoading(false);
+            }).catch(err => {
+                console.error("Error fetching recommendations:", err);
                 setRecLoading(false);
             });
         }
-    }, [product.category_id]);
+    }, [product.id, product.name]);
 
 
     const [showPhone, setShowPhone] = React.useState(false);
