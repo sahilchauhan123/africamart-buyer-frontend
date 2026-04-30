@@ -157,6 +157,7 @@ export async function fetchProductById(id: string) {
                 seller_id: doc.seller_id,
                 seller_address: doc.seller_address,
                 seller_phone: doc.seller_phone,
+                parent_category_ids: doc.parent_category_ids || [],
             };
         }
         return null;

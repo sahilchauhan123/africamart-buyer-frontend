@@ -26,7 +26,7 @@ interface DesktopProductDetailsProps {
         description?: string;
         category_name?: string;
         category_slug?: string;
-        parent_category_ids?: { id: string, name: string, slug: string }[];
+        parent_category_ids?: { id: string, name: string, slug: string, position: number }[];
         attributes?: string[];
         raw_attributes?: Record<string, any>;
         seller_address?: string;
@@ -251,14 +251,14 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                     {/* Left Column: Image Gallery */}
                     <div className="w-full lg:w-[480px] shrink-0">
                         <button
-                            onClick={onBack}
+                            onClick={onBack || (() => router.back())}
                             className="flex lg:hidden items-center gap-1 text-sm text-[#0026C0] font-bold hover:underline mb-4 group"
                         >
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
                             Back
                         </button>
                         <button
-                            onClick={onBack}
+                            onClick={onBack || (() => router.back())}
                             className="hidden lg:flex items-center gap-1 text-sm text-[#0026C0] font-bold hover:underline mb-6 group"
                         >
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
@@ -300,17 +300,28 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                     <main className="flex-1 min-w-0 space-y-4 lg:space-y-6">
                         {/* Breadcrumbs */}
                         <nav className="flex flex-wrap items-center gap-y-1 gap-x-2 text-[10px] lg:text-[11px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">
-                            <span className="hover:text-[#0026C0] cursor-pointer">Lasomaa</span>
-                            {product.parent_category_ids?.map((cat) => (
+                            {/* <span className="hover:text-[#0026C0] cursor-pointer" onClick={() => router.push('/')}>Lasomaa</span> */}
+                            {[...(product.parent_category_ids || [])].sort((a, b) => a.position - b.position).map((cat) => (
                                 <React.Fragment key={cat.id}>
+                                    <span
+                                        className="hover:text-[#0026C0] cursor-pointer"
+                                        onClick={() => router.push(`/categories/${cat.slug}`)}
+                                    >
+                                        {cat.name}
+                                    </span>
                                     <ChevronRight className="w-3 h-3 flex-shrink-0" />
-                                    <span className="hover:text-[#0026C0] cursor-pointer">{cat.name}</span>
+
                                 </React.Fragment>
                             ))}
                             {product.category_name && (
                                 <>
-                                    <ChevronRight className="w-3 h-3 flex-shrink-0" />
-                                    <span className="hover:text-[#0026C0] cursor-pointer">{product.category_name}</span>
+                                    {/* <ChevronRight className="w-3 h-3 flex-shrink-0" /> */}
+                                    <span
+                                        className="hover:text-[#0026C0] cursor-pointer"
+                                        onClick={() => router.push(`/categories/${product.category_slug}`)}
+                                    >
+                                        {product.category_name}
+                                    </span>
                                 </>
                             )}
                             <ChevronRight className="w-3 h-3 flex-shrink-0" />
@@ -423,13 +434,9 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                     <ShieldCheck className="w-3 h-3 fill-[#0026C0] text-white" />
                                     Verified
                                 </div>
-                                <div className="flex items-center gap-1.5 bg-slate-50 text-slate-600 px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider border border-slate-100">
-                                    <Clock className="w-3 h-3" />
-                                    2 yrs Member
-                                </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4 py-4 border-y border-slate-50 mb-6">
+                            {/* <div className="grid grid-cols-2 gap-4 py-4 border-y border-slate-50 mb-6">
                                 <div className="space-y-1">
                                     <div className="flex items-center gap-1">
                                         {[...Array(5)].map((_, i) => (
@@ -442,7 +449,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                     <div className="text-sm font-black text-green-600">88%</div>
                                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Response Rate</p>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="space-y-3">
                                 <button

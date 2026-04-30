@@ -63,6 +63,7 @@ const ProductCard = ({ name, price, unit, image, supplier, location, rating = 4.
 
 // --- Page Components ---
 import DesktopSearchResult from './DesktopSearchResult';
+import Link from 'next/link';
 
 export default function DesktopHome({ initialSearchQuery = '', initialProducts = [], initialFacets = [], initialCategories = [] }: { initialSearchQuery?: string, initialProducts?: any[], initialFacets?: any[], initialCategories?: any[] }) {
     const router = useRouter();
@@ -135,9 +136,9 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                             <div className="relative z-20 px-6 lg:px-12 space-y-4 lg:space-y-6 max-w-2xl text-left">
                                 <h1 className="text-3xl lg:text-5xl font-black text-white leading-tight tracking-tight">Africa's First <br className="lg:hidden" /> B2B Marketplace.</h1>
                                 <p className="text-slate-200 text-sm lg:text-lg">First marketplace for African businesses, manufacturers, suppliers and buyers connect with each other</p>
-                                <button className="bg-[#0026C0] hover:bg-[#0020A0] text-white font-bold px-6 py-3 lg:px-8 lg:py-4 rounded-md transition-all shadow-lg flex items-center gap-2 group text-sm lg:text-base">
+                                <Link href="/search?q=*" className="bg-[#0026C0] hover:bg-[#0020A0] text-white font-bold px-6 py-3 lg:px-8 lg:py-4 rounded-md transition-all shadow-lg flex items-center gap-2 group text-sm lg:text-base w-fit">
                                     Browse Products <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 group-hover:translate-x-1 transition-transform" />
-                                </button>
+                                </Link>
                             </div>
                         </section>
 
@@ -232,7 +233,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                             </div>
                         </section>
 
-                        {/* Why Choose Us Section */}
+                        {/* Why Choose Us Section
                         <section className="py-8 lg:py-12 border-t border-slate-100">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
                                 <div className="space-y-3 lg:space-y-4 text-center lg:text-left">
@@ -257,7 +258,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                     <p className="text-slate-500 text-sm leading-relaxed">Connect directly with factories to unlock manufacturing prices.</p>
                                 </div>
                             </div>
-                        </section>
+                        </section> */}
 
                         {/* Seller CTA Banner */}
                         <section className="bg-[#0026C0] rounded-3xl p-8 lg:p-12 overflow-hidden relative shadow-2xl">
@@ -267,15 +268,15 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                 </svg>
                             </div>
                             <div className="relative z-10 max-w-2xl space-y-4 lg:space-y-6">
-                                <h2 className="text-2xl lg:text-4xl font-black text-white leading-tight">Ready to take your business global?</h2>
-                                <p className="text-blue-100 text-sm lg:text-lg">Become the first members of Lasomaa and experience growth in your business</p>
+                                <h2 className="text-2xl lg:text-4xl font-black text-white leading-tight">Want to take your business online?</h2>
+                                <p className="text-blue-100 text-sm lg:text-lg">Sign up as a manufacturer or supplier and reach customers across the continent.</p>
                                 <div className="flex flex-wrap gap-3 lg:gap-4">
-                                    <button className="bg-white text-[#0026C0] font-black px-6 py-3 lg:px-8 lg:py-4 rounded-xl hover:bg-blue-50 transition-all shadow-xl text-sm lg:text-base">
+                                    <Link href="https://seller.lasomaa.com" className="bg-white text-[#0026C0] font-black px-6 py-3 lg:px-8 lg:py-4 rounded-xl hover:bg-blue-50 transition-all shadow-xl text-sm lg:text-base">
                                         Start Selling
-                                    </button>
-                                    <button className="bg-white/10 text-white border border-white/20 font-bold px-6 py-3 lg:px-8 lg:py-4 rounded-xl hover:bg-white/20 transition-all backdrop-blur-sm text-sm lg:text-base">
+                                    </Link>
+                                    <Link href="/contact" className="bg-white/10 text-white border border-white/20 font-bold px-6 py-3 lg:px-8 lg:py-4 rounded-xl hover:bg-white/20 transition-all backdrop-blur-sm text-sm lg:text-base">
                                         Learn More
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </section>
