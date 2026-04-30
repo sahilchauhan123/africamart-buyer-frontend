@@ -103,7 +103,7 @@ export default function DashboardPage() {
           height: 100% !important;
         }
       `}</style>
-      
+
       <div className="flex-none z-50">
         <Header />
       </div>
@@ -160,7 +160,7 @@ export default function DashboardPage() {
         </aside>
 
         {/* Content Area */}
-        <main className="flex-1 overflow-hidden relative flex flex-col">
+        <main className="flex-1 overflow-hidden relative flex flex-col pb-[70px] lg:pb-0">
           {activeTab === 'leads' && <LeadsView leads={leads} loading={loading} />}
           {activeTab === 'messages' && <MessagesView onOpenDrawer={() => { }} />}
           {activeTab === 'profile' && <ProfileSettingsView buyer={buyer} />}
@@ -168,28 +168,43 @@ export default function DashboardPage() {
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden bg-white border-t border-slate-100 flex items-center justify-around py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] flex-none z-50">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-slate-200/60 flex items-center justify-around py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] z-50 shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
         <button
           onClick={() => setActiveTab('leads')}
-          className={`flex flex-col items-center gap-1 ${activeTab === 'leads' ? 'text-[#0026C0]' : 'text-slate-400'}`}
+          className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'leads' ? 'text-[#0026C0]' : 'text-slate-400'}`}
         >
-          <ShoppingBag className="w-5 h-5" />
+          <div className={`p-2 rounded-2xl transition-all ${activeTab === 'leads' ? 'bg-[#0026C0]/10' : ''}`}>
+            <ShoppingBag className="w-5 h-5" />
+          </div>
           <span className="text-[9px] font-black uppercase tracking-widest leading-none">Inquiries</span>
         </button>
         <button
           onClick={() => setActiveTab('messages')}
-          className={`flex flex-col items-center gap-1 ${activeTab === 'messages' ? 'text-[#0026C0]' : 'text-slate-400'}`}
+          className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'messages' ? 'text-[#0026C0]' : 'text-slate-400'}`}
         >
-          <Mail className="w-5 h-5" />
+          <div className={`p-2 rounded-2xl transition-all ${activeTab === 'messages' ? 'bg-[#0026C0]/10' : ''}`}>
+            <Mail className="w-5 h-5" />
+          </div>
           <span className="text-[9px] font-black uppercase tracking-widest leading-none">Messages</span>
         </button>
         <button
           onClick={() => setActiveTab('profile')}
-          className={`flex flex-col items-center gap-1 ${activeTab === 'profile' ? 'text-[#0026C0]' : 'text-slate-400'}`}
+          className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'profile' ? 'text-[#0026C0]' : 'text-slate-400'}`}
         >
-          <Settings className="w-5 h-5" />
+          <div className={`p-2 rounded-2xl transition-all ${activeTab === 'profile' ? 'bg-[#0026C0]/10' : ''}`}>
+            <Settings className="w-5 h-5" />
+          </div>
           <span className="text-[9px] font-black uppercase tracking-widest leading-none">Profile</span>
         </button>
+        {/* <button
+          onClick={handleLogout}
+          className="flex flex-col items-center gap-1 text-red-500"
+        >
+          <div className="p-2 rounded-2xl bg-red-50">
+            <LogOut className="w-5 h-5" />
+          </div>
+          <span className="text-[9px] font-black uppercase tracking-widest leading-none">Sign Out</span>
+        </button> */}
       </div>
     </div >
   );

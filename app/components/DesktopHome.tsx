@@ -131,6 +131,11 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                             >
                                 <source src="https://pub-f7a836f6fb2b4d8dbef935fc1009971a.r2.dev/lassomaherosectionvideo.mp4" type="video/mp4" />
                             </video>
+                            <img
+                                src="https://assets.weforum.org/article/image/large_S-gx3IJcoovd78Bcrw_B-lzvxi9W9g3W38AmJS2IRVY.png"
+                                alt="African Trade"
+                                className="lg:hidden absolute inset-0 w-full h-full object-cover z-0 opacity-60"
+                            />
                             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent z-10"></div>
                             <div className="relative z-20 px-6 lg:px-12 space-y-4 lg:space-y-6 max-w-2xl text-left">
                                 <h1 className="text-3xl lg:text-5xl font-black text-white leading-tight tracking-tight">Africa's First <br className="lg:hidden" /> B2B Marketplace.</h1>
