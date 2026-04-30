@@ -57,12 +57,22 @@ export async function buyerLogout() {
     return res;
 }
 
-export async function fetchProducts(query: string) {
+export async function fetchProducts(query: string, filters: any = {}, page: number = 1, limit: number = 10) {
     try {
-        const searchQuery = query || '*';
-        const res = await fetch(`${API_BASE_URL}/search/unprotected/products?query=${encodeURIComponent(searchQuery)}`, {
-            cache: 'no-store' // Ensure it's SSR
+        const res = await fetch(`${API_BASE_URL}/search/unprotected/products`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: query || '*',
+                filters: filters,
+                page: page,
+                limit: limit
+            }),
+            cache: 'no-store'
         });
+
         const data = await res.json();
         const products = data.data?.hits?.map((hit: any) => {
             const doc = hit.document;
@@ -77,13 +87,18 @@ export async function fetchProducts(query: string) {
                 seller_id: doc.seller_id,
             };
         }) || [];
-        const facets = data.data?.facet_counts || [];
-        return { products, facets };
+
+        return { 
+            products, 
+            facets: data.data?.facet_counts || [],
+            found: data.data?.found || 0
+        };
     } catch (error) {
         console.error("Error fetching products server-side:", error);
-        return { products: [], facets: [] };
+        return { products: [], facets: [], found: 0 };
     }
 }
+
 
 export async function fetchSuggestions(query: string) {
     if (!query) return [];

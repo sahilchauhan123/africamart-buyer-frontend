@@ -143,7 +143,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
 
                         {/* Looking for something, like? (Square Categories) */}
                         <section className="py-8 lg:py-16 flex flex-col items-center">
-                            <h2 className="text-xl lg:text-3xl font-black text-slate-900 mb-8 lg:mb-14 uppercase tracking-tight">Looking for something, like?</h2>
+                            <h2 className="text-xl lg:text-3xl font-black text-slate-900 mb-8 lg:mb-10 tracking-tight">Looking for something, like?</h2>
                             <div className="flex flex-wrap justify-center gap-4 lg:gap-10">
                                 {(initialCategories || []).slice(0, 5).map((cat: any, idx) => (
                                     <div

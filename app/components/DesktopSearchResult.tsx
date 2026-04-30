@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 import { ChevronDown, SlidersHorizontal } from 'lucide-react';
-import { searchProducts } from '@/src/lib/api';
+import { fetchProducts } from '@/src/lib/api';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 export default function DesktopSearchResult({
     searchQuery,
@@ -18,13 +19,46 @@ export default function DesktopSearchResult({
     initialFacets?: any[],
     initialQuery?: string
 }) {
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    
+    // Read selected attributes directly from the URL (Source of Truth)
+    const selectedAttributes = searchParams.getAll('filters[attributes]');
+    
     const [products, setProducts] = useState(initialProducts);
     const [facets, setFacets] = useState(initialFacets);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedAttributes, setSelectedAttributes] = useState<string[]>([]);
     const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-    // Re-fetch when query or filters change
+    // Function to update the URL with new filters
+    const updateUrl = (newFilters: string[]) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete('filters[attributes]');
+        newFilters.forEach(attr => {
+            params.append('filters[attributes]', attr);
+        });
+        
+        const query = params.toString();
+        const newUrl = `${pathname}${query ? `?${query}` : ''}`;
+        router.push(newUrl, { scroll: false });
+    };
+
+    const toggleAttribute = (attr: string) => {
+        const newFilters = selectedAttributes.includes(attr)
+            ? selectedAttributes.filter(a => a !== attr)
+            : [...selectedAttributes, attr];
+        
+        updateUrl(newFilters);
+    };
+
+    const clearAllFilters = () => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete('filters[attributes]');
+        router.push(`${pathname}${params.toString() ? `?${params.toString()}` : ''}`, { scroll: false });
+    };
+
+    // Re-fetch when query or URL filters change
     useEffect(() => {
         const updateResults = async () => {
             // Skip initial fetch if it's the first render and we have initial data
@@ -32,25 +66,9 @@ export default function DesktopSearchResult({
 
             setIsLoading(true);
             try {
-                const res = await searchProducts(searchQuery, selectedAttributes);
-                const data = await res.json();
-
-                const fetchedProducts = data.data?.hits?.map((hit: any) => {
-                    const doc = hit.document;
-                    const images = doc.picture_url?.map((p: any) => p.img_url) || [];
-                    return {
-                        ...doc,
-                        image: images.length > 0 ? images[0] : null,
-                        price: doc.min_price ? `₹${doc.min_price}` : 'Price on request',
-                        unit: doc.unit || 'Piece',
-                        name: doc.title,
-                        supplier: doc.seller_name || 'Verified Supplier',
-                        location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_location || 'India',
-                    };
-                }) || [];
-
-                setProducts(fetchedProducts);
-                if (data.data?.facet_counts) setFacets(data.data.facet_counts);
+                const result = await fetchProducts(searchQuery, { attributes: selectedAttributes });
+                setProducts(result.products);
+                setFacets(result.facets);
             } catch (err) {
                 console.error("Fetch error:", err);
             } finally {
@@ -58,24 +76,25 @@ export default function DesktopSearchResult({
             }
         };
 
-        const timer = setTimeout(updateResults, 300);
+        const timer = setTimeout(updateResults, 100); // Faster response
         return () => clearTimeout(timer);
-    }, [searchQuery, selectedAttributes]);
+    }, [searchQuery, searchParams]); // Watch searchParams for changes
 
-    // Group attributes by key (e.g. "Color:Red" -> "Color" category)
+
+    // Group attributes by key AND FILTER OUT SELECTED ONES
     const attributeFacets = facets.find((f: any) => f.field_name === 'attributes')?.counts || [];
     const groupedAttributes = attributeFacets.reduce((acc: any, curr: any) => {
+        // Skip if already selected
+        if (selectedAttributes.includes(curr.value)) return acc;
+
         const [key, value] = curr.value.split(':');
         if (!acc[key]) acc[key] = [];
         acc[key].push({ value: curr.value, label: value, count: curr.count });
         return acc;
     }, {});
 
-    const toggleAttribute = (attr: string) => {
-        setSelectedAttributes(prev =>
-            prev.includes(attr) ? prev.filter(a => a !== attr) : [...prev, attr]
-        );
-    };
+
+
 
     return (
         <div className="w-full flex flex-col lg:flex-row gap-6 px-4 lg:px-8 py-4 lg:py-6 max-w-[1600px] mx-auto min-h-screen">
@@ -113,6 +132,40 @@ export default function DesktopSearchResult({
                         ✕
                     </button>
                 </div>
+                {/* Active Filters */}
+                {selectedAttributes.length > 0 && (
+                    <div className="bg-white border border-slate-200 rounded-xl lg:rounded-sm p-4 shadow-sm mb-4">
+                        <div className="flex items-center justify-between mb-3">
+                            <h3 className="font-black text-slate-800 text-[10px] lg:text-xs uppercase tracking-widest">Active Filters</h3>
+                            <button 
+                                onClick={clearAllFilters}
+                                className="text-[10px] font-black text-[#0026C0] uppercase tracking-widest hover:underline"
+                            >
+                                Clear All
+                            </button>
+
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                            {selectedAttributes.map(attr => {
+                                const [key, value] = attr.split(':');
+                                return (
+                                    <span 
+                                        key={attr}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            toggleAttribute(attr);
+                                        }}
+                                        className="bg-blue-50 text-[#0026C0] text-[10px] font-bold px-2.5 py-1.5 rounded-full border border-blue-100 flex items-center gap-1.5 cursor-pointer hover:bg-blue-600 hover:text-white hover:border-blue-700 transition-all group"
+                                    >
+                                        {value}
+                                        <span className="text-blue-300 group-hover:text-white font-black">✕</span>
+                                    </span>
+                                );
+                            })}
+                        </div>
+
+                    </div>
+                )}
 
                 {/* Dynamic Attribute Filters */}
                 {Object.keys(groupedAttributes).map(category => (
@@ -159,7 +212,7 @@ export default function DesktopSearchResult({
                 {showMobileFilters && (
                     <div className="mt-8 flex gap-4">
                         <button
-                            onClick={() => { setSelectedAttributes([]); setShowMobileFilters(false); }}
+                            onClick={() => { clearAllFilters(); setShowMobileFilters(false); }}
                             className="flex-1 py-4 border border-slate-200 rounded-xl font-black text-xs uppercase tracking-widest text-slate-600"
                         >
                             Reset
@@ -217,7 +270,7 @@ export default function DesktopSearchResult({
                         <h3 className="text-lg font-bold text-slate-900">No matching products found</h3>
                         <p className="text-slate-500 text-sm mt-1">Try resetting your filters or using a different search term.</p>
                         <button
-                            onClick={() => setSelectedAttributes([])}
+                            onClick={clearAllFilters}
                             className="mt-6 text-[#0026C0] font-bold text-sm hover:underline"
                         >
                             Clear all filters
