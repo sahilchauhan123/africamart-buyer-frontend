@@ -80,7 +80,7 @@ export async function fetchProducts(query: string, filters: any = {}, page: numb
             return {
                 ...doc,
                 image: images.length > 0 ? images[0] : null,
-                price: doc.min_price ? `₹${doc.min_price}` : 'Price on request',
+                price: doc.min_price ? `$${doc.min_price}` : 'Price on request',
                 unit: doc.unit || 'Piece',
                 name: doc.title,
                 location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || 'India',
@@ -131,7 +131,7 @@ export async function fetchProductById(id: string) {
                 id: doc.id,
                 name: doc.title,
                 title: doc.title,
-                price: doc.min_price ? `₹${doc.min_price}` : 'Price on request',
+                price: doc.min_price ? `$${doc.min_price}` : 'Price on request',
                 unit: doc.unit || 'Piece',
                 image: mainImage,
                 images: sortedImages,
@@ -268,7 +268,7 @@ export async function fetchRecommendations(productName: string, productID: strin
                 return {
                     ...doc,
                     image: images.length > 0 ? images[0] : null,
-                    price: doc.min_price ? `₹${doc.min_price}` : 'Price on request',
+                    price: doc.min_price ? `$${doc.min_price}` : 'Price on request',
                     unit: doc.unit || 'Piece',
                     name: doc.title,
                     location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || doc.seller_location || 'India',
@@ -288,7 +288,7 @@ export async function fetchProductsByCategorySlug(slug: string) {
             cache: 'no-store'
         });
         const data = await res.json();
-        
+
         const hits = data.data?.hits || [];
         return hits.map((hit: any) => {
             const doc = hit.document;
@@ -297,7 +297,7 @@ export async function fetchProductsByCategorySlug(slug: string) {
                 ...doc,
                 id: doc.id,
                 image: images.length > 0 ? images[0] : null,
-                price: doc.min_price ? `₹${doc.min_price}` : 'Price on request',
+                price: doc.min_price ? `$${doc.min_price}` : 'Price on request',
                 unit: doc.unit || 'Piece',
                 name: doc.title,
                 location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || doc.seller_location || 'India',
