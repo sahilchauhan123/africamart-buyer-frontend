@@ -20,7 +20,7 @@ const DesktopSignUpOverlay: React.FC<DesktopSignUpOverlayProps> = ({ isOpen, onC
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'unset';
-            setStep(1); 
+            setStep(1);
             setIsCompleting(false);
         }
         return () => {
@@ -55,14 +55,14 @@ const DesktopSignUpOverlay: React.FC<DesktopSignUpOverlayProps> = ({ isOpen, onC
     return (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 font-body">
             {/* Backdrop */}
-            <div 
+            <div
                 className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200"
                 onClick={!isCompleting ? onClose : undefined}
             ></div>
 
             {/* Modal Card */}
             <div className={`relative w-full ${step === 3 ? 'max-w-[500px]' : 'max-w-[360px]'} bg-white rounded-sm shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 border border-slate-200 transition-all duration-300`}>
-                
+
                 {/* Progress Bar (Hidden during completion) */}
                 {!isCompleting && (
                     <div className="absolute top-0 left-0 w-full h-1 bg-slate-100 pointer-events-none">
@@ -90,20 +90,20 @@ const DesktopSignUpOverlay: React.FC<DesktopSignUpOverlayProps> = ({ isOpen, onC
 
                 <div className={`p-10 transition-opacity duration-300 ${isCompleting ? 'opacity-0 scale-95' : 'opacity-100'}`}>
                     <div className="flex justify-between items-center mb-10">
-                         <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4">
                             {step > 1 && (
-                                <button 
+                                <button
                                     onClick={handleBack}
                                     className="p-1 rounded text-slate-400 hover:text-[#0026C0] transition-colors"
                                 >
                                     <ArrowLeft size={16} />
                                 </button>
                             )}
-                            <h2 className="text-sm font-black text-slate-900 uppercase tracking-tight">Create Account</h2>
+                            <h2 className="text-sm font-black text-slate-900  tracking-tight">Create Account</h2>
                         </div>
                         <div className="flex items-center gap-4">
                             <span className="text-slate-400 font-bold uppercase text-[9px] tracking-widest hidden sm:inline">Step {step}/3</span>
-                            <button 
+                            <button
                                 onClick={onClose}
                                 className="p-1 rounded text-slate-400 hover:text-slate-900 transition-colors"
                             >
@@ -149,8 +149,8 @@ const DesktopSignUpOverlay: React.FC<DesktopSignUpOverlayProps> = ({ isOpen, onC
                                 </div>
                             </div>
 
-                             <footer className="mt-8 text-center pt-6 border-t border-slate-100">
-                                <button 
+                            <footer className="mt-8 text-center pt-6 border-t border-slate-100">
+                                <button
                                     onClick={onLogin}
                                     className="text-[#0026C0] font-black hover:underline uppercase tracking-widest text-[9px]"
                                 >
@@ -172,7 +172,7 @@ const DesktopSignUpOverlay: React.FC<DesktopSignUpOverlayProps> = ({ isOpen, onC
                                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none ml-1">Company Name</label>
                                     <input className="w-full h-10 px-3 bg-white border border-slate-200 focus:border-[#0026C0] rounded-sm transition-all text-slate-900 font-bold outline-none text-xs shadow-sm" placeholder="Global Trade Ltd." type="text" />
                                 </div>
-                                
+
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="space-y-1">
                                         <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none ml-1">Type</label>
@@ -213,7 +213,7 @@ const DesktopSignUpOverlay: React.FC<DesktopSignUpOverlayProps> = ({ isOpen, onC
 
                     {step === 3 && (
                         <div className="animate-in slide-in-from-right-4 duration-300">
-                             <div className="mb-6">
+                            <div className="mb-6">
                                 <h3 className="text-[10px] font-black text-[#0026C0] uppercase tracking-widest mb-1">Trade Interests</h3>
                                 <p className="text-slate-500 text-xs font-medium">Select sourcing categories.</p>
                             </div>
@@ -238,11 +238,10 @@ const DesktopSignUpOverlay: React.FC<DesktopSignUpOverlayProps> = ({ isOpen, onC
                                                 setSelectedInterests([...selectedInterests, topic.id]);
                                             }
                                         }}
-                                        className={`flex flex-col items-center justify-center p-2 rounded-sm border-2 transition-all duration-300 relative group ${
-                                            selectedInterests.includes(topic.id)
+                                        className={`flex flex-col items-center justify-center p-2 rounded-sm border-2 transition-all duration-300 relative group ${selectedInterests.includes(topic.id)
                                             ? 'bg-slate-900 border-slate-900 text-white'
                                             : 'bg-white border-slate-100 text-slate-900 hover:border-[#0026C0]/40'
-                                        }`}
+                                            }`}
                                     >
                                         <div className="w-8 h-8 rounded-full overflow-hidden mb-1.5 border border-slate-50 relative">
                                             <img src={topic.img} alt={topic.label} className="w-full h-full object-cover" />

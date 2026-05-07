@@ -11,7 +11,7 @@ import logo from '../logo.png';
 export default function LoginPage() {
   const router = useRouter();
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [country, setCountry] = useState(COUNTRY_CODES[100]); // Default India
+  const [country, setCountry] = useState(COUNTRY_CODES[121]); // Default Liberia
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,7 +41,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row font-body">
+    <div className="min-h-screen bg-white lg:bg-slate-50 flex flex-col lg:flex-row font-body">
       {/* Left side */}
       <div className="hidden lg:flex w-1/2 bg-[#0026C0] p-16 flex-col justify-between relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
@@ -67,7 +67,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right side */}
-      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 lg:p-24 bg-white lg:rounded-l-[30px] shadow-2xl z-20">
+      <div className="w-full lg:w-1/2 flex-1 lg:flex-none flex flex-col items-center justify-center p-6 lg:p-24 bg-white lg:rounded-l-[30px] lg:shadow-2xl z-20">
         <div className="lg:hidden w-full flex items-center justify-center mb-10">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
             <Image
@@ -80,9 +80,9 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="w-full max-w-[380px] space-y-10">
+        <div className="w-full max-w-[380px] space-y-6 lg:space-y-10">
           <div className="space-y-2">
-            <h2 className="text-3xl font-black text-slate-900 tracking-tight uppercase tracking-tighter">Sign In</h2>
+            <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight tracking-tighter">Sign In</h2>
             <p className="text-slate-500 font-bold text-sm">Welcome back to your business hub.</p>
           </div>
 
@@ -157,7 +157,7 @@ export default function LoginPage() {
             </div>
           </form>
 
-          <div className="pt-10 border-t border-slate-100 text-center space-y-4">
+          <div className="pt-8 lg:pt-10 border-t border-slate-100 text-center space-y-4">
             <p className="text-slate-400 font-bold uppercase tracking-widest text-[9px]">Are you new here?</p>
             <button
               onClick={() => router.push('/signup')}

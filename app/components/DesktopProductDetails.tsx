@@ -42,7 +42,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
     const [showAuthModal, setShowAuthModal] = React.useState(false);
     const [authStep, setAuthStep] = React.useState<'phone' | 'login' | 'signup' | 'otp'>('phone');
     const [phoneNumber, setPhoneNumber] = React.useState("");
-    const [country, setCountry] = React.useState(COUNTRY_CODES[100]); // India
+    const [country, setCountry] = React.useState(COUNTRY_CODES[121]); // Liberia
     const [password, setPassword] = React.useState("");
     const [fullName, setFullName] = React.useState("");
     const [email, setEmail] = React.useState("");

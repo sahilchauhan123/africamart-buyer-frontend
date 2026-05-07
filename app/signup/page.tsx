@@ -13,7 +13,7 @@ export default function SignupPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [country, setCountry] = useState(COUNTRY_CODES[100]); // Default to India (+91)
+  const [country, setCountry] = useState(COUNTRY_CODES[121]); // Default to Liberia (+231)
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
@@ -77,7 +77,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row font-body">
+    <div className="min-h-screen bg-white lg:bg-slate-50 flex flex-col lg:flex-row font-body">
       {/* Left side: branding */}
       <div className="hidden lg:flex w-[40%] bg-[#0026C0] p-16 flex-col justify-between relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
@@ -100,7 +100,7 @@ export default function SignupPage() {
       </div>
 
       {/* Right side */}
-      <div className="w-full lg:w-[60%] flex flex-col items-center justify-center p-6 lg:p-12 bg-white lg:rounded-l-[30px] shadow-2xl relative">
+      <div className="w-full lg:w-[60%] flex-1 lg:flex-none flex flex-col items-center justify-center p-6 lg:p-12 bg-white lg:rounded-l-[30px] lg:shadow-2xl relative">
         <div className="lg:hidden w-full flex items-center justify-center mb-10">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
             <Image
@@ -113,11 +113,11 @@ export default function SignupPage() {
           </div>
         </div>
 
-        <div className="w-full max-w-[450px] space-y-6">
+        <div className="w-full max-w-[450px] space-y-4 lg:space-y-6">
           {!otpSent ? (
             <>
               <div className="space-y-1">
-                <h2 className="text-2xl font-black text-slate-900 tracking-tight uppercase tracking-tighter">Create Account</h2>
+                <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight tracking-tighter">Create Account</h2>
                 <p className="text-slate-500 font-bold text-sm">Join the B2B marketplace.</p>
               </div>
 
@@ -259,7 +259,7 @@ export default function SignupPage() {
             </div>
           )}
 
-          <div className="pt-8 border-t border-slate-100 text-center space-y-4">
+          <div className="pt-2 lg:pt-8 border-t border-slate-100 text-center space-y-4">
             <p className="text-slate-400 font-bold uppercase tracking-widest text-[9px]">Already have an account?</p>
             <button
               onClick={() => router.push('/login')}

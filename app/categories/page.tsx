@@ -14,7 +14,8 @@ export default async function CategoriesPage() {
             <Header />
             <main className="max-w-[1200px] mx-auto p-4 lg:p-6 transition-all duration-500">
                 <div className="mb-8 lg:mb-12 text-center lg:text-left">
-                    <h1 className="text-2xl lg:text-4xl font-black text-slate-900 tracking-tight mb-2 lg:mb-4">Explore Categories</h1>
+                    <h1 className="text-xl lg:text-3xl font-black text-slate-900 mb-2 lg:mb-4 tracking-tight">Explore Categories</h1>
+
                     <p className="text-slate-500 text-sm lg:text-lg font-medium">Connect with verified manufacturers across all major sectors.</p>
                 </div>
 
@@ -32,7 +33,7 @@ export default async function CategoriesPage() {
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 />
                             </div>
-                            <span className="font-bold text-slate-800 group-hover:text-[#0026C0] transition-colors line-clamp-2 uppercase tracking-tight text-[8px] sm:text-xs">
+                            <span className="font-bold text-slate-800 group-hover:text-[#0026C0] transition-colors line-clamp-2 tracking-tight text-[10px] sm:text-sm">
                                 {category.name}
                             </span>
                         </Link>

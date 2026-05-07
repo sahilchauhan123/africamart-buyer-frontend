@@ -122,6 +122,7 @@ export default function Header() {
                                 <div className="absolute top-full left-0 w-full bg-white mt-2 rounded-2xl shadow-2xl border-2 border-slate-200 z-[100] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 divide-y divide-slate-100">
                                     {apiSuggestions.map((item, idx) => (
                                         <button
+                                            type="button"
                                             key={idx}
                                             className="w-full flex items-center gap-3 px-4 py-2 hover:bg-slate-50 transition-colors text-left group"
                                             onClick={() => {
@@ -259,11 +260,13 @@ export default function Header() {
                             onBlur={() => setTimeout(() => setIsDropdownOpen(false), 200)}
                         />
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#0026C0] w-4.5 h-4.5 transition-colors" />
+                        <button type="submit" className="hidden">Search</button>
 
                         {isDropdownOpen && apiSuggestions.length > 0 && (
                             <div className="absolute top-full left-0 w-full bg-white mt-1.5 rounded-xl shadow-2xl border-2 border-slate-200 z-[110] overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200 divide-y divide-slate-100">
                                 {apiSuggestions.map((item, idx) => (
                                     <button
+                                        type="button"
                                         key={idx}
                                         className="w-full flex items-center gap-3 px-4 py-2 hover:bg-slate-50 transition-colors text-left group"
                                         onClick={() => {

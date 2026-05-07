@@ -161,7 +161,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                                 <img src={getCategoryImage(cat)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                             </div>
                                         </div>
-                                        <span className="text-[10px] lg:text-[13px] font-black text-slate-700 tracking-widest group-hover:text-[#0026C0] transition-colors">{cat.name}</span>
+                                        <span className="text-[10px] lg:text-[14px] font-black text-slate-900 tracking-widest group-hover:text-[#0026C0] transition-colors">{cat.name}</span>
                                     </div>
                                 ))}
                                 <div
@@ -179,8 +179,8 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                             </div>
                         </section>
 
-                        {/* Sourcing Request Banner */}
-                        <section className="relative bg-[#0026C0] rounded-xl p-6 lg:p-10 overflow-hidden shadow-2xl">
+                        {/* Sourcing Request Banner - Removed */}
+                        {/* <section className="relative bg-[#0026C0] rounded-xl p-6 lg:p-10 overflow-hidden shadow-2xl">
                             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
                                 <div className="text-left space-y-2 lg:space-y-3 max-w-xl">
                                     <div className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 px-3 py-1 rounded-full text-[9px] lg:text-[10px] font-black uppercase tracking-widest">
@@ -216,7 +216,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                     </button>
                                 </div>
                             </div>
-                        </section>
+                        </section> */}
 
                         <section className="py-2">
                             <div className="flex items-center justify-between mb-6 lg:mb-8">
@@ -273,7 +273,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                             </div>
                             <div className="relative z-10 max-w-2xl space-y-4 lg:space-y-6">
                                 <h2 className="text-2xl lg:text-4xl font-black text-white leading-tight">Want to take your business online?</h2>
-                                <p className="text-blue-100 text-sm lg:text-lg">Sign up as a manufacturer or supplier and reach customers across the continent.</p>
+                                <p className="text-blue-100 text-sm lg:text-lg">Sell your products as a manufacturer or supplier to customers across Liberia. We believe in empowering businesses to reach more people and grow faster.</p>
                                 <div className="flex flex-wrap gap-3 lg:gap-4">
                                     <Link href="https://seller.lasomaa.com" className="bg-white text-[#0026C0] font-black px-6 py-3 lg:px-8 lg:py-4 rounded-xl hover:bg-blue-50 transition-all shadow-xl text-sm lg:text-base">
                                         Start Selling
@@ -301,7 +301,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                         />
                                     </div>
                                     <p className="text-slate-500 max-w-sm leading-relaxed">
-                                        First Digital Marketplace in Africa connecting buyers with manufacturers,suppliers and exporters.
+                                        A Liberian online platform connecting buyers directly to manufacturers,suppliers and exporters.
                                     </p>
 
                                 </div>
