@@ -164,7 +164,7 @@ export default function DashboardPage() {
         </aside>
 
         {/* Content Area */}
-        <main className="flex-1 overflow-hidden relative flex flex-col pb-[70px] lg:pb-0">
+        <main className="flex-1 overflow-hidden relative flex flex-col">
           {activeTab === 'leads' && <LeadsView leads={leads} loading={loading} />}
           {activeTab === 'messages' && <MessagesView onOpenDrawer={() => { }} />}
           {activeTab === 'profile' && <ProfileSettingsView buyer={buyer} />}
@@ -270,14 +270,14 @@ function ProfileSettingsView({ buyer }: { buyer: any }) {
       <div className="max-w-3xl space-y-8">
         {/* Profile Section */}
         <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
-          <div className="flex items-center gap-6 pb-6 border-b border-slate-50">
-            <div className="w-20 h-20 bg-[#0026C0] rounded-3xl flex items-center justify-center text-white font-black text-3xl shadow-xl shadow-[#0026C0]/20">
+          <div className="flex items-center gap-2 pb-6 border-b border-slate-50">
+            <div className="shrink-0 w-15 h-15 bg-[#0026C0] rounded-full flex items-center justify-center text-white font-black text-3xl shadow-xl shadow-[#0026C0]/20">
               {buyer.full_name?.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h3 className="text-xl font-black text-slate-900 uppercase">{buyer.full_name}</h3>
-              <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">{buyer.email}</p>
-              <button className="mt-3 text-[10px] font-black text-[#0026C0] uppercase tracking-widest hover:underline">Change Photo</button>
+              <h3 className="text-xl font-black text-slate-900 ">{buyer.full_name}</h3>
+              <p className="text-slate-400 font-bold text-xs  tracking-widest">{buyer.email}</p>
+              {/* <button className="mt-3 text-[10px] font-black text-[#0026C0] uppercase tracking-widest hover:underline">Change Photo</button> */}
             </div>
           </div>
 

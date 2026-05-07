@@ -105,7 +105,13 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  min-height: max(884px, 100dvh);
+  min-height: 100dvh;
+}
+
+@media (min-width: 1024px) {
+  body {
+    min-height: max(884px, 100dvh);
+  }
 }
 @keyframes slideInFromLeft {
   from {
