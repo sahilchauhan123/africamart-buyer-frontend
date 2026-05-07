@@ -69,15 +69,9 @@ const ChatSessionView: React.FC<Props> = ({ onBack, chat, chatId, isEmbedded = f
                             <ArrowLeft size={24} />
                         </button>
                         <div className="flex-1 min-w-0">
-                            <h1 className="text-base font-black text-gray-900 truncate leading-tight uppercase">
+                            <h1 className="text-base font-black text-gray-900 truncate leading-tight">
                                 {chat?.seller_business_name || `Seller #${chat?.seller_id}`}
                             </h1>
-                            <div className="flex items-center text-[10px] font-black uppercase tracking-widest text-[#0026C0] mt-0.5 space-x-2">
-                                <span className="flex items-center">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
-                                    Active Supplier
-                                </span>
-                            </div>
                         </div>
                     </div>
                     <button className="p-2 text-slate-400 hover:text-slate-900 transition-colors">

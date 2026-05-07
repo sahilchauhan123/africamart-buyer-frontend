@@ -146,6 +146,7 @@ export default function Header() {
                     </div>
 
                     <nav className="flex items-center gap-8">
+
                         <div
                             onClick={() => router.push('/categories')}
                             className="flex items-center gap-2 text-slate-600 text-sm font-bold cursor-pointer hover:text-[#0026C0] transition-colors h-12"
@@ -180,16 +181,26 @@ export default function Header() {
                                         <p className="text-[10px] font-bold text-slate-400 line-clamp-1">{buyer.email}</p>
                                     </div>
                                     <button
-                                        onClick={() => router.push('/dashboard')}
-                                        className="w-full text-left px-4 py-3 text-xs font-black text-slate-600 hover:bg-slate-50 transition-colors uppercase tracking-widest"
+                                        onClick={() => router.push('/dashboard?tab=leads')}
+                                        className="w-full text-left px-4 py-2 text-xs font-black text-slate-600 hover:bg-slate-50 transition-colors uppercase tracking-widest"
                                     >
-                                        Dashboard
+                                        Inquiries
                                     </button>
-                                    <button className="w-full text-left px-4 py-3 text-xs font-black text-slate-600 hover:bg-slate-50 transition-colors uppercase tracking-widest">My Profile</button>
-                                    <button className="w-full text-left px-4 py-3 text-xs font-black text-slate-600 hover:bg-slate-50 transition-colors uppercase tracking-widest">Settings</button>
+                                    <button
+                                        onClick={() => router.push('/dashboard?tab=messages')}
+                                        className="w-full text-left px-4 py-2 text-xs font-black text-slate-600 hover:bg-slate-50 transition-colors uppercase tracking-widest"
+                                    >
+                                        Messages
+                                    </button>
+                                    <button
+                                        onClick={() => router.push('/dashboard?tab=profile')}
+                                        className="w-full text-left px-4 py-2 text-xs font-black text-slate-600 hover:bg-slate-50 transition-colors uppercase tracking-widest"
+                                    >
+                                        Profile
+                                    </button>
                                     <button
                                         onClick={handleLogout}
-                                        className="w-full text-left px-4 py-3 text-xs font-black text-red-600 hover:bg-red-50 transition-colors uppercase tracking-widest border-t border-slate-50"
+                                        className="w-full text-left px-4 py-2 text-xs font-black text-red-600 hover:bg-red-50 transition-colors uppercase tracking-widest border-t border-slate-50"
                                     >
                                         Sign Out
                                     </button>
@@ -291,7 +302,7 @@ export default function Header() {
 
                 {/* Mobile Menu Overlay */}
                 {isMobileMenuOpen && (
-                    <div className="lg:hidden fixed inset-0 top-[125px] bg-white z-[100] animate-in fade-in slide-in-from-bottom-5 duration-300 p-6 flex flex-col gap-8">
+                    <div className="lg:hidden fixed inset-0 top-[106px] bg-white z-[100] animate-slide-in-left p-6 flex flex-col gap-8">
                         {buyer && (
                             <div className="p-4 bg-slate-50 rounded-xl">
                                 <div className="flex items-center gap-4">
@@ -306,32 +317,55 @@ export default function Header() {
                             </div>
                         )}
 
-                        <div className="space-y-2">
+                        <div className="space-y-1">
                             <button
                                 onClick={() => {
                                     setIsMobileMenuOpen(false);
                                     router.push('/categories');
                                 }}
-                                className="w-full text-left font-black text-slate-900 flex items-center justify-between group p-4 hover:bg-slate-50 rounded-xl transition-all"
+                                className="w-full text-left font-black text-slate-900 flex items-center justify-between group py-2.5 px-4 hover:bg-slate-50 rounded-xl transition-all"
                             >
                                 <span>Categories</span>
                                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
                             </button>
 
                             {buyer && (
-                                <button
-                                    onClick={() => {
-                                        setIsMobileMenuOpen(false);
-                                        router.push('/dashboard');
-                                    }}
-                                    className="w-full text-left font-black text-slate-900 flex items-center justify-between group p-4 hover:bg-slate-50 rounded-xl transition-all"
-                                >
-                                    <span>Dashboard</span>
-                                    <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
-                                </button>
+                                <>
+
+                                    <button
+                                        onClick={() => {
+                                            setIsMobileMenuOpen(false);
+                                            router.push('/dashboard?tab=leads');
+                                        }}
+                                        className="w-full text-left font-black text-slate-900 flex items-center justify-between group py-2.5 px-4 hover:bg-slate-50 rounded-xl transition-all"
+                                    >
+                                        <span>Inquiries</span>
+                                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setIsMobileMenuOpen(false);
+                                            router.push('/dashboard?tab=messages');
+                                        }}
+                                        className="w-full text-left font-black text-slate-900 flex items-center justify-between group py-2.5 px-4 hover:bg-slate-50 rounded-xl transition-all"
+                                    >
+                                        <span>Messages</span>
+                                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setIsMobileMenuOpen(false);
+                                            router.push('/dashboard?tab=profile');
+                                        }}
+                                        className="w-full text-left font-black text-slate-900 flex items-center justify-between group py-2.5 px-4 hover:bg-slate-50 rounded-xl transition-all"
+                                    >
+                                        <span>Profile</span>
+                                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+                                    </button>
+                                </>
                             )}
 
-                            <button className="w-full text-left font-black text-slate-900 flex items-center justify-between group p-4 hover:bg-slate-50 rounded-xl transition-all">
+                            <button className="w-full text-left font-black text-slate-900 flex items-center justify-between group py-2.5 px-4 hover:bg-slate-50 rounded-xl transition-all">
                                 <span>Help</span>
                                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
                             </button>
@@ -339,7 +373,7 @@ export default function Header() {
                             {buyer && (
                                 <button
                                     onClick={handleLogout}
-                                    className="w-full text-left font-black text-red-600 flex items-center justify-between group p-4 hover:bg-red-50 rounded-xl transition-all mt-4 border-t border-slate-50"
+                                    className="w-full text-left font-black text-red-600 flex items-center justify-between group py-2.5 px-4 hover:bg-red-50 rounded-xl transition-all mt-4 border-t border-slate-50"
                                 >
                                     <span>Sign Out</span>
                                     <ArrowRight className="w-4 h-4 text-red-400 group-hover:translate-x-1 transition-transform" />

@@ -39,29 +39,13 @@ const BusinessMessagesView: React.FC<Props> = ({ onOpenDrawer, showChat, setShow
                     </div>
                 </header>
 
-                {/* Mobile Header (Only if not showing chat) */}
-                <header className="bg-[#0026C0] shadow-md z-40 flex-none lg:hidden shrink-0">
-                    <div className="flex items-center justify-between px-4 h-16">
-                        <button
-                            onClick={onOpenDrawer}
-                            className="text-white p-1 rounded-md hover:bg-white/10 transition flex items-center justify-center font-black uppercase text-xs"
-                        >
-                            <Menu size={24} />
-                        </button>
-                        <button className="p-2 text-white">
-                            <MoreVertical size={20} />
-                        </button>
-                    </div>
-                </header>
+
 
                 {/* Tabs */}
                 <div className="flex px-4 lg:px-6 border-b border-slate-100 bg-white lg:bg-transparent overflow-x-auto no-scrollbar">
-                    <button className="py-3 lg:py-4 border-b-2 border-[#0026C0] text-[#0026C0] text-[10px] lg:text-xs font-black transition-all whitespace-nowrap mr-6 uppercase tracking-widest">
-                        All Inquiries
-                    </button>
-                    <button className="py-3 lg:py-4 border-b-2 border-transparent text-slate-400 text-[10px] lg:text-xs font-black transition-all whitespace-nowrap uppercase tracking-widest">
-                        Unread
-                    </button>
+                    <span className="py-3 lg:py-4  text-[#0026C0] text-[10px] lg:text-xs font-black transition-all whitespace-nowrap mr-6 uppercase tracking-widest">
+                        Messages
+                    </span>
                 </div>
 
                 {/* Chat List */}

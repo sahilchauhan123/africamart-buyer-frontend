@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
   ShoppingBag,
@@ -56,6 +56,8 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<DashboardTab>('leads');
 
+  const searchParams = useSearchParams();
+
   useEffect(() => {
     const storedBuyer = localStorage.getItem('buyer');
     if (!storedBuyer) {
@@ -64,14 +66,16 @@ export default function DashboardPage() {
     }
     setBuyer(JSON.parse(storedBuyer));
     loadLeads();
+  }, [router]);
 
-    // Check for tab query param
-    const params = new URLSearchParams(window.location.search);
-    const tab = params.get('tab') as DashboardTab;
+  useEffect(() => {
+    const tab = searchParams.get('tab') as DashboardTab;
     if (tab && ['leads', 'messages', 'profile'].includes(tab)) {
       setActiveTab(tab);
+    } else if (!tab) {
+      setActiveTab('leads');
     }
-  }, [router]);
+  }, [searchParams]);
 
   const loadLeads = async () => {
     try {
@@ -167,45 +171,7 @@ export default function DashboardPage() {
         </main>
       </div>
 
-      {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-slate-200/60 flex items-center justify-around py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] z-50 shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
-        <button
-          onClick={() => setActiveTab('leads')}
-          className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'leads' ? 'text-[#0026C0]' : 'text-slate-400'}`}
-        >
-          <div className={`p-2 rounded-2xl transition-all ${activeTab === 'leads' ? 'bg-[#0026C0]/10' : ''}`}>
-            <ShoppingBag className="w-5 h-5" />
-          </div>
-          <span className="text-[9px] font-black uppercase tracking-widest leading-none">Inquiries</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('messages')}
-          className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'messages' ? 'text-[#0026C0]' : 'text-slate-400'}`}
-        >
-          <div className={`p-2 rounded-2xl transition-all ${activeTab === 'messages' ? 'bg-[#0026C0]/10' : ''}`}>
-            <Mail className="w-5 h-5" />
-          </div>
-          <span className="text-[9px] font-black uppercase tracking-widest leading-none">Messages</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('profile')}
-          className={`flex flex-col items-center gap-1 transition-all ${activeTab === 'profile' ? 'text-[#0026C0]' : 'text-slate-400'}`}
-        >
-          <div className={`p-2 rounded-2xl transition-all ${activeTab === 'profile' ? 'bg-[#0026C0]/10' : ''}`}>
-            <Settings className="w-5 h-5" />
-          </div>
-          <span className="text-[9px] font-black uppercase tracking-widest leading-none">Profile</span>
-        </button>
-        {/* <button
-          onClick={handleLogout}
-          className="flex flex-col items-center gap-1 text-red-500"
-        >
-          <div className="p-2 rounded-2xl bg-red-50">
-            <LogOut className="w-5 h-5" />
-          </div>
-          <span className="text-[9px] font-black uppercase tracking-widest leading-none">Sign Out</span>
-        </button> */}
-      </div>
+
     </div >
   );
 }
@@ -229,12 +195,7 @@ function MessagesView({ onOpenDrawer }: { onOpenDrawer: () => void }) {
 function LeadsView({ leads, loading }: { leads: Lead[], loading: boolean }) {
   return (
     <div className="p-4 lg:p-10 space-y-8 animate-in fade-in duration-500 overflow-y-auto h-full">
-      <div className="flex flex-col md:flex-row justify-end items-start md:items-center gap-4">
-        <div className="flex gap-4">
-          <StatMini count={leads.length} label="Total" color="blue" />
-          <StatMini count={leads.filter(l => l.status === 'NEW').length} label="New" color="amber" />
-        </div>
-      </div>
+
 
       <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto">
@@ -304,9 +265,9 @@ function LeadsView({ leads, loading }: { leads: Lead[], loading: boolean }) {
 /* --- PROFILE SETTINGS VIEW --- */
 function ProfileSettingsView({ buyer }: { buyer: any }) {
   return (
-    <div className="p-4 lg:p-10 max-w-3xl space-y-10 animate-in fade-in slide-in-from-bottom-5 duration-500 overflow-y-auto h-full">
+    <div className="p-4 lg:p-10 animate-in fade-in slide-in-from-bottom-5 duration-500 overflow-y-auto h-full">
 
-      <div className="space-y-8">
+      <div className="max-w-3xl space-y-8">
         {/* Profile Section */}
         <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
           <div className="flex items-center gap-6 pb-6 border-b border-slate-50">
