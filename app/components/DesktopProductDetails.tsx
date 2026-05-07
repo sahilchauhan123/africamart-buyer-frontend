@@ -372,13 +372,14 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                         </div>
 
                         {/* Specs Table */}
-                        {(product.attributes?.length || product.raw_attributes) && (
+                        {(Array.isArray(product.attributes) && product.attributes.length > 0 || (product.raw_attributes && Object.keys(product.raw_attributes).length > 0)) && (
                             <div className="bg-white rounded border border-slate-100 shadow-sm overflow-hidden">
                                 <div className="bg-slate-50/50 px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100">
                                     <h4 className="text-[10px] lg:text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Specifications</h4>
                                 </div>
                                 <div className="divide-y divide-slate-50">
-                                    {product.attributes?.map((attr) => {
+                                    {/* Show attributes if it's a valid array */}
+                                    {Array.isArray(product.attributes) && product.attributes.map((attr) => {
                                         const [label, ...valueParts] = attr.split(':');
                                         return (
                                             <div key={attr} className="grid grid-cols-2 px-4 lg:px-6 py-3 lg:py-4 hover:bg-slate-50/50 transition-colors">
@@ -387,15 +388,16 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                             </div>
                                         );
                                     })}
-                                    {/* Fallback to raw attributes if simple attributes list is empty */}
-                                    {(!product.attributes || product.attributes.length === 0) && product.raw_attributes &&
-                                        Object.entries(product.raw_attributes).map(([label, value]) => (
-                                            <div key={label} className="grid grid-cols-2 px-4 lg:px-6 py-3 lg:py-4 hover:bg-slate-50/50 transition-colors">
-                                                <span className="text-xs lg:text-sm font-medium text-slate-400">{label}</span>
-                                                <span className="text-xs lg:text-sm font-bold text-slate-900 capitalize">{String(value)}</span>
-                                            </div>
-                                        ))
-                                    }
+
+                                    {/* Show raw_attributes if available */}
+                                    {product.raw_attributes && Object.entries(product.raw_attributes).map(([label, value]) => (
+                                        <div key={label} className="grid grid-cols-2 px-4 lg:px-6 py-3 lg:py-4 hover:bg-slate-50/50 transition-colors">
+                                            <span className="text-xs lg:text-sm font-medium text-slate-400">{label}</span>
+                                            <span className="text-xs lg:text-sm font-bold text-slate-900 capitalize">
+                                                {Array.isArray(value) ? value.join(', ') : String(value)}
+                                            </span>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         )}

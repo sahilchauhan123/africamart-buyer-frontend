@@ -22,10 +22,10 @@ export default function DesktopSearchResult({
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    
+
     // Read selected attributes directly from the URL (Source of Truth)
     const selectedAttributes = searchParams.getAll('filters[attributes]');
-    
+
     const [products, setProducts] = useState(initialProducts);
     const [facets, setFacets] = useState(initialFacets);
     const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +38,7 @@ export default function DesktopSearchResult({
         newFilters.forEach(attr => {
             params.append('filters[attributes]', attr);
         });
-        
+
         const query = params.toString();
         const newUrl = `${pathname}${query ? `?${query}` : ''}`;
         router.push(newUrl, { scroll: false });
@@ -48,7 +48,7 @@ export default function DesktopSearchResult({
         const newFilters = selectedAttributes.includes(attr)
             ? selectedAttributes.filter(a => a !== attr)
             : [...selectedAttributes, attr];
-        
+
         updateUrl(newFilters);
     };
 
@@ -87,7 +87,7 @@ export default function DesktopSearchResult({
         // Skip if already selected
         if (selectedAttributes.includes(curr.value)) return acc;
 
-        const [key, value] = curr.value.split(':');
+        const [key, value] = curr.value.split('::');
         if (!acc[key]) acc[key] = [];
         acc[key].push({ value: curr.value, label: value, count: curr.count });
         return acc;
@@ -137,7 +137,7 @@ export default function DesktopSearchResult({
                     <div className="bg-white border border-slate-200 rounded-xl lg:rounded-sm p-4 shadow-sm mb-4">
                         <div className="flex items-center justify-between mb-3">
                             <h3 className="font-black text-slate-800 text-[10px] lg:text-xs uppercase tracking-widest">Active Filters</h3>
-                            <button 
+                            <button
                                 onClick={clearAllFilters}
                                 className="text-[10px] font-black text-[#0026C0] uppercase tracking-widest hover:underline"
                             >
@@ -147,9 +147,9 @@ export default function DesktopSearchResult({
                         </div>
                         <div className="flex flex-wrap gap-2">
                             {selectedAttributes.map(attr => {
-                                const [key, value] = attr.split(':');
+                                const [key, value] = attr.split('::');
                                 return (
-                                    <span 
+                                    <span
                                         key={attr}
                                         onClick={(e) => {
                                             e.preventDefault();

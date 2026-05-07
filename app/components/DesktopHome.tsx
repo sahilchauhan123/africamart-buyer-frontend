@@ -161,7 +161,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                                 <img src={getCategoryImage(cat)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                             </div>
                                         </div>
-                                        <span className="text-[10px] lg:text-[13px] font-black text-slate-700 uppercase tracking-widest group-hover:text-[#0026C0] transition-colors">{cat.name}</span>
+                                        <span className="text-[10px] lg:text-[13px] font-black text-slate-700 tracking-widest group-hover:text-[#0026C0] transition-colors">{cat.name}</span>
                                     </div>
                                 ))}
                                 <div
