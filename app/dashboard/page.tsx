@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -49,7 +49,7 @@ interface Lead {
 
 type DashboardTab = 'leads' | 'messages' | 'profile';
 
-export default function DashboardPage() {
+function DashboardContent() {
   const router = useRouter();
   const [buyer, setBuyer] = useState<any>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -372,5 +372,17 @@ function IconButton({ icon }: { icon: React.ReactNode }) {
     <button className="p-2 text-slate-400 hover:text-[#0026C0] hover:bg-[#0026C0]/5 rounded-lg transition-all">
       {icon}
     </button>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={
+      <div className="h-screen w-full flex items-center justify-center bg-slate-50">
+        <Loader2 className="w-8 h-8 text-[#0026C0] animate-spin" />
+      </div>
+    }>
+      <DashboardContent />
+    </Suspense>
   );
 }
