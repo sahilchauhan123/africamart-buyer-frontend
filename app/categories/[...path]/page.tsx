@@ -41,9 +41,9 @@ export default async function SubCategoryPage({ params }: SubCategoryPageProps) 
                     <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 group-hover:-translate-x-1 transition-transform" /> Back
                 </Link>
 
-                <div className="mb-8 sm:mb-12">
-                    <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight mb-2 sm:mb-4">{categoryName}</h1>
-                    <p className="text-slate-500 text-sm sm:text-lg font-medium">Narrow down your search by selecting a specific sector.</p>
+                <div className="mb-8 lg:mb-12 text-center lg:text-left">
+                    <h1 className="text-xl lg:text-3xl font-black text-slate-900 mb-2 lg:mb-4 tracking-tight">{categoryName}</h1>
+                    <p className="text-slate-500 text-sm lg:text-lg font-medium">Narrow down your search by selecting a specific sector.</p>
                 </div>
 
                 {subCategories.length > 0 ? (
@@ -61,7 +61,7 @@ export default async function SubCategoryPage({ params }: SubCategoryPageProps) 
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                     />
                                 </div>
-                                <span className="font-bold text-slate-800 group-hover:text-[#0026C0] transition-colors line-clamp-2 uppercase tracking-tight text-[8px] sm:text-xs">
+                                <span className="font-bold text-slate-800 group-hover:text-[#0026C0] transition-colors line-clamp-2 tracking-tight text-[10px] sm:text-sm">
                                     {sub.name}
                                 </span>
                             </Link>
