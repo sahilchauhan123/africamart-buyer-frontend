@@ -129,7 +129,7 @@ export default function DesktopHome({ initialSearchQuery = '', initialProducts =
                                 playsInline
                                 className="hidden lg:block absolute inset-0 w-full h-full object-cover z-0 opacity-80"
                             >
-                                <source src="https://pub-f7a836f6fb2b4d8dbef935fc1009971a.r2.dev/lassomaherosectionvideo.mp4" type="video/mp4" />
+                                <source src="https://cdn.lasomaa.com/lassomaherosectionvideo.mp4" type="video/mp4" />
                             </video>
                             <img
                                 src="https://assets.weforum.org/article/image/large_S-gx3IJcoovd78Bcrw_B-lzvxi9W9g3W38AmJS2IRVY.png"
