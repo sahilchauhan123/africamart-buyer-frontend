@@ -60,6 +60,11 @@ export default function Header() {
         }
     };
 
+    const changeImageSize = (img: string) => {
+        const newImageUrl = img.replace("_800", "_200");
+        return newImageUrl
+    }
+
     useEffect(() => {
         const fetchSugg = async () => {
             if (searchQuery.trim().length === 0) {
@@ -70,7 +75,7 @@ export default function Header() {
                 const suggs = await fetchSuggestions(searchQuery);
                 setApiSuggestions(suggs.map((s: any) => ({
                     name: s.document.title,
-                    img: s.document.picture_url?.[0]?.img_url || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop',
+                    img: s.document.picture_url?.[0]?.img_url ? changeImageSize(s.document.picture_url?.[0]?.img_url) : 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop',
                     category: s.document.category_name || 'General'
                 })));
             } catch (err) {
@@ -317,11 +322,11 @@ export default function Header() {
                 {isMobileMenuOpen && (
                     <div className="lg:hidden fixed inset-0 z-[100] flex">
                         {/* Backdrop */}
-                        <div 
+                        <div
                             className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300"
                             onClick={() => setIsMobileMenuOpen(false)}
                         ></div>
-                        
+
                         {/* Drawer */}
                         <div className="relative w-[280px] h-full bg-white shadow-2xl animate-in slide-in-from-left duration-300 p-6 flex flex-col overflow-hidden">
                             {/* Logo at Top */}
