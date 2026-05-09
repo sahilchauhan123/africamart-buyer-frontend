@@ -35,9 +35,10 @@ interface DesktopProductDetailsProps {
         category_id?: string;
     };
     onBack?: () => void;
+    initialRecommendations?: any[];
 }
 
-export default function DesktopProductDetails({ product, onBack }: DesktopProductDetailsProps) {
+export default function DesktopProductDetails({ product, onBack, initialRecommendations = [] }: DesktopProductDetailsProps) {
     const router = useRouter();
     const [quantity, setQuantity] = React.useState("");
     const [showAuthModal, setShowAuthModal] = React.useState(false);
@@ -52,11 +53,12 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
     const [error, setError] = React.useState("");
     const [successMessage, setSuccessMessage] = React.useState("");
     const [activeImage, setActiveImage] = React.useState(product.image);
-    const [recommendations, setRecommendations] = React.useState<any[]>([]);
+    const [recommendations, setRecommendations] = React.useState<any[]>(initialRecommendations);
     const [recLoading, setRecLoading] = React.useState(false);
 
     React.useEffect(() => {
-        if (product.id) {
+        // Only fetch if recommendations are empty and we have a product
+        if (product.id && recommendations.length === 0) {
             setRecLoading(true);
             fetchRecommendations(product.name, product.id).then(data => {
                 setRecommendations(data);
@@ -507,6 +509,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                             recommendations.map((item, idx) => (
                                 <ProductCard
                                     key={item.id || idx}
+                                    id={item.id}
                                     name={item.name}
                                     price={item.price}
                                     unit={item.unit}
@@ -515,10 +518,6 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                     location={item.location}
                                     rating={4.5}
                                     reviews={20}
-                                    onClick={() => {
-                                        const slug = item.name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
-                                        router.push(`/product/${item.id}/${slug}`);
-                                    }}
                                 />
                             ))
                         ) : (

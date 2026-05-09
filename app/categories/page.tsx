@@ -3,6 +3,15 @@ import { fetchCategories } from '@/src/lib/api';
 import Header from '../components/Header';
 import Breadcrumbs from '../components/Breadcrumbs';
 import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'All Product Categories',
+    description: 'Browse all categories of goods available on Lasomaa. Find everything from raw materials to finished products.',
+    alternates: {
+        canonical: 'https://www.lasomaa.com/categories',
+    },
+};
 
 export const revalidate = 3600;
 

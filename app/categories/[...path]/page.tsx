@@ -5,6 +5,24 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import Link from 'next/link';
 import { ArrowLeft, ShoppingBag } from 'lucide-react';
 import ProductCard from '../../components/ProductCard';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: SubCategoryPageProps): Promise<Metadata> {
+    const { path: rawPath } = await params;
+    const path = rawPath.map(segment => decodeURIComponent(segment));
+    const currentSlug = path[path.length - 1];
+    const category = await fetchCategoryBySlug(currentSlug);
+    
+    const name = category?.name || currentSlug.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    
+    return {
+        title: `${name} | Category`,
+        description: `Browse all products and sub-categories in ${name} on Lasomaa Marketplace.`,
+        alternates: {
+            canonical: `https://www.lasomaa.com/categories/${path.join('/')}`,
+        },
+    };
+}
 
 export const revalidate = 3600;
 
@@ -86,9 +104,7 @@ export default async function SubCategoryPage({ params }: SubCategoryPageProps) 
                     <div className="pt-2">
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
                             {products.map((product: any) => (
-                                <Link key={product.id} href={`/product/${product.id}/${createSlug(product.name)}`}>
-                                    <ProductCard {...product} />
-                                </Link>
+                                <ProductCard key={product.id} {...product} />
                             ))}
                         </div>
                     </div>

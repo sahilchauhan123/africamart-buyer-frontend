@@ -8,13 +8,11 @@ import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 export default function DesktopSearchResult({
     searchQuery,
-    onProductClick,
     initialProducts = [],
     initialFacets = [],
     initialQuery = ''
 }: {
     searchQuery: string,
-    onProductClick: (product: any) => void,
     initialProducts?: any[],
     initialFacets?: any[],
     initialQuery?: string
@@ -264,9 +262,9 @@ export default function DesktopSearchResult({
             <main className="flex-1 min-w-0">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
                     <div>
-                        <h2 className="text-lg lg:text-xl font-black text-slate-900 tracking-tight">
-                            Results for <span className="text-[#0026C0]">"{searchQuery || 'All Products'}"</span>
-                        </h2>
+                        <h1 className="text-lg lg:text-xl font-black text-slate-900 tracking-tight">
+                            Results for <span className="text-[#0026C0]">"{searchQuery === '*' ? 'All Products' : (searchQuery || 'All Products')}"</span>
+                        </h1>
                         <p className="text-[10px] lg:text-sm text-slate-400 font-black uppercase tracking-widest mt-0.5">Found {products.length} matching products</p>
                     </div>
                     <div className="hidden md:flex items-center gap-2">
@@ -291,7 +289,6 @@ export default function DesktopSearchResult({
                             <ProductCard
                                 key={product.id || idx}
                                 {...product}
-                                onClick={() => onProductClick(product)}
                             />
                         ))}
                     </div>

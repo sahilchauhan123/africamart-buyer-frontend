@@ -6,10 +6,13 @@ interface SellerPageProps {
 
 export async function generateMetadata({ params }: SellerPageProps): Promise<Metadata> {
   const { slug } = await params;
-  return {
-    title: `${slug} | Seller Profile | Lasomaa`,
-    description: `View ${slug}'s profile and products on Lasomaa.`,
-  };
+    return {
+        title: `${slug} | Seller Profile`,
+        description: `View ${slug}'s verified business profile and product catalog on Lasomaa Marketplace.`,
+        alternates: {
+            canonical: `https://www.lasomaa.com/seller/${slug}`,
+        },
+    };
 }
 
 export const revalidate = 3600; // ISR

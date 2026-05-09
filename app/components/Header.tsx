@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Search, HelpCircle, User, ChevronDown, Rocket, Menu, X, ArrowRight, MessageSquareMore, MessageSquare, MessageSquareDot, MessagesSquare } from 'lucide-react';
 import { fetchSuggestions, buyerLogout } from '@/src/lib/api';
 import Image from 'next/image';
@@ -96,15 +97,15 @@ export default function Header() {
                 {/* --- DESKTOP HEADER (lg+) --- */}
                 <div className="hidden lg:grid grid-cols-[auto_1fr_auto] items-center gap-10 px-8 py-3">
                     {/* Brand Logo */}
-                    <div className="flex items-center gap-3 flex-shrink-0 cursor-pointer" onClick={() => router.push('/')}>
+                    <Link href="/" className="flex items-center gap-3 flex-shrink-0">
                         <Image
                             src={logo}
-                            alt="LASOMAA"
+                            alt="Lasomaa | Africa's B2B Marketplace"
                             width={164}
                             height={32}
                             className="object-contain"
                         />
-                    </div>
+                    </Link>
 
                     {/* Centered Search Bar */}
                     <div className="flex justify-center flex-1">
@@ -163,12 +164,12 @@ export default function Header() {
 
                     <nav className="flex items-center gap-8">
 
-                        <div
-                            onClick={() => router.push('/categories')}
-                            className="flex items-center gap-2 text-slate-600 text-sm font-bold cursor-pointer hover:text-[#0026C0] transition-colors h-12"
+                        <Link
+                            href="/categories"
+                            className="flex items-center gap-2 text-slate-600 text-sm font-bold hover:text-[#0026C0] transition-colors h-12"
                         >
                             <span>Categories</span>
-                        </div>
+                        </Link>
 
                         <div className="flex items-center gap-2 text-slate-600 text-sm font-bold cursor-pointer hover:text-[#0026C0] transition-colors h-12">
                             <HelpCircle className="w-5 h-5" />
@@ -244,15 +245,15 @@ export default function Header() {
                             >
                                 {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                             </button>
-                            <div className="flex items-center cursor-pointer" onClick={() => router.push('/')}>
+                            <Link href="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
                                 <Image
                                     src={logo}
-                                    alt="LASOMAA"
+                                    alt="Lasomaa | Africa's B2B Marketplace"
                                     width={110}
                                     height={22}
                                     className="object-contain"
                                 />
-                            </div>
+                            </Link>
                         </div>
 
                         <div className="flex items-center gap-2">
@@ -357,24 +358,20 @@ export default function Header() {
                                 )}
 
                                 <div className="flex flex-col gap-1">
-                                    <button
-                                        onClick={() => {
-                                            setIsMobileMenuOpen(false);
-                                            router.push('/');
-                                        }}
+                                    <Link
+                                        href="/"
+                                        onClick={() => setIsMobileMenuOpen(false)}
                                         className="w-full text-left font-medium text-slate-700 py-3 border-b border-slate-50 hover:text-[#0026C0] transition-colors"
                                     >
                                         Home
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setIsMobileMenuOpen(false);
-                                            router.push('/categories');
-                                        }}
+                                    </Link>
+                                    <Link
+                                        href="/categories"
+                                        onClick={() => setIsMobileMenuOpen(false)}
                                         className="w-full text-left font-medium text-slate-700 py-4 border-b border-slate-50 hover:text-[#0026C0] transition-colors"
                                     >
                                         Goods By Category
-                                    </button>
+                                    </Link>
 
                                     {buyer && (
                                         <>

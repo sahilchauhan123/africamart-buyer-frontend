@@ -11,6 +11,9 @@ export async function generateMetadata(
     return {
         title: q ? `Search Results for "${q}" | Lasomaa` : 'Search Products | Lasomaa',
         description: `Explore the best quality products matching your search query for ${q} on Lasomaa's global B2B marketplace.`,
+        alternates: {
+            canonical: q ? `https://www.lasomaa.com/search?q=${encodeURIComponent(q)}` : 'https://www.lasomaa.com/search',
+        },
     }
 }
 
@@ -20,8 +23,8 @@ export default async function SearchResultsPage({
     searchParams: Promise<SearchParams>;
 }) {
     const params = await searchParams;
-    const query = typeof params.q === 'string' ? params.q : '';
-    const result = query ? await fetchProducts(query) : { products: [], facets: [] };
+    const query = typeof params.q === 'string' ? params.q : '*';
+    const result = await fetchProducts(query);
     const products = result.products;
     const facets = result.facets;
 

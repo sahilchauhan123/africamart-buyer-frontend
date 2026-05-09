@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import DesktopProductDetails from '../../../components/DesktopProductDetails';
 import Header from '../../../components/Header';
-import { fetchProductById } from '@/src/lib/api';
+import { fetchProductById, fetchRecommendations } from '@/src/lib/api';
 
 interface ProductPageProps {
   params: Promise<{ id: string; slug: string }>;
@@ -11,28 +11,33 @@ interface ProductPageProps {
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  const { id } = await params;
-  console.log("id : ", id)
+  const paramsData = await params;
+  const id = paramsData.id;
   const product = await fetchProductById(id);
 
   if (!product) {
     return {
       title: 'Product Not Found | Lasomaa',
-      description: 'The requested product could not be found.',
     };
   }
 
   const title = `${product.title || product.name} | Lasomaa`;
   const description = product.description?.substring(0, 160) || `Buy ${product.title || product.name} at the best price on Lasomaa. Verified suppliers, high quality, and fast shipping.`;
+  const url = `https://lasomaa.com/product/${id}/${paramsData.slug}`;
 
   return {
     title,
     description,
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
       title,
       description,
-      images: product.image ? [{ url: product.image }] : [],
+      url,
+      images: product.image ? [{ url: product.image, width: 800, height: 800, alt: title }] : [],
       type: 'website',
+      siteName: 'Lasomaa',
     },
     twitter: {
       card: 'summary_large_image',
@@ -43,7 +48,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   };
 }
 
-function ProductPageContent({ product }: { product: any }) {
+function ProductPageContent({ product, recommendations }: { product: any, recommendations: any[] }) {
   if (!product) {
     notFound();
   }
@@ -64,17 +69,23 @@ function ProductPageContent({ product }: { product: any }) {
     '@type': 'Product',
     name: product.name || product.title,
     image: product.image,
-    description: product.description,
+    description: product.description || `High quality ${product.name} from verified suppliers on Lasomaa.`,
+    sku: `LS-${product.id}`,
     brand: {
       '@type': 'Brand',
-      name: product.supplier || 'Supplier Name Not Available',
+      name: product.supplier || 'Lasomaa Verified Supplier',
     },
     offers: {
       '@type': 'Offer',
-      price: product.min_price || 0,
-      priceCurrency: 'INR',
+      price: product.price ? product.price.replace(/[^0-9.]/g, '') : '0',
+      priceCurrency: 'USD',
+      itemCondition: 'https://schema.org/NewCondition',
       availability: 'https://schema.org/InStock',
-      url: `https://Lasomaa.com/product/${product.id}/${createSlug(product.title)}`,
+      url: `https://lasomaa.com/product/${product.id}/${createSlug(product.name)}`,
+      seller: {
+        '@type': 'Organization',
+        name: product.supplier || 'Lasomaa Marketplace',
+      },
     },
   };
 
@@ -85,7 +96,7 @@ function ProductPageContent({ product }: { product: any }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Header />
-      <DesktopProductDetails product={product} />
+      <DesktopProductDetails product={product} initialRecommendations={recommendations} />
     </>
   );
 }
@@ -93,10 +104,9 @@ function ProductPageContent({ product }: { product: any }) {
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
   const product = await fetchProductById(id);
+  const recommendations = product ? await fetchRecommendations(product.name, product.id) : [];
 
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50 font-black text-[#0026C0] uppercase tracking-widest text-xs">Lasomaa is loading...</div>}>
-      <ProductPageContent product={product} />
-    </Suspense>
+    <ProductPageContent product={product} recommendations={recommendations} />
   );
 }
