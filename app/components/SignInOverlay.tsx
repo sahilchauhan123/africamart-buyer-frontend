@@ -44,7 +44,7 @@ const SignInOverlay: React.FC<SignInOverlayProps> = ({ isOpen, onClose, onSwitch
             <div className="relative w-full max-w-[340px] bg-white rounded-sm shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 border border-slate-200">
                 <div className="p-6">
                     <div className="flex justify-between items-center mb-5">
-                        <h2 className="text-base font-black text-slate-900 uppercase tracking-tight">Sign In</h2>
+                        <h2 className="text-base font-black text-slate-900 uppercase tracking-tight">Login</h2>
                         <button
                             onClick={onClose}
                             className="p-1 rounded text-slate-400 hover:text-slate-900 transition-colors"
@@ -61,7 +61,7 @@ const SignInOverlay: React.FC<SignInOverlayProps> = ({ isOpen, onClose, onSwitch
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="name@company.com"
+                                placeholder="example@gmail.com"
                                 className="w-full h-10 bg-white border border-slate-200 rounded-sm px-3 text-xs font-bold focus:border-[#0026C0] outline-none transition-colors"
                             />
                         </div>
@@ -92,7 +92,7 @@ const SignInOverlay: React.FC<SignInOverlayProps> = ({ isOpen, onClose, onSwitch
 
                         <button
                             type="submit"
-                            className="w-full h-10 bg-[#0026C0] text-white uppercase font-black tracking-[0.2em] text-[10px] shadow-lg shadow-[#0026C0]/20 hover:bg-[#0020A0] transition-colors rounded-sm active:scale-[0.98] mt-2"
+                            className="w-full h-10 bg-[#0026C0] text-white uppercase font-black tracking-[0.2em] text-[10px] shadow-md shadow-[#0026C0]/10 hover:bg-[#0020A0] transition-colors rounded-sm active:scale-[0.98] mt-2"
                         >
                             Log In
                         </button>

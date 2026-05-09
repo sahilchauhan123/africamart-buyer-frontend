@@ -63,7 +63,7 @@ export default function ProductCard({
                         <p className="text-[#0026C0] font-black text-lg flex items-baseline gap-1 mt-0.5">{price} <span className="text-slate-500 text-[10px] font-bold uppercase tracking-tighter">{unit}</span></p>
                         {location && (
                             <div className="flex items-center gap-1 mt-1 text-slate-500">
-                                <MapPin className="w-3 h-3" />
+                                <MapPin className="w-3 h-3 text-orange-500" />
                                 <span className="text-[11px] font-medium">{location}</span>
                             </div>
                         )}
@@ -79,7 +79,7 @@ export default function ProductCard({
                                 className="flex-1 sm:flex-none bg-[#0026C0] text-white text-[11px] font-bold px-4 py-2.5 rounded-md transition-all hover:bg-[#0020A0] active:scale-95 shadow-sm whitespace-nowrap"
                                 onClick={(e) => onContact?.(e)}
                             >
-                                Contact Supplier
+                                Contact Business
                             </button>
                         )}
                         {onMessage && (
@@ -120,7 +120,7 @@ export default function ProductCard({
 
     return (
         <div 
-            className="bg-white rounded-lg sm:rounded-sm overflow-hidden border border-slate-100 flex flex-col h-full cursor-pointer group transition-all hover:shadow-lg hover:-translate-y-0.5"
+            className="bg-white rounded-lg sm:rounded-sm overflow-hidden border border-slate-200 shadow-sm flex flex-col h-full cursor-pointer group transition-all hover:shadow-lg hover:-translate-y-0.5"
             onClick={onClick}
         >
             <div className="aspect-square bg-slate-50 relative overflow-hidden">
@@ -151,7 +151,7 @@ export default function ProductCard({
                     }}
                 >
                     <Send className="w-3.5 h-3.5" />
-                    Contact Supplier
+                    Contact Business
                 </button>
 
                 <div className="mt-auto space-y-0.5 border-t border-slate-50 pt-1.5">
@@ -159,9 +159,9 @@ export default function ProductCard({
                         <p className="text-[10px] font-medium text-slate-500 truncate">{supplier}</p>
                     )}
                     {location && (
-                        <div className="flex items-center gap-1 text-slate-400 text-[10px]">
-                            <MapPin className="w-3 h-3" />
-                            <span className="truncate">{location}</span>
+                        <div className="flex items-center gap-1 text-[10px]">
+                            <MapPin className="w-3 h-3 text-orange-500" />
+                            <span className="truncate text-slate-500 font-medium">{location}</span>
                         </div>
                     )}
                 </div>

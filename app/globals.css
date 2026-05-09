@@ -63,9 +63,9 @@
   --color-brand-light-blue: #305cab;
   --color-brand-accent: #002068;
 
-  --font-headline: "Manrope", sans-serif;
-  --font-body: "Manrope", sans-serif;
-  --font-label: "Manrope", sans-serif;
+  --font-headline: var(--font-noto-sans), sans-serif;
+  --font-body: var(--font-noto-sans), sans-serif;
+  --font-label: var(--font-noto-sans), sans-serif;
 }
 
 :root {

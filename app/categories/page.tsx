@@ -12,28 +12,33 @@ export default async function CategoriesPage() {
     return (
         <div className="bg-slate-50 min-h-screen font-body">
             <Header />
-            <main className="max-w-[1200px] mx-auto p-4 lg:p-6 transition-all duration-500">
-                <div className="mb-8 lg:mb-12 text-center lg:text-left">
-                    <h1 className="text-xl lg:text-3xl font-black text-slate-900 mb-2 lg:mb-4 tracking-tight">Explore Categories</h1>
+            <main className="max-w-[1600px] mx-auto px-4 lg:px-8 py-6 lg:py-8 transition-all duration-500">
+                <nav className="flex items-center flex-wrap gap-x-2 gap-y-1 text-[11px] sm:text-xs font-bold text-slate-500 mb-3 lg:mb-4">
+                    <Link href="/" className="hover:text-[#0026C0] transition-colors">Home</Link>
+                    <ChevronRight className="w-3 h-3 text-slate-300 shrink-0" />
+                    <span className="text-slate-900">All Categories</span>
+                </nav>
 
-                    <p className="text-slate-500 text-sm lg:text-lg font-medium">Connect with verified manufacturers across all major sectors.</p>
+                <div className="mb-6 lg:mb-8 lg:text-left">
+                    <h1 className="text-xl lg:text-3xl font-extrabold text-slate-900 mb-2 lg:mb-4 tracking-tight">All Category of Goods</h1>
+                    <p className="text-slate-500 text-sm lg:text-lg font-medium">Browse through all categories of goods available. Sure to find what you need.</p>
                 </div>
 
-                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                     {categories.map((category: any) => (
                         <Link
                             key={category.id}
                             href={category.is_leaf ? `/search?q=${encodeURIComponent(category.name)}` : `/categories/${category.slug}`}
-                            className="group bg-white rounded-xl sm:rounded-2xl p-2 sm:p-4 border border-slate-100 shadow-sm hover:shadow-xl hover:border-[#0026C0]/20 transition-all duration-500 flex flex-col items-center text-center gap-2 sm:gap-4"
+                            className="group bg-white rounded-md p-2.5 border border-slate-200 transition-all duration-300 flex flex-col gap-3 hover:border-[#0026C0]"
                         >
-                            <div className="w-full aspect-square rounded-lg sm:rounded-xl bg-slate-50 overflow-hidden relative shrink-0 shadow-inner">
+                            <div className="w-full aspect-square rounded-sm bg-slate-50 overflow-hidden relative shrink-0">
                                 <img
                                     src={category.img_url || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80'}
                                     alt={category.name}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                 />
                             </div>
-                            <span className="font-bold text-slate-800 group-hover:text-[#0026C0] transition-colors line-clamp-2 tracking-tight text-[10px] sm:text-sm">
+                            <span className="font-bold text-slate-900 group-hover:text-[#0026C0] transition-colors line-clamp-1 tracking-tight text-xs lg:text-sm px-0.5">
                                 {category.name}
                             </span>
                         </Link>

@@ -33,47 +33,63 @@ export default async function SubCategoryPage({ params }: SubCategoryPageProps) 
     return (
         <div className="bg-slate-50 min-h-screen font-body">
             <Header />
-            <main className="max-w-[1200px] mx-auto p-4 sm:p-6 transition-all duration-500">
-                <Link
-                    href={path.length > 1 ? `/categories/${path.slice(0, -1).join('/')}` : "/categories"}
-                    className="inline-flex items-center gap-2 text-slate-500 hover:text-[#0026C0] font-bold text-[10px] uppercase tracking-widest mb-4 sm:mb-8 group transition-colors"
-                >
-                    <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 group-hover:-translate-x-1 transition-transform" /> Back
-                </Link>
+            <main className="max-w-[1600px] mx-auto px-4 lg:px-8 py-6 lg:py-8 transition-all duration-500">
+                <nav className="flex items-center flex-wrap gap-x-2 gap-y-1 text-[11px] sm:text-xs font-bold text-slate-500 mb-3 lg:mb-4">
+                    <Link href="/" className="hover:text-[#0026C0] transition-colors">Home</Link>
+                    <ChevronRight className="w-3 h-3 text-slate-300 shrink-0" />
+                    <Link href="/categories" className="hover:text-[#0026C0] transition-colors">All Categories</Link>
+                    {path.map((segment, index) => {
+                        const url = `/categories/${path.slice(0, index + 1).join('/')}`;
+                        const isLast = index === path.length - 1;
+                        const name = (isLast && currentCategory?.name) ? currentCategory.name : segment.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+                        
+                        return (
+                            <React.Fragment key={index}>
+                                <ChevronRight className="w-3 h-3 text-slate-300 shrink-0" />
+                                {isLast ? (
+                                    <span className="text-slate-900 truncate">{name}</span>
+                                ) : (
+                                    <Link href={url} className="hover:text-[#0026C0] transition-colors truncate">{name}</Link>
+                                )}
+                            </React.Fragment>
+                        );
+                    })}
+                </nav>
 
-                <div className="mb-8 lg:mb-12 text-center lg:text-left">
-                    <h1 className="text-xl lg:text-3xl font-black text-slate-900 mb-2 lg:mb-4 tracking-tight">{categoryName}</h1>
-                    <p className="text-slate-500 text-sm lg:text-lg font-medium">Narrow down your search by selecting a specific sector.</p>
+                <div className="mb-6 lg:mb-8 text-left">
+                    <h1 className="text-xl lg:text-3xl font-extrabold text-slate-900 mb-2 lg:mb-4 tracking-tight">
+                        {subCategories.length === 0 ? `Businesses Selling ${categoryName}` : categoryName}
+                    </h1>
+                    <p className={`text-slate-500 text-sm font-medium ${subCategories.length === 0 ? 'hidden lg:block' : ''}`}>
+                        {subCategories.length === 0 
+                            ? "Click on goods to see more details about it before contacting the business owner."
+                            : `You are viewing ${categoryName.toLowerCase()} goods categories.`}
+                    </p>
                 </div>
-
                 {subCategories.length > 0 ? (
-                    <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                         {subCategories.map((sub: any) => (
                             <Link
                                 key={sub.id}
-                                href={sub.is_leaf ? `${basePath}/${sub.slug}` : `${basePath}/${sub.slug}`}
-                                className="group bg-white rounded-xl sm:rounded-2xl p-2 sm:p-4 border border-slate-100 shadow-sm hover:shadow-xl hover:border-[#0026C0]/20 transition-all duration-500 flex flex-col items-center text-center gap-2 sm:gap-4"
+                                href={`${basePath}/${sub.slug}`}
+                                className="group bg-white rounded-md p-2.5 border border-slate-200 transition-all duration-300 flex flex-col gap-3 hover:border-[#0026C0]"
                             >
-                                <div className="w-full aspect-square rounded-lg sm:rounded-xl bg-slate-50 overflow-hidden relative shrink-0 shadow-inner">
+                                <div className="w-full aspect-square rounded-sm bg-slate-50 overflow-hidden relative shrink-0">
                                     <img
                                         src={sub.img_url || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&q=80'}
                                         alt={sub.name}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                     />
                                 </div>
-                                <span className="font-bold text-slate-800 group-hover:text-[#0026C0] transition-colors line-clamp-2 tracking-tight text-[10px] sm:text-sm">
+                                <span className="font-bold text-slate-900 group-hover:text-[#0026C0] transition-colors line-clamp-1 tracking-tight text-xs lg:text-sm px-0.5">
                                     {sub.name}
                                 </span>
                             </Link>
                         ))}
                     </div>
                 ) : products.length > 0 ? (
-                    <div className="space-y-8">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-black text-slate-900 tracking-tight uppercase">Products in this Category</h2>
-                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-white px-3 py-1 rounded-full border border-slate-100">{products.length} found</span>
-                        </div>
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <div className="pt-2">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
                             {products.map((product: any) => (
                                 <Link key={product.id} href={`/product/${product.id}/${createSlug(product.name)}`}>
                                     <ProductCard {...product} />

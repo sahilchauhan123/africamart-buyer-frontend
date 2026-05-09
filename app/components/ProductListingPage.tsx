@@ -69,7 +69,7 @@ const ProductListingPage: React.FC<ProductListingPageProps> = ({ subCategoryName
     return (
         <div className="bg-[#f6f6f8] min-h-screen font-display antialiased flex flex-col animate-in slide-in-from-right duration-300">
             {/* Search Header - Exact copy from SearchPage */}
-            <header 
+            <header
                 className="sticky top-0 left-0 w-full z-50 py-3 pb-4 border-none transition-all flex flex-col"
                 style={{ background: 'linear-gradient(180deg, hsla(224, 39%, 58%, 1) 0%, hsla(224, 39%, 81%, 1) 100%)' }}
             >
@@ -133,13 +133,13 @@ const ProductListingPage: React.FC<ProductListingPageProps> = ({ subCategoryName
                                         <span className="text-[11px] lg:text-sm font-bold text-slate-700 truncate">{product.supplier.name}</span>
                                     </div>
 
-                                    <div className="flex items-center gap-1.5 mt-1.5 text-slate-500">
-                                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                                        <span className="text-[10px] lg:text-xs font-medium truncate">{product.supplier.location}</span>
+                                    <div className="flex items-center gap-1.5 mt-1.5">
+                                        <MapPin className="w-3.5 h-3.5 text-orange-500" />
+                                        <span className="text-[10px] lg:text-xs font-medium truncate text-slate-600">{product.supplier.location}</span>
                                     </div>
                                 </div>
                                 <div className="flex gap-2 mt-6 lg:mt-8">
-                                    <button className="flex-1 bg-brand-blue text-white text-[11px] lg:text-sm font-extrabold py-3 lg:py-4 rounded-xl active:scale-95 transition-transform shadow-md shadow-brand-blue/10">Contact Supplier</button>
+                                    <button className="flex-1 bg-brand-blue text-white text-[11px] lg:text-sm font-extrabold py-3 lg:py-4 rounded-xl active:scale-95 transition-transform shadow-md shadow-brand-blue/10">Contact Business</button>
                                     <button className="flex-1 border-2 border-brand-blue text-brand-blue text-[11px] lg:text-sm font-extrabold py-3 lg:py-4 rounded-xl active:bg-brand-blue/5">Get Quote</button>
                                 </div>
                             </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, HelpCircle, User, ChevronDown, Rocket, Menu, X, ArrowRight } from 'lucide-react';
+import { Search, HelpCircle, User, ChevronDown, Rocket, Menu, X, ArrowRight, MessageSquareMore, MessageSquare, MessageSquareDot, MessagesSquare } from 'lucide-react';
 import { fetchSuggestions, buyerLogout } from '@/src/lib/api';
 import Image from 'next/image';
 import logo from '../logo.png';
@@ -14,6 +14,17 @@ export default function Header() {
     const [apiSuggestions, setApiSuggestions] = useState<{ name: string, img: string, category: string }[]>([]);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [buyer, setBuyer] = useState<any>(null);
+
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isMobileMenuOpen]);
 
     useEffect(() => {
         const storedBuyer = localStorage.getItem('buyer');
@@ -212,7 +223,7 @@ export default function Header() {
                                 className="bg-[#0026C0] text-white px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#001da2] transition-all shadow-lg shadow-[#0026C0]/20 active:scale-95 flex items-center gap-2"
                             >
                                 <User className="w-4 h-4" />
-                                Sign Up
+                                Signup
                             </button>
                         )}
                     </nav>
@@ -221,23 +232,31 @@ export default function Header() {
                 {/* --- MOBILE HEADER (max lg) --- */}
                 <div className="lg:hidden flex flex-col px-4 py-2 pb-3">
                     <div className="flex items-center justify-between gap-4 mb-2.5">
-                        <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
-                            <Image
-                                src={logo}
-                                alt="LASOMAA"
-                                width={123}
-                                height={24}
-                                className="object-contain"
-                            />
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                className="p-1 text-slate-800 hover:bg-slate-100 rounded-lg transition-colors"
+                            >
+                                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                            </button>
+                            <div className="flex items-center cursor-pointer" onClick={() => router.push('/')}>
+                                <Image
+                                    src={logo}
+                                    alt="LASOMAA"
+                                    width={110}
+                                    height={22}
+                                    className="object-contain"
+                                />
+                            </div>
                         </div>
 
                         <div className="flex items-center gap-2">
                             {buyer ? (
                                 <div
-                                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                    className="w-8 h-8 bg-[#0026C0] rounded-lg flex items-center justify-center text-white font-black text-xs shadow-lg shadow-[#0026C0]/20"
+                                    onClick={() => router.push('/dashboard?tab=messages')}
+                                    className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-[#0026C0] cursor-pointer active:scale-90 transition-transform relative"
                                 >
-                                    {buyer.full_name?.charAt(0).toUpperCase() || 'U'}
+                                    <MessagesSquare className="w-5 h-5" />
                                 </div>
                             ) : (
                                 <button
@@ -245,15 +264,9 @@ export default function Header() {
                                     className="bg-[#0026C0] text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-[#001da2] transition-all shadow-md flex items-center gap-1.5"
                                 >
                                     <User className="w-3.5 h-3.5" />
-                                    Sign Up
+                                    Signup
                                 </button>
                             )}
-                            <button
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                className="p-1.5 text-slate-800 hover:bg-slate-100 rounded-lg transition-colors"
-                            >
-                                {isMobileMenuOpen ? <X className="w-5.5 h-5.5" /> : <Menu className="w-5.5 h-5.5" />}
-                            </button>
                         </div>
                     </div>
 
@@ -302,99 +315,126 @@ export default function Header() {
 
                 {/* Mobile Menu Overlay */}
                 {isMobileMenuOpen && (
-                    <div className="lg:hidden fixed inset-0 top-[106px] bg-white z-[100] animate-slide-in-left p-6 flex flex-col gap-8">
-                        {buyer && (
-                            <div className="p-4 bg-slate-50 rounded-xl">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-[#0026C0] rounded-xl flex items-center justify-center text-white font-black text-lg shadow-lg">
-                                        {buyer.full_name?.charAt(0).toUpperCase() || 'U'}
+                    <div className="lg:hidden fixed inset-0 z-[100] flex">
+                        {/* Backdrop */}
+                        <div 
+                            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        ></div>
+                        
+                        {/* Drawer */}
+                        <div className="relative w-[280px] h-full bg-white shadow-2xl animate-in slide-in-from-left duration-300 p-6 flex flex-col overflow-hidden">
+                            {/* Logo at Top */}
+                            <div className="mb-8 flex items-center justify-between">
+                                <Image
+                                    src={logo}
+                                    alt="LASOMAA"
+                                    width={100}
+                                    height={20}
+                                    className="object-contain"
+                                />
+                                <button onClick={() => setIsMobileMenuOpen(false)} className="p-1 hover:bg-slate-50 rounded-lg">
+                                    <X className="w-5 h-5 text-slate-400" />
+                                </button>
+                            </div>
+
+                            <div className="flex-1 flex flex-col">
+                                {buyer && (
+                                    <div className="mb-3 pb-3 border-b border-slate-100 flex items-center gap-3">
+                                        <div className="w-10 h-10 bg-[#0026C0] rounded-xl flex items-center justify-center text-white font-black text-sm">
+                                            {buyer.full_name?.charAt(0).toUpperCase() || 'U'}
+                                        </div>
+                                        <div className="flex flex-col min-w-0">
+                                            <p className="text-[10px] font-black text-slate-400 tracking-widest leading-none mb-1">Signed in as</p>
+                                            <p className="text-sm font-black text-slate-900 truncate">{buyer.full_name}</p>
+                                        </div>
                                     </div>
-                                    <div className="flex flex-col">
-                                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Welcome</span>
-                                        <span className="text-sm font-black text-slate-900">Hi, {buyer.full_name?.split(' ')[0]}</span>
-                                    </div>
+                                )}
+
+                                <div className="flex flex-col gap-1">
+                                    <button
+                                        onClick={() => {
+                                            setIsMobileMenuOpen(false);
+                                            router.push('/');
+                                        }}
+                                        className="w-full text-left font-medium text-slate-700 py-3 border-b border-slate-50 hover:text-[#0026C0] transition-colors"
+                                    >
+                                        Home
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setIsMobileMenuOpen(false);
+                                            router.push('/categories');
+                                        }}
+                                        className="w-full text-left font-medium text-slate-700 py-4 border-b border-slate-50 hover:text-[#0026C0] transition-colors"
+                                    >
+                                        Goods By Category
+                                    </button>
+
+                                    {buyer && (
+                                        <>
+                                            <button
+                                                onClick={() => {
+                                                    setIsMobileMenuOpen(false);
+                                                    router.push('/dashboard?tab=messages');
+                                                }}
+                                                className="w-full flex items-center justify-between font-medium text-slate-700 py-3 border-b border-slate-50 hover:text-[#0026C0] transition-colors"
+                                            >
+                                                <span>Messages</span>
+                                                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-2"></div>
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    setIsMobileMenuOpen(false);
+                                                    router.push('/dashboard?tab=leads');
+                                                }}
+                                                className="w-full text-left font-medium text-slate-700 py-4 border-b border-slate-50 hover:text-[#0026C0] transition-colors"
+                                            >
+                                                Inquiries
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    setIsMobileMenuOpen(false);
+                                                    router.push('/dashboard?tab=profile');
+                                                }}
+                                                className="w-full text-left font-medium text-slate-700 py-4 border-b border-slate-50 hover:text-[#0026C0] transition-colors"
+                                            >
+                                                Profile Settings
+                                            </button>
+                                        </>
+                                    )}
+                                    <button className="w-full text-left font-medium text-slate-700 py-4 border-b border-slate-50 hover:text-[#0026C0] transition-colors">
+                                        Help Center
+                                    </button>
+                                    <button className="w-full text-left font-medium text-slate-700 py-4 hover:text-[#0026C0] transition-colors">
+                                        Contact Us
+                                    </button>
                                 </div>
                             </div>
-                        )}
 
-                        <div className="space-y-1">
-                            <button
-                                onClick={() => {
-                                    setIsMobileMenuOpen(false);
-                                    router.push('/categories');
-                                }}
-                                className="w-full text-left font-black text-slate-900 flex items-center justify-between group py-2.5 px-4 hover:bg-slate-50 rounded-xl transition-all"
-                            >
-                                <span>Categories</span>
-                                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
-                            </button>
-
-                            {buyer && (
-                                <>
-
+                            {/* Bottom Actions */}
+                            <div className="mt-auto pt-6 border-t border-slate-100">
+                                {buyer ? (
+                                    <button
+                                        onClick={handleLogout}
+                                        className="w-full text-center font-medium text-red-600 py-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors"
+                                    >
+                                        Sign Out
+                                    </button>
+                                ) : (
                                     <button
                                         onClick={() => {
                                             setIsMobileMenuOpen(false);
-                                            router.push('/dashboard?tab=leads');
+                                            router.push('/signup');
                                         }}
-                                        className="w-full text-left font-black text-slate-900 flex items-center justify-between group py-2.5 px-4 hover:bg-slate-50 rounded-xl transition-all"
+                                        className="w-full bg-[#0026C0] text-white font-medium py-4 rounded-xl shadow-lg shadow-[#0026C0]/20 hover:bg-[#001da2] transition-all flex items-center justify-center gap-2 text-xs tracking-widest"
                                     >
-                                        <span>Inquiries</span>
-                                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+                                        <User className="w-4 h-4" />
+                                        Signup / Login
                                     </button>
-                                    <button
-                                        onClick={() => {
-                                            setIsMobileMenuOpen(false);
-                                            router.push('/dashboard?tab=messages');
-                                        }}
-                                        className="w-full text-left font-black text-slate-900 flex items-center justify-between group py-2.5 px-4 hover:bg-slate-50 rounded-xl transition-all"
-                                    >
-                                        <span>Messages</span>
-                                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setIsMobileMenuOpen(false);
-                                            router.push('/dashboard?tab=profile');
-                                        }}
-                                        className="w-full text-left font-black text-slate-900 flex items-center justify-between group py-2.5 px-4 hover:bg-slate-50 rounded-xl transition-all"
-                                    >
-                                        <span>Profile</span>
-                                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
-                                    </button>
-                                </>
-                            )}
-
-                            <button className="w-full text-left font-black text-slate-900 flex items-center justify-between group py-2.5 px-4 hover:bg-slate-50 rounded-xl transition-all">
-                                <span>Help</span>
-                                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
-                            </button>
-
-                            {buyer && (
-                                <button
-                                    onClick={handleLogout}
-                                    className="w-full text-left font-black text-red-600 flex items-center justify-between group py-2.5 px-4 hover:bg-red-50 rounded-xl transition-all mt-4 border-t border-slate-50"
-                                >
-                                    <span>Sign Out</span>
-                                    <ArrowRight className="w-4 h-4 text-red-400 group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            )}
-                        </div>
-
-                        {!buyer && (
-                            <div className="mt-auto pt-8">
-                                <button
-                                    onClick={() => {
-                                        setIsMobileMenuOpen(false);
-                                        router.push('/signup');
-                                    }}
-                                    className="w-full bg-[#0026C0] text-white font-black py-4 rounded-xl shadow-[0_10px_20px_-5px_rgba(0,38,192,0.3)] hover:bg-[#001da2] transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
-                                >
-                                    <User className="w-4 h-4" />
-                                    Sign Up / Sign In
-                                </button>
+                                )}
                             </div>
-                        )}
+                        </div>
                     </div>
                 )}
             </div>

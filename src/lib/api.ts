@@ -77,10 +77,19 @@ export async function fetchProducts(query: string, filters: any = {}, page: numb
         const products = data.data?.hits?.map((hit: any) => {
             const doc = hit.document;
             const images = doc.picture_url?.map((p: any) => p.img_url) || [];
+            
+            let priceDisplay = 'Price on request';
+            if (doc.min_price) {
+                priceDisplay = `$${doc.min_price}`;
+                if (doc.max_price && doc.max_price > doc.min_price) {
+                    priceDisplay += ` - $${doc.max_price}`;
+                }
+            }
+
             return {
                 ...doc,
                 image: images.length > 0 ? images[0] : null,
-                price: doc.min_price ? `$${doc.min_price}` : 'Price on request',
+                price: priceDisplay,
                 unit: doc.unit || 'Piece',
                 name: doc.title,
                 location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || 'India',
@@ -265,10 +274,19 @@ export async function fetchRecommendations(productName: string, productID: strin
             .map((hit: any) => {
                 const doc = hit.document;
                 const images = doc.picture_url?.map((p: any) => p.img_url) || [];
+                
+                let priceDisplay = 'Price on request';
+                if (doc.min_price) {
+                    priceDisplay = `$${doc.min_price}`;
+                    if (doc.max_price && doc.max_price > doc.min_price) {
+                        priceDisplay += ` - $${doc.max_price}`;
+                    }
+                }
+
                 return {
                     ...doc,
                     image: images.length > 0 ? images[0] : null,
-                    price: doc.min_price ? `$${doc.min_price}` : 'Price on request',
+                    price: priceDisplay,
                     unit: doc.unit || 'Piece',
                     name: doc.title,
                     location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || doc.seller_location || 'India',
@@ -293,11 +311,20 @@ export async function fetchProductsByCategorySlug(slug: string) {
         return hits.map((hit: any) => {
             const doc = hit.document;
             const images = doc.picture_url?.map((p: any) => p.img_url) || [];
+            
+            let priceDisplay = 'Price on request';
+            if (doc.min_price) {
+                priceDisplay = `$${doc.min_price}`;
+                if (doc.max_price && doc.max_price > doc.min_price) {
+                    priceDisplay += ` - $${doc.max_price}`;
+                }
+            }
+
             return {
                 ...doc,
                 id: doc.id,
                 image: images.length > 0 ? images[0] : null,
-                price: doc.min_price ? `$${doc.min_price}` : 'Price on request',
+                price: priceDisplay,
                 unit: doc.unit || 'Piece',
                 name: doc.title,
                 location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || doc.seller_location || 'India',

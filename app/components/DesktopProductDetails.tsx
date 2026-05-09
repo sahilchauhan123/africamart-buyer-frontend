@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowLeft, MapPin, Star, ShieldCheck, Truck, Clock, MessageSquare, Phone, Share2, Heart, ChevronRight, Info, X, Loader2, CheckCircle2, Lock, User as UserIcon, Mail, ArrowRight, Store } from 'lucide-react';
+import { ArrowLeft, MapPin, Star, ShieldCheck, Truck, Clock, MessageSquare, Phone, Share2, Heart, ChevronRight, ChevronDown, Info, X, Loader2, CheckCircle2, Lock, User as UserIcon, Mail, ArrowRight, Store } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { COUNTRY_CODES } from '@/src/constants/constanst';
 import { buyerCheckNumber, buyerLogin, buyerSendOtp, buyerSubmitLead, buyerSubmitOtp, sendChatMessage, fetchRecommendations } from '@/src/lib/api';
@@ -70,6 +70,8 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
 
     const [showPhone, setShowPhone] = React.useState(false);
     const [afterAuthAction, setAfterAuthAction] = React.useState<'lead' | 'chat' | 'phone' | null>(null);
+    const [isSpecsOpen, setIsSpecsOpen] = React.useState(false);
+    const [isDescriptionOpen, setIsDescriptionOpen] = React.useState(true);
 
     const handleLeadsUpload = async () => {
         const buyer = localStorage.getItem('buyer');
@@ -249,25 +251,24 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
     return (
         <div className="bg-slate-50 min-h-screen py-4 lg:py-6 px-3 lg:px-8 font-body">
             <div className="max-w-[1700px] mx-auto">
-                <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch lg:items-start">
+                <button
+                    onClick={onBack || (() => router.back())}
+                    className="flex lg:hidden items-center gap-1 text-sm text-[#0026C0] font-bold hover:underline mb-4 group"
+                >
+                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                    Back
+                </button>
+                <button
+                    onClick={onBack || (() => router.back())}
+                    className="hidden lg:flex items-center gap-1 text-sm text-[#0026C0] font-bold hover:underline mb-6 group"
+                >
+                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                    Back to results
+                </button>
 
+                <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch lg:items-start">
                     {/* Left Column: Image Gallery */}
                     <div className="w-full lg:w-[480px] shrink-0">
-                        <button
-                            onClick={onBack || (() => router.back())}
-                            className="flex lg:hidden items-center gap-1 text-sm text-[#0026C0] font-bold hover:underline mb-4 group"
-                        >
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                            Back
-                        </button>
-                        <button
-                            onClick={onBack || (() => router.back())}
-                            className="hidden lg:flex items-center gap-1 text-sm text-[#0026C0] font-bold hover:underline mb-6 group"
-                        >
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                            Back to results
-                        </button>
-
                         <div className="lg:sticky lg:top-24 flex flex-col lg:flex-row gap-4">
                             {/* Main Product Image (Top on Mobile) */}
                             <div className="flex-1 aspect-square bg-white rounded-lg p-6 lg:p-8 border border-slate-200 shadow-sm relative overflow-hidden group flex items-center justify-center order-first lg:order-last">
@@ -300,45 +301,62 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                     </div>
 
 
-                    <main className="flex-1 min-w-0 space-y-4 lg:space-y-6">
-                        {/* Breadcrumbs */}
-                        <nav className="flex flex-wrap items-center gap-y-1 gap-x-2 text-[10px] lg:text-[11px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">
-                            {/* <span className="hover:text-[#0026C0] cursor-pointer" onClick={() => router.push('/')}>Lasomaa</span> */}
-                            {[...(product.parent_category_ids || [])].sort((a, b) => a.position - b.position).map((cat) => (
-                                <React.Fragment key={cat.id}>
-                                    <span
-                                        className="hover:text-[#0026C0] cursor-pointer"
-                                        onClick={() => router.push(`/categories/${cat.slug}`)}
-                                    >
-                                        {cat.name}
-                                    </span>
-                                    <ChevronRight className="w-3 h-3 flex-shrink-0" />
+                    <div className="flex-1 min-w-0 space-y-6">
+                        <main className="space-y-2">
 
-                                </React.Fragment>
-                            ))}
-                            {product.category_name && (
-                                <>
-                                    {/* <ChevronRight className="w-3 h-3 flex-shrink-0" /> */}
-                                    <span
-                                        className="hover:text-[#0026C0] cursor-pointer"
-                                        onClick={() => router.push(`/categories/${product.category_slug}`)}
-                                    >
-                                        {product.category_name}
-                                    </span>
-                                </>
-                            )}
-                            <ChevronRight className="w-3 h-3 flex-shrink-0" />
-                            <span className="text-slate-900 truncate max-w-[150px] lg:max-w-none">{product.name}</span>
-                        </nav>
+                            <h1 className="text-xl lg:text-4xl font-black text-slate-900 leading-tight">
+                                {product.name}
+                            </h1>
 
-                        <h1 className="text-xl lg:text-3xl font-black text-slate-900 leading-tight">
-                            {product.name}
-                        </h1>
+                            <div className="flex flex-wrap items-baseline gap-2 pb-1">
+                                <span className="text-2xl lg:text-3xl font-black text-slate-900 tracking-tighter">{product.price + " /"}</span>
+                                <span className="text-sm lg:text-lg font-bold text-slate-500">{product.unit[0].toUpperCase() + product.unit.slice(1)}</span>
+                                <button className="text-[10px] lg:text-sm font-bold text-[#0026C0] hover:underline ml-1 lg:ml-4">Get Latest Price</button>
+                            </div>
+                        </main>
 
-                        <div className="flex flex-wrap items-baseline gap-2 pb-4 lg:pb-6">
-                            <span className="text-2xl lg:text-4xl font-black text-slate-900 tracking-tighter">{product.price + " /"}</span>
-                            <span className="text-sm lg:text-lg font-bold text-slate-500">{product.unit[0].toUpperCase() + product.unit.slice(1)}</span>
-                            <button className="text-[10px] lg:text-sm font-bold text-[#0026C0] hover:underline ml-1 lg:ml-4">Get Latest Price</button>
+                        {/* Seller/Supplier Information */}
+                        <div className="bg-white rounded-xl p-4 lg:p-6 border border-slate-200 shadow-sm">
+                            <div className="flex items-start justify-between mb-4">
+                                <div className="space-y-1">
+                                    <h3 className="text-xl font-black text-slate-900 leading-tight">
+                                        {product.supplier || 'Supplier Name Not Available'}
+                                    </h3>
+                                    <div className="flex items-center gap-1.5 text-slate-500">
+                                        <MapPin className="w-3.5 h-3.5 text-orange-500" />
+                                        <span className="text-xs font-medium truncate text-slate-500">{product.seller_address || 'Address Not Found'}</span>
+                                    </div>
+                                </div>
+                                <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center border border-slate-100">
+                                    <Store className="w-6 h-6 text-[#0026C0]" />
+                                </div>
+                            </div>
+
+                            <div className="flex flex-wrap gap-2 mb-6">
+                                <div className="flex items-center gap-1.5 bg-blue-50 text-[#0026C0] px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider border border-blue-100">
+                                    <ShieldCheck className="w-3 h-3 fill-[#0026C0] text-white" />
+                                    Verified Business
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-2 lg:gap-3">
+                                <button
+                                    onClick={handleContactSupplierClick}
+                                    className="flex-1 h-11 lg:h-14 bg-[#0026C0] text-white rounded-lg flex items-center justify-center gap-2 lg:gap-3 px-2 lg:px-4 text-[10px] lg:text-sm font-black hover:bg-[#001da2] transition-all shadow-lg shadow-blue-600/10 active:scale-[0.98] uppercase tracking-wider"
+                                >
+                                    <MessageSquare className="w-4 h-4 lg:w-5 h-5" />
+                                    <span className="hidden sm:inline">Message Business</span>
+                                    <span className="sm:hidden">Message</span>
+                                </button>
+                                <button
+                                    className={`flex-1 h-11 lg:h-14 rounded-lg flex items-center justify-center gap-2 lg:gap-3 px-2 lg:px-4 text-[10px] lg:text-sm font-black transition-all active:scale-[0.98] uppercase tracking-wider ${showPhone ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'}`}
+                                    onClick={handleViewPhoneClick}
+                                >
+                                    <Phone className={`w-3.5 h-3.5 lg:w-4 h-4 ${showPhone ? 'fill-green-600' : ''}`} />
+                                    <span className="hidden sm:inline">{showPhone ? (product.seller_phone || "+234 XXX XXX XXXX") : "View Phone Number"}</span>
+                                    <span className="sm:hidden">{showPhone ? (product.seller_phone || "Call") : "Call Now"}</span>
+                                </button>
+                            </div>
                         </div>
 
                         {/* Action Area (Boxed) */}
@@ -356,7 +374,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
 
                             <div className="w-full flex flex-col sm:flex-row gap-3">
                                 <input
-                                    className="w-full h-11 lg:h-12 bg-slate-50 border border-slate-200 rounded px-4 lg:px-5 font-bold text-sm lg:text-base outline-none focus:border-[#0026C0] transition-colors"
+                                    className="w-full h-11 lg:h-14 bg-slate-50 border border-slate-200 rounded px-4 lg:px-5 font-bold text-sm lg:text-lg outline-none focus:border-[#0026C0] transition-colors"
                                     placeholder="Enter Quantity"
                                     value={quantity}
                                     onChange={(e) => setQuantity(e.target.value)}
@@ -365,7 +383,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                             <button
                                 onClick={handleInitialRequirementSubmit}
                                 disabled={loading}
-                                className="w-full h-12 lg:h-14 bg-[#0026C0] hover:bg-[#001da2] text-white font-black rounded transition-all shadow-lg shadow-[#0026C0]/15 text-base lg:text-lg uppercase tracking-wider flex items-center justify-center gap-2 lg:gap-3 disabled:opacity-50"
+                                className="w-full h-12 lg:h-14 bg-[#0026C0] hover:bg-[#001da2] text-white font-black rounded transition-all shadow-lg shadow-[#0026C0]/15 text-base lg:text-lg tracking-wider flex items-center justify-center gap-2 lg:gap-3 disabled:opacity-50"
                             >
                                 {loading ? <Loader2 className="w-5 h-5 lg:w-6 lg:h-6 animate-spin" /> : "Submit Requirement"}
                             </button>
@@ -373,12 +391,15 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
 
                         {/* Specs Table */}
                         {(Array.isArray(product.attributes) && product.attributes.length > 0 || (product.raw_attributes && Object.keys(product.raw_attributes).length > 0)) && (
-                            <div className="bg-white rounded border border-slate-100 shadow-sm overflow-hidden">
-                                <div className="bg-slate-50/50 px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100">
+                            <div className="bg-white rounded border border-slate-100 shadow-sm overflow-hidden transition-all duration-300">
+                                <button 
+                                    onClick={() => setIsSpecsOpen(!isSpecsOpen)}
+                                    className="w-full bg-slate-50/50 px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100 flex items-center justify-between hover:bg-slate-100/50 transition-colors"
+                                >
                                     <h4 className="text-[10px] lg:text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Specifications</h4>
-                                </div>
-                                <div className="divide-y divide-slate-50">
-                                    {/* Show attributes if it's a valid array */}
+                                    <ChevronDown className={`w-5 h-5 text-slate-900 transition-transform duration-300 ${isSpecsOpen ? 'rotate-180' : ''}`} />
+                                </button>
+                                <div className={`divide-y divide-slate-50 transition-all duration-300 ${isSpecsOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}>
                                     {Array.isArray(product.attributes) && product.attributes.map((attr) => {
                                         const [label, ...valueParts] = attr.split(':');
                                         return (
@@ -388,8 +409,6 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                             </div>
                                         );
                                     })}
-
-                                    {/* Show raw_attributes if available */}
                                     {product.raw_attributes && Object.entries(product.raw_attributes).map(([label, value]) => (
                                         <div key={label} className="grid grid-cols-2 px-4 lg:px-6 py-3 lg:py-4 hover:bg-slate-50/50 transition-colors">
                                             <span className="text-xs lg:text-sm font-medium text-slate-400">{label}</span>
@@ -403,78 +422,22 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                         )}
 
                         {product.description && (
-                            <div className="bg-white rounded border border-slate-100 shadow-sm overflow-hidden">
-                                <div className="bg-slate-50/50 px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100">
+                            <div className="bg-white rounded border border-slate-100 shadow-sm overflow-hidden transition-all duration-300">
+                                <button 
+                                    onClick={() => setIsDescriptionOpen(!isDescriptionOpen)}
+                                    className="w-full bg-slate-50/50 px-4 lg:px-6 py-3 lg:py-4 border-b border-slate-100 flex items-center justify-between hover:bg-slate-100/50 transition-colors"
+                                >
                                     <h4 className="text-[10px] lg:text-xs font-black text-slate-500 uppercase tracking-[0.2em]">Description</h4>
-                                </div>
-                                <div className="px-4 lg:px-6 py-4 lg:py-6">
+                                    <ChevronDown className={`w-5 h-5 text-slate-900 transition-transform duration-300 ${isDescriptionOpen ? 'rotate-180' : ''}`} />
+                                </button>
+                                <div className={`px-4 lg:px-6 transition-all duration-300 ${isDescriptionOpen ? 'py-4 lg:py-6 max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 py-0 pointer-events-none'}`}>
                                     <p className="text-slate-600 leading-relaxed text-sm lg:text-base">
                                         {product.description}
                                     </p>
                                 </div>
                             </div>
                         )}
-                    </main>
-
-                    {/* Right Column: Seller/Supplier Sidebar */}
-                    <aside className="w-full lg:w-[340px] shrink-0 space-y-5">
-                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm transition-all hover:shadow-md">
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="space-y-1">
-                                    <h3 className="text-xl font-black text-slate-900 leading-tight">
-                                        {product.supplier || 'Supplier Name Not Available'}
-                                    </h3>
-                                    <div className="flex items-center gap-1.5 text-slate-500">
-                                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                                        <span className="text-xs font-medium truncate max-w-[180px]">{product.seller_address || 'Address Not Found'}</span>
-                                    </div>
-                                </div>
-                                <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center border border-slate-100">
-                                    <Store className="w-6 h-6 text-[#0026C0]" />
-                                </div>
-                            </div>
-
-                            <div className="flex flex-wrap gap-2 mb-6">
-                                <div className="flex items-center gap-1.5 bg-blue-50 text-[#0026C0] px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider border border-blue-100">
-                                    <ShieldCheck className="w-3 h-3 fill-[#0026C0] text-white" />
-                                    Verified
-                                </div>
-                            </div>
-
-                            {/* <div className="grid grid-cols-2 gap-4 py-4 border-y border-slate-50 mb-6">
-                                <div className="space-y-1">
-                                    <div className="flex items-center gap-1">
-                                        {[...Array(5)].map((_, i) => (
-                                            <Star key={i} className={`w-3 h-3 ${i < 4 ? 'fill-amber-400 text-amber-400' : 'text-slate-200'}`} />
-                                        ))}
-                                    </div>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">4.8 Rating</p>
-                                </div>
-                                <div className="space-y-1 border-l border-slate-50 pl-4">
-                                    <div className="text-sm font-black text-green-600">88%</div>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Response Rate</p>
-                                </div>
-                            </div> */}
-
-                            <div className="space-y-3">
-                                <button
-                                    onClick={handleContactSupplierClick}
-                                    className="w-full h-12 bg-[#0026C0] text-white rounded-lg flex items-center justify-center gap-3 text-sm font-black hover:bg-[#001da2] transition-all shadow-lg shadow-blue-600/10 active:scale-[0.98]"
-                                >
-                                    <MessageSquare className="w-5 h-5" />
-                                    Message Supplier
-                                </button>
-                                <button
-                                    className={`w-full h-12 rounded-lg flex items-center justify-center gap-3 text-sm font-black transition-all active:scale-[0.98] ${showPhone ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'}`}
-                                    onClick={handleViewPhoneClick}
-                                >
-                                    <Phone className={`w-4 h-4 ${showPhone ? 'fill-green-600' : ''}`} />
-                                    {showPhone ? (product.seller_phone || "+234 XXX XXX XXXX") : "View Phone Number"}
-                                </button>
-                            </div>
-                        </div>
-
-                    </aside>
+                    </div>
 
                 </div>
 
@@ -482,13 +445,9 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                 <div className="mt-10 lg:mt-16 pt-10 lg:pt-16 border-t border-slate-200">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 lg:mb-8">
                         <div>
-                            <h2 className="text-lg lg:text-2xl font-black text-slate-900">Recommended for You</h2>
+                            <h2 className="text-lg lg:text-2xl font-black text-slate-900">Other Goods You May Like</h2>
                             <p className="text-xs lg:text-sm text-slate-500 mt-0.5 lg:mt-1">Based on your recent interest in {product.name}</p>
                         </div>
-                        <button className="text-[#0026C0] font-black flex items-center gap-1 hover:underline text-[10px] lg:text-sm uppercase tracking-widest self-start sm:self-auto">
-                            See More Results
-                            <ChevronRight className="w-3 h-3 lg:w-4 h-4" />
-                        </button>
                     </div>
 
                     <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-6">
@@ -524,41 +483,47 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                             </div>
                         )}
                     </div>
-                    {/* Authentication Modal Overlay */}
-                    {showAuthModal && (
-                        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center p-4 lg:p-12 animate-in fade-in duration-300">
-                            <div className="bg-white w-full max-w-[450px] rounded-2xl shadow-2xl relative overflow-hidden flex flex-col">
-                                <button
-                                    onClick={() => setShowAuthModal(false)}
-                                    className="absolute right-4 top-4 p-2 hover:bg-slate-100 rounded-full transition-colors z-10"
-                                >
-                                    <X className="w-5 h-5 text-slate-400" />
-                                </button>
+                </div>
+                {/* Authentication Modal Overlay */}
+                {showAuthModal && (
+                    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
+                        {/* Backdrop */}
+                        <div className="absolute inset-0" onClick={() => setShowAuthModal(false)}></div>
 
-                                <div className="p-8 lg:p-10 space-y-8">
-                                    <div className="space-y-2">
-                                        <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">
-                                            {authStep === 'phone' && "Verify Your Identity"}
+                        {/* Modal Card */}
+                        <div className="bg-white w-full max-w-[400px] rounded-[32px] shadow-2xl relative overflow-hidden flex flex-col animate-in zoom-in-95 duration-300">
+                            <button
+                                onClick={() => setShowAuthModal(false)}
+                                className="absolute right-6 top-5 p-2 text-slate-300 hover:text-slate-900 transition-colors z-20"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+
+                            <div className="p-6 lg:p-8 pt-8">
+                                <div className="space-y-6">
+                                    <div className="space-y-1">
+                                        <h3 className="text-xl font-black text-slate-900 tracking-tight">
+                                            {authStep === 'phone' && "Lasomaa Verification"}
                                             {authStep === 'login' && `Welcome Back`}
-                                            {authStep === 'signup' && "Quick Registration"}
-                                            {authStep === 'otp' && "One Last Step"}
+                                            {authStep === 'signup' && "Create Account"}
+                                            {authStep === 'otp' && "Verify OTP"}
                                         </h3>
-                                        <p className="text-slate-500 font-bold text-sm">
-                                            {authStep === 'phone' && "To submit your requirement, please enter your mobile number."}
+                                        <p className="text-slate-500 font-bold text-[11px] leading-relaxed">
+                                            {authStep === 'phone' && "To reach business, please enter your mobile number."}
                                             {authStep === 'login' && "Enter your password to secure this lead."}
-                                            {authStep === 'signup' && "Creating a business account for you."}
+                                            {authStep === 'signup' && "Please create your buyer account."}
                                             {authStep === 'otp' && `Enter code sent to ${country.code} ${phoneNumber}`}
                                         </p>
                                     </div>
 
-                                    {error && <div className="p-3 bg-red-50 border border-red-100 text-red-600 rounded text-[10px] font-black uppercase tracking-widest">{error}</div>}
+                                    {error && <div className="p-2.5 bg-red-50 border border-red-100 text-red-600 rounded-xl text-[9px] font-black uppercase tracking-widest">{error}</div>}
 
-                                    <div className="space-y-5">
+                                    <div className="space-y-3.5">
                                         {authStep === 'phone' && (
-                                            <div className="space-y-1.5">
-                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Phone Number</label>
+                                            <div className="space-y-1">
+                                                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Phone Number</label>
                                                 <div className="flex gap-2">
-                                                    <div className="relative w-[100px] h-12">
+                                                    <div className="relative w-[85px] h-11">
                                                         <select
                                                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                                             value={country.code}
@@ -571,18 +536,26 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                                                 <option key={idx} value={item.code}>{item.name} ({item.code})</option>
                                                             ))}
                                                         </select>
-                                                        <div className="absolute inset-0 bg-slate-50 border border-slate-200 rounded-md px-2 flex items-center justify-between pointer-events-none">
-                                                            <span className="font-bold text-slate-800 text-xs">{country.flag} {country.code}</span>
-                                                            <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-slate-400"></div>
+                                                        <div className="absolute inset-0 bg-slate-50 border border-slate-200 rounded-xl px-2.5 flex items-center justify-between pointer-events-none">
+                                                            <span className="font-bold text-slate-800 text-[11px]">{country.flag} {country.code}</span>
+                                                            <ChevronDown className="w-3 h-3 text-slate-400" />
                                                         </div>
                                                     </div>
                                                     <input
-                                                        className="flex-1 h-12 bg-slate-50 border border-slate-200 rounded-md px-4 font-black text-slate-800 focus:bg-white focus:border-[#0026C0] outline-none text-sm"
+                                                        className="flex-1 h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 font-black text-slate-800 focus:bg-white focus:border-[#0026C0] outline-none text-xs"
                                                         placeholder="Mobile Number"
                                                         value={phoneNumber}
                                                         onChange={(e) => setPhoneNumber(e.target.value)}
                                                     />
                                                 </div>
+                                                <p className="mt-2 text-[9px] font-bold text-slate-400 flex items-center gap-1.5 ml-1">
+                                                    <span className="w-3.5 h-3.5 bg-green-50 rounded-full flex items-center justify-center">
+                                                        <svg className="w-2 h-2 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                                                        </svg>
+                                                    </span>
+                                                    Use your active Whatsapp. OTP will be sent for verification.
+                                                </p>
                                             </div>
                                         )}
 
@@ -590,24 +563,24 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                             <>
                                                 {authStep === 'signup' && (
                                                     <>
-                                                        <div className="space-y-1.5">
-                                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
+                                                        <div className="space-y-1">
+                                                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
                                                             <div className="relative">
-                                                                <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                                                                <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-300" />
                                                                 <input
-                                                                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-md pl-11 pr-4 font-black text-slate-800 outline-none focus:border-[#0026C0] text-sm"
+                                                                    className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 font-black text-slate-800 outline-none focus:border-[#0026C0] text-xs"
                                                                     placeholder="John Doe"
                                                                     value={fullName}
                                                                     onChange={(e) => setFullName(e.target.value)}
                                                                 />
                                                             </div>
                                                         </div>
-                                                        <div className="space-y-1.5">
-                                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email</label>
+                                                        <div className="space-y-1">
+                                                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Email</label>
                                                             <div className="relative">
-                                                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                                                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-300" />
                                                                 <input
-                                                                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-md pl-11 pr-4 font-black text-slate-800 outline-none focus:border-[#0026C0] text-sm"
+                                                                    className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 font-black text-slate-800 outline-none focus:border-[#0026C0] text-xs"
                                                                     placeholder="john@example.com"
                                                                     value={email}
                                                                     onChange={(e) => setEmail(e.target.value)}
@@ -616,16 +589,16 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                                         </div>
                                                     </>
                                                 )}
-                                                <div className="space-y-1.5">
+                                                <div className="space-y-1">
                                                     <div className="flex justify-between items-center">
-                                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
-                                                        {authStep === 'login' && <button className="text-[9px] font-black text-[#0026C0] uppercase tracking-widest">Forgot?</button>}
+                                                        <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
+                                                        {authStep === 'login' && <button className="text-[8px] font-black text-[#0026C0] uppercase tracking-widest">Forgot?</button>}
                                                     </div>
                                                     <div className="relative">
-                                                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                                                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-300" />
                                                         <input
                                                             type="password"
-                                                            className="w-full h-12 bg-slate-50 border border-slate-200 rounded-md pl-11 pr-4 font-black text-slate-800 outline-none focus:border-[#0026C0] text-sm"
+                                                            className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 font-black text-slate-800 outline-none focus:border-[#0026C0] text-xs"
                                                             placeholder="········"
                                                             value={password}
                                                             onChange={(e) => setPassword(e.target.value)}
@@ -636,10 +609,10 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                         )}
 
                                         {authStep === 'otp' && (
-                                            <div className="space-y-1.5">
-                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Enter OTP</label>
+                                            <div className="space-y-1">
+                                                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Enter OTP</label>
                                                 <input
-                                                    className="w-full h-14 bg-slate-50 border border-slate-200 rounded-md px-4 font-black text-center text-3xl tracking-[0.4em] text-slate-900 outline-none focus:border-[#0026C0]"
+                                                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 font-black text-center text-2xl tracking-[0.4em] text-slate-900 outline-none focus:border-[#0026C0]"
                                                     placeholder="······"
                                                     maxLength={6}
                                                     value={otp}
@@ -648,7 +621,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                             </div>
                                         )}
 
-                                        <div className="pt-4">
+                                        <div className="pt-1.5">
                                             <button
                                                 onClick={() => {
                                                     if (authStep === 'phone') handlePhoneCheck();
@@ -657,15 +630,15 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                                     else if (authStep === 'otp') handleOtpVerify();
                                                 }}
                                                 disabled={loading}
-                                                className="w-full h-14 bg-[#0026C0] text-white font-black rounded-lg shadow-xl shadow-[#0026C0]/20 flex items-center justify-center gap-3 uppercase tracking-widest text-xs disabled:opacity-50"
+                                                className="w-full h-11 bg-[#0026C0] text-white font-black rounded-xl shadow-md shadow-[#0026C0]/10 flex items-center justify-center gap-2.5 uppercase tracking-widest text-[10px] disabled:opacity-50 active:scale-[0.98] transition-all"
                                             >
-                                                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
+                                                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                                                     <>
                                                         {authStep === 'phone' && "Continue"}
-                                                        {authStep === 'login' && "Verify & Submit"}
+                                                        {authStep === 'login' && "Login"}
                                                         {authStep === 'signup' && "Create Account"}
-                                                        {authStep === 'otp' && "Complete Requirement"}
-                                                        <ArrowRight className="w-4 h-4" />
+                                                        {authStep === 'otp' && "Verify & Submit"}
+                                                        <ArrowRight className="w-3.5 h-3.5" />
                                                     </>
                                                 )}
                                             </button>
@@ -674,25 +647,26 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                                         {authStep !== 'phone' && (
                                             <button
                                                 onClick={() => setAuthStep('phone')}
-                                                className="w-full text-center text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors"
+                                                className="w-full text-center text-[8px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-[#0026C0] transition-colors"
                                             >
-                                                Edit Phone Number
+                                                Change Number
                                             </button>
                                         )}
                                     </div>
                                 </div>
+                            </div>
 
-                                <div className="bg-slate-50 p-6 text-center border-t border-slate-100 flex items-center justify-center gap-2">
-                                    <div className="w-6 h-6 bg-[#0026C0] rounded-lg p-1">
-                                        <ShieldCheck className="w-full h-full text-white" />
-                                    </div>
-                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Secure Lasomaa Verification</span>
+                            <div className="bg-slate-50 px-6 py-4 text-center border-t border-slate-100 flex items-center justify-center gap-2.5">
+                                <div className="w-5 h-5 bg-[#0026C0] rounded-md p-1 flex items-center justify-center">
+                                    <ShieldCheck className="w-full h-full text-white" />
                                 </div>
+                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Lasomaa Quick Check</span>
                             </div>
                         </div>
-                    )}
-                </div>
-            </div>
+                    </div>
+                )}
         </div>
+    </div>
     );
 }
+
