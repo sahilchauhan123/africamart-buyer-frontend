@@ -3,7 +3,7 @@ import { fetchProducts } from '@/src/lib/api';
 
 export async function GET() {
   const baseUrl = 'https://www.lasomaa.com';
-  let products = [];
+  let products: any[] = [];
   
   try {
     const result = await fetchProducts('');

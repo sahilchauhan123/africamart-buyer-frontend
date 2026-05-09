@@ -3,7 +3,7 @@ import { fetchCategories, fetchSubCategories } from '@/src/lib/api';
 
 export async function GET() {
   const baseUrl = 'https://www.lasomaa.com';
-  let categories = [];
+  let categories: any[] = [];
   
   try {
     const topCategories = await fetchCategories();
