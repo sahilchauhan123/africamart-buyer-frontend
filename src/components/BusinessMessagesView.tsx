@@ -34,7 +34,7 @@ const BusinessMessagesView: React.FC<Props> = ({ onOpenDrawer, showChat, setShow
                         <input
                             type="text"
                             placeholder="Search conversations..."
-                            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0026C0]/20 transition-all font-bold placeholder:uppercase"
+                            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-100 rounded-xl text-xs focus:ring-2 focus:ring-[#0026C0]/20 transition-all font-bold"
                         />
                     </div>
                 </header>
@@ -62,6 +62,8 @@ const BusinessMessagesView: React.FC<Props> = ({ onOpenDrawer, showChat, setShow
                                         <div className={`h-11 w-11 lg:h-12 lg:w-12 rounded-full flex items-center justify-center border-2 border-slate-100 bg-gradient-to-br from-slate-50 to-slate-100 font-black text-sm lg:text-base text-slate-500`}>
                                             {(chat.seller_business_name || 'S')[0].toUpperCase()}
                                         </div>
+                                        {/* Status Dot */}
+                                        <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></div>
                                     </div>
                                     <div className="ml-3 lg:ml-4 flex-1 min-w-0">
                                         <div className="flex justify-between items-baseline mb-0.5">
@@ -83,8 +85,8 @@ const BusinessMessagesView: React.FC<Props> = ({ onOpenDrawer, showChat, setShow
                         {conversations.length === 0 && (
                             <div className="flex flex-col items-center justify-center py-20 px-6 text-center opacity-40 grayscale">
                                 <MessageSquare size={48} className="text-slate-300 mb-4" />
-                                <h3 className="text-slate-800 font-black text-xs uppercase tracking-widest">No conversations</h3>
-                                <p className="text-[10px] text-slate-500 mt-2 font-bold uppercase">Your business inquiries will appear here.</p>
+                                <h3 className="text-slate-800 font-black text-xs tracking-widest">No conversations</h3>
+                                <p className="text-[12px] text-slate-500 mt-2 font-bold">Your business inquiries will appear here.</p>
                             </div>
                         )}
                     </div>
@@ -111,8 +113,8 @@ const BusinessMessagesView: React.FC<Props> = ({ onOpenDrawer, showChat, setShow
                                 <MessageSquare className="w-10 h-10" />
                             </div>
                             <div className="space-y-2">
-                                <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Negotiation Hub</h3>
-                                <p className="text-slate-500 font-bold text-[10px] uppercase tracking-widest leading-relaxed">Select a conversation to start business negotiation with manufacturers</p>
+                                <h3 className="text-xl font-black text-slate-900 tracking-tighter">Negotiation Hub</h3>
+                                <p className="text-slate-500 font-bold text-[10px] tracking-widest leading-relaxed">Select a conversation to start negotiation with businesse</p>
                             </div>
                         </div>
                     </div>

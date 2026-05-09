@@ -110,7 +110,7 @@ export default function DesktopSearchResult({
         <div className="w-full flex flex-col lg:flex-row items-start gap-6 px-4 lg:px-8 py-4 lg:py-6 max-w-[1600px] mx-auto min-h-screen">
 
             {/* Mobile Filter Toggle */}
-            <div className="lg:hidden flex items-center justify-between bg-white p-4 rounded-xl border border-slate-200 shadow-sm sticky top-20 z-40">
+            <div className="lg:hidden w-full flex items-center justify-between bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-4">
                 <button
                     onClick={() => setShowMobileFilters(true)}
                     className="flex items-center gap-2 text-sm font-black text-slate-700 uppercase tracking-widest"
@@ -133,15 +133,31 @@ export default function DesktopSearchResult({
                 ${showMobileFilters ? 'fixed inset-0 z-[100] bg-white p-6 overflow-y-auto' : 'hidden'}
                 lg:static lg:block lg:w-64 lg:flex-shrink-0 flex flex-col gap-4 lg:bg-transparent
             `}>
-                <div className="lg:hidden flex items-center justify-between mb-8 shrink-0">
-                    <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">Filters</h2>
+                <div className="lg:hidden flex items-center justify-between mb-6 shrink-0 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 className="text-xl font-black text-slate-900 tracking-tight">Filters</h2>
+                        <p className="text-[12px] font-bold text-slate-600 tracking-widest mt-0.5">Find goods by your desires.</p>
+                    </div>
                     <button
                         onClick={() => setShowMobileFilters(false)}
-                        className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center font-black"
+                        className="w-10 h-10 bg-slate-50 text-slate-500 rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors"
                     >
                         ✕
                     </button>
                 </div>
+
+                {/* Mobile Reset All (Top) */}
+                {selectedAttributes.length > 0 && (
+                    <div className="lg:hidden mb-6 flex items-center justify-between bg-blue-50/50 p-3 rounded-xl border border-blue-100/50">
+                        <span className="text-xs font-bold text-[#0026C0]">{selectedAttributes.length} filter{selectedAttributes.length > 1 ? 's' : ''} applied</span>
+                        <button
+                            onClick={clearAllFilters}
+                            className="text-[10px] font-black text-[#0026C0] uppercase tracking-widest bg-white px-3 py-1.5 rounded-lg shadow-sm border border-blue-100"
+                        >
+                            Reset All
+                        </button>
+                    </div>
+                )}
                 {/* Active Filters */}
                 {selectedAttributes.length > 0 && (
                     <div className="bg-white border border-slate-200 rounded-xl lg:rounded-sm p-4 shadow-sm mb-4 shrink-0">
@@ -181,10 +197,10 @@ export default function DesktopSearchResult({
                 {Object.keys(groupedAttributes).map(category => {
                     const isCollapsed = collapsedSections.has(category);
                     return (
-                        <div key={category} className="bg-white border border-slate-200 rounded-xl lg:rounded-sm overflow-hidden shadow-sm lg:shadow-none mb-4 lg:mb-0 shrink-0">
+                        <div key={category} className="bg-white border border-slate-300 lg:border-slate-200 rounded-xl lg:rounded-sm overflow-hidden shadow-sm lg:shadow-none mb-4 lg:mb-0 shrink-0">
                             <div
                                 onClick={() => toggleSection(category)}
-                                className="bg-slate-50 lg:bg-slate-100 px-4 py-3.5 lg:py-3 flex justify-between items-center border-b border-slate-200 cursor-pointer group/header"
+                                className="bg-slate-50 lg:bg-slate-100 px-4 py-3.5 lg:py-3 flex justify-between items-center border-b border-slate-300 lg:border-slate-200 cursor-pointer group/header"
                             >
                                 <h3 className="font-black text-slate-800 text-[10px] lg:text-sm uppercase tracking-widest group-hover/header:text-[#0026C0] transition-colors">{category}</h3>
                                 <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-300 ${isCollapsed ? '-rotate-90' : 'rotate-0'}`} />
@@ -212,10 +228,10 @@ export default function DesktopSearchResult({
                 })}
 
                 {/* Categories Placeholder */}
-                <div className="bg-white border border-slate-200 rounded-xl lg:rounded-sm overflow-hidden shadow-sm lg:shadow-none shrink-0">
+                <div className="bg-white border border-slate-300 lg:border-slate-200 rounded-xl lg:rounded-sm overflow-hidden shadow-sm lg:shadow-none shrink-0">
                     <div
                         onClick={() => toggleSection('Main Categories')}
-                        className="bg-slate-50 lg:bg-slate-100 px-4 py-3.5 lg:py-3 flex justify-between items-center border-b border-slate-200 cursor-pointer group/header"
+                        className="bg-slate-50 lg:bg-slate-100 px-4 py-3.5 lg:py-3 flex justify-between items-center border-b border-slate-300 lg:border-slate-200 cursor-pointer group/header"
                     >
                         <h3 className="font-black text-slate-800 text-[10px] lg:text-sm uppercase tracking-widest group-hover/header:text-[#0026C0] transition-colors">Main Categories</h3>
                         <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform duration-300 ${collapsedSections.has('Main Categories') ? '-rotate-90' : 'rotate-0'}`} />
@@ -233,18 +249,12 @@ export default function DesktopSearchResult({
                 </div>
 
                 {showMobileFilters && (
-                    <div className="mt-8 flex gap-4 shrink-0">
-                        <button
-                            onClick={() => { clearAllFilters(); setShowMobileFilters(false); }}
-                            className="flex-1 py-4 border border-slate-200 rounded-xl font-black text-xs uppercase tracking-widest text-slate-600"
-                        >
-                            Reset
-                        </button>
+                    <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-slate-100 z-[110] shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)]">
                         <button
                             onClick={() => setShowMobileFilters(false)}
-                            className="flex-1 py-4 bg-[#0026C0] text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-xl"
+                            className="w-full py-4 bg-[#0026C0] text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-[#0026C0]/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                         >
-                            Apply Filters
+                            Show {products.length} Results
                         </button>
                     </div>
                 )}

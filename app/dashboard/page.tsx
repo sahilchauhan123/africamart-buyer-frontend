@@ -130,18 +130,21 @@ function DashboardContent() {
 
           <nav className="flex-1 p-4 space-y-2">
             <button
+              onClick={() => setActiveTab('messages')}
+              className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all text-xs font-black uppercase tracking-widest ${activeTab === 'messages' ? 'bg-[#0026C0] text-white shadow-xl shadow-[#0026C0]/20' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`}
+            >
+              <div className="relative">
+                <Mail className="w-4 h-4" />
+                <div className="absolute -top-1.5 -right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white animate-pulse"></div>
+              </div>
+              <span>Messages</span>
+            </button>
+            <button
               onClick={() => setActiveTab('leads')}
               className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all text-xs font-black uppercase tracking-widest ${activeTab === 'leads' ? 'bg-[#0026C0] text-white shadow-xl shadow-[#0026C0]/20' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`}
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Inquiries</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('messages')}
-              className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all text-xs font-black uppercase tracking-widest ${activeTab === 'messages' ? 'bg-[#0026C0] text-white shadow-xl shadow-[#0026C0]/20' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`}
-            >
-              <Mail className="w-4 h-4" />
-              <span>Messages</span>
             </button>
             <button
               onClick={() => setActiveTab('profile')}

@@ -116,7 +116,7 @@ const DesktopSignUpOverlay: React.FC<DesktopSignUpOverlayProps> = ({ isOpen, onC
                         <div className="animate-in slide-in-from-right-4 duration-300">
                             <div className="mb-6">
                                 <h3 className="text-[10px] font-black text-[#0026C0] uppercase tracking-widest mb-1">Personal Details</h3>
-                                <p className="text-slate-500 text-xs font-medium">Join Lasomaa B2B.</p>
+                                <p className="text-slate-500 text-xs font-medium">Join Lasomaa.</p>
                             </div>
 
                             <div className="space-y-4">
@@ -196,7 +196,7 @@ const DesktopSignUpOverlay: React.FC<DesktopSignUpOverlayProps> = ({ isOpen, onC
                                 <div className="space-y-1">
                                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none ml-1">HQ Address</label>
                                     <div className="relative">
-                                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+                                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-orange-500" />
                                         <input className="w-full h-10 pl-9 pr-3 bg-white border border-slate-200 focus:border-[#0026C0] rounded-sm transition-all text-slate-900 font-bold outline-none text-xs shadow-sm" placeholder="Main St, Lagos" type="text" />
                                     </div>
                                 </div>
