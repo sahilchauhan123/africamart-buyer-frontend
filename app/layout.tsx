@@ -16,6 +16,9 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: "Industrial Curator | B2B Marketplace",
   description: "We connect trusted manufacturers with quality-conscious buyers worldwide.",
+  verification: {
+    google: "a9O5LR0zYANpzWu1wQDl--jpJAvRJS8IXAHse4W4sO0",
+  }
 };
 
 import { MessagingProvider } from "../src/hooks/MessagingContext";
