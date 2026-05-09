@@ -1,23 +1,23 @@
 import React from 'react';
 import { fetchCategories } from '@/src/lib/api';
 import Header from '../components/Header';
+import Breadcrumbs from '../components/Breadcrumbs';
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
 
 export const revalidate = 3600;
 
 export default async function CategoriesPage() {
     const categories = await fetchCategories();
 
+    const breadcrumbItems = [
+        { label: 'All Categories' }
+    ];
+
     return (
         <div className="bg-slate-50 min-h-screen font-body">
             <Header />
             <main className="max-w-[1600px] mx-auto px-4 lg:px-8 py-6 lg:py-8 transition-all duration-500">
-                <nav className="flex items-center flex-wrap gap-x-2 gap-y-1 text-[11px] sm:text-xs font-bold text-slate-500 mb-3 lg:mb-4">
-                    <Link href="/" className="hover:text-[#0026C0] transition-colors">Home</Link>
-                    <ChevronRight className="w-3 h-3 text-slate-300 shrink-0" />
-                    <span className="text-slate-900">All Categories</span>
-                </nav>
+                <Breadcrumbs items={breadcrumbItems} />
 
                 <div className="mb-6 lg:mb-8 lg:text-left">
                     <h1 className="text-xl lg:text-3xl font-extrabold text-slate-900 mb-2 lg:mb-4 tracking-tight">All Category of Goods</h1>

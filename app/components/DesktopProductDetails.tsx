@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { ArrowLeft, MapPin, Star, ShieldCheck, Truck, Clock, MessageSquare, Phone, Share2, Heart, ChevronRight, ChevronDown, Info, X, Loader2, CheckCircle2, Lock, User as UserIcon, Mail, ArrowRight, Store } from 'lucide-react';
 import ProductCard from './ProductCard';
+import Breadcrumbs from './Breadcrumbs';
 import { COUNTRY_CODES } from '@/src/constants/constanst';
 import { buyerCheckNumber, buyerLogin, buyerSendOtp, buyerSubmitLead, buyerSubmitOtp, sendChatMessage, fetchRecommendations } from '@/src/lib/api';
 
@@ -248,22 +249,65 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
             setLoading(false);
         }
     };
+
+    // Build breadcrumb items
+    const breadcrumbItems = [];
+    
+    // Add "All Categories" for consistency
+    breadcrumbItems.push({
+        label: "All Categories",
+        href: "/categories"
+    });
+
+    // Add parent categories
+    if (product.parent_category_ids && product.parent_category_ids.length > 0) {
+        [...product.parent_category_ids]
+            .sort((a, b) => a.position - b.position)
+            .forEach(cat => {
+                breadcrumbItems.push({
+                    label: cat.name,
+                    href: `/categories/${cat.slug}`
+                });
+            });
+    }
+
+    // Add current category if not already in parents
+    if (product.category_name && product.category_slug) {
+        const isAlreadyAdded = breadcrumbItems.some(item => item.label === product.category_name);
+        if (!isAlreadyAdded) {
+            breadcrumbItems.push({
+                label: product.category_name,
+                href: `/categories/${product.category_slug}`
+            });
+        }
+    }
+
+    // Add current product
+    breadcrumbItems.push({
+        label: product.name
+    });
+
     return (
-        <div className="bg-slate-50 min-h-screen py-4 lg:py-6 px-3 lg:px-8 font-body">
+        <div className="bg-slate-50 min-h-screen py-6 lg:py-8 px-4 lg:px-8 font-body">
             <div className="max-w-[1700px] mx-auto">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-2 lg:mb-4 gap-4">
+                    <Breadcrumbs items={breadcrumbItems} />
+                    
+                    <button
+                        onClick={onBack || (() => router.back())}
+                        className="hidden lg:flex items-center gap-1.5 text-[10px] text-slate-400 font-black hover:text-[#0026C0] transition-colors uppercase tracking-widest group border border-slate-200 px-3 py-1.5 rounded-full hover:border-[#0026C0]/20 hover:bg-white"
+                    >
+                        <ArrowLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
+                        Back to results
+                    </button>
+                </div>
+
                 <button
                     onClick={onBack || (() => router.back())}
-                    className="flex lg:hidden items-center gap-1 text-sm text-[#0026C0] font-bold hover:underline mb-4 group"
+                    className="flex lg:hidden items-center gap-1 text-[10px] text-[#0026C0] font-black uppercase tracking-widest hover:underline mb-4 group"
                 >
-                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                    <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
                     Back
-                </button>
-                <button
-                    onClick={onBack || (() => router.back())}
-                    className="hidden lg:flex items-center gap-1 text-sm text-[#0026C0] font-bold hover:underline mb-6 group"
-                >
-                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                    Back to results
                 </button>
 
                 <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch lg:items-start">
@@ -342,7 +386,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                             <div className="grid grid-cols-2 sm:flex sm:flex-row gap-2 lg:gap-3">
                                 <button
                                     onClick={handleContactSupplierClick}
-                                    className="flex-1 h-11 lg:h-14 bg-[#0026C0] text-white rounded-lg flex items-center justify-center gap-2 lg:gap-3 px-2 lg:px-4 text-[10px] lg:text-sm font-black hover:bg-[#001da2] transition-all shadow-lg shadow-blue-600/10 active:scale-[0.98] uppercase tracking-wider"
+                                    className="flex-1 h-11 lg:h-14 bg-[#0026C0]/90 text-white rounded-lg flex items-center justify-center gap-2 lg:gap-3 px-2 lg:px-4 text-[10px] lg:text-sm font-black hover:bg-[#0026C0] transition-all active:scale-[0.98] uppercase tracking-wider"
                                 >
                                     <MessageSquare className="w-4 h-4 lg:w-5 h-5" />
                                     <span className="hidden sm:inline">Message Business</span>
@@ -383,7 +427,7 @@ export default function DesktopProductDetails({ product, onBack }: DesktopProduc
                             <button
                                 onClick={handleInitialRequirementSubmit}
                                 disabled={loading}
-                                className="w-full h-12 lg:h-14 bg-[#0026C0] hover:bg-[#001da2] text-white font-black rounded transition-all shadow-lg shadow-[#0026C0]/15 text-base lg:text-lg tracking-wider flex items-center justify-center gap-2 lg:gap-3 disabled:opacity-50"
+                                className="w-full h-12 lg:h-14 bg-[#0026C0]/90 hover:bg-[#0026C0] text-white font-black rounded transition-all text-base lg:text-lg tracking-wider flex items-center justify-center gap-2 lg:gap-3 disabled:opacity-50"
                             >
                                 {loading ? <Loader2 className="w-5 h-5 lg:w-6 lg:h-6 animate-spin" /> : "Submit Requirement"}
                             </button>

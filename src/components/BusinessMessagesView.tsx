@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Search, Menu, MoreVertical, MessageSquare } from 'lucide-react';
+import { Search, Menu, MoreVertical, MessageSquare, Send } from 'lucide-react';
 import { useMessaging } from '../hooks/MessagingContext';
 import ChatSessionView from './ChatSessionView';
 
@@ -94,7 +94,7 @@ const BusinessMessagesView: React.FC<Props> = ({ onOpenDrawer, showChat, setShow
             </div>
 
             {/* Chat Content / Right Column (Desktop or Active Mobile) */}
-            <div className={`flex-1 h-full bg-white relative ${showChat ? 'flex' : 'hidden lg:flex'}`}>
+            <div className={`flex-1 bg-white ${showChat ? 'fixed inset-0 z-[60] flex flex-col animate-in slide-in-from-right duration-300' : 'hidden lg:flex lg:h-full lg:relative'}`}>
                 {selectedChat ? (
                     <ChatSessionView
                         onBack={() => setShowChat(false)}
@@ -114,7 +114,13 @@ const BusinessMessagesView: React.FC<Props> = ({ onOpenDrawer, showChat, setShow
                             </div>
                             <div className="space-y-2">
                                 <h3 className="text-xl font-black text-slate-900 tracking-tighter">Negotiation Hub</h3>
-                                <p className="text-slate-500 font-bold text-[10px] tracking-widest leading-relaxed">Select a conversation to start negotiation with businesse</p>
+                                <p className="text-slate-500 font-bold text-[10px] tracking-widest leading-relaxed">Select a conversation to start negotiation with businesses</p>
+                            </div>
+                            <div className="w-full pt-4">
+                                <div className="bg-slate-50 border border-slate-100 rounded-2xl px-4 py-3 flex items-center gap-3 opacity-60">
+                                    <div className="flex-1 text-left text-slate-400 text-xs font-bold uppercase tracking-widest">Type a message...</div>
+                                    <Send size={18} className="text-slate-300" />
+                                </div>
                             </div>
                         </div>
                     </div>

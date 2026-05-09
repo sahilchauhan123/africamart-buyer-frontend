@@ -173,8 +173,6 @@ function DashboardContent() {
           {activeTab === 'profile' && <ProfileSettingsView buyer={buyer} />}
         </main>
       </div>
-
-
     </div >
   );
 }

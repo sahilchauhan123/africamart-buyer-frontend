@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useMessaging } from '../hooks/MessagingContext';
 import {
     ArrowLeft,
@@ -21,7 +21,7 @@ interface Props {
 
 const ChatSessionView: React.FC<Props> = ({ onBack, chat, chatId, isEmbedded = false }) => {
     const { conversations, messages, loading, selectedConvId, setSelectedConvId, handleSendMessage } = useMessaging();
-    const [inputText, setInputText] = React.useState('');
+    const [inputText, setInputText] = useState('');
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
     // Synchronize internal hook state with passed chat prop or chatId from parent
@@ -109,11 +109,11 @@ const ChatSessionView: React.FC<Props> = ({ onBack, chat, chatId, isEmbedded = f
             </main>
 
             {/* Chat Input Footer */}
-            <footer className="bg-white border-t border-gray-200 flex-none z-30">
-                <div className={`px-4 sm:px-6 ${isEmbedded ? 'lg:px-6 px-4' : 'lg:px-10'} py-3 flex items-end space-x-2`}>
-                    <div className="flex-1 bg-slate-50 rounded-2xl flex items-center border border-slate-200 focus-within:border-[#0026C0] focus-within:bg-white transition-all">
+            <footer className="bg-white/80 backdrop-blur-md border-t border-slate-200 flex-none z-40 sticky bottom-0 safe-area-bottom">
+                <div className={`px-4 sm:px-6 ${isEmbedded ? 'lg:px-6 px-4' : 'lg:px-10'} py-3 lg:py-4 flex items-end gap-2 lg:gap-3`}>
+                    <div className="flex-1 bg-slate-50 rounded-2xl flex items-center border border-slate-200 focus-within:border-[#0026C0] focus-within:bg-white focus-within:shadow-lg focus-within:shadow-[#0026C0]/5 transition-all duration-300">
                         <textarea
-                            className="w-full bg-transparent border-none focus:ring-0 text-gray-900 pr-2 pl-4 py-3 text-sm max-h-32 resize-none rounded-3xl placeholder-gray-400 font-bold"
+                            className="w-full bg-transparent border-none focus:ring-0 text-slate-900 pr-2 pl-4 py-3 text-sm lg:text-base max-h-32 resize-none rounded-2xl placeholder-slate-400 font-bold"
                             placeholder="Type a message..."
                             rows={1}
                             value={inputText}
@@ -129,9 +129,9 @@ const ChatSessionView: React.FC<Props> = ({ onBack, chat, chatId, isEmbedded = f
                     <button
                         onClick={onSend}
                         disabled={!inputText.trim()}
-                        className="w-10 h-10 lg:w-12 lg:h-12 bg-[#0026C0] text-white rounded-xl shadow-lg hover:bg-blue-700 transition-all active:scale-95 flex items-center justify-center disabled:opacity-50"
+                        className="w-11 h-11 lg:w-14 lg:h-14 bg-[#0026C0] text-white rounded-2xl shadow-xl shadow-[#0026C0]/20 hover:bg-[#001da2] transition-all active:scale-95 flex items-center justify-center disabled:opacity-50 disabled:grayscale shrink-0"
                     >
-                        <Send size={18} />
+                        <Send size={20} className={inputText.trim() ? 'animate-in fade-in zoom-in duration-300' : ''} />
                     </button>
                 </div>
             </footer>

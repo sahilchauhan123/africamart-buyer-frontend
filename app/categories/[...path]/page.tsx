@@ -1,8 +1,9 @@
 import React from 'react';
 import { fetchSubCategoriesBySlug, fetchCategoryBySlug, fetchProductsByCategorySlug, createSlug } from '@/src/lib/api';
 import Header from '../../components/Header';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import Link from 'next/link';
-import { ArrowLeft, ChevronRight, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, ShoppingBag } from 'lucide-react';
 import ProductCard from '../../components/ProductCard';
 
 export const revalidate = 3600;
@@ -30,31 +31,25 @@ export default async function SubCategoryPage({ params }: SubCategoryPageProps) 
     const basePath = `/categories/${path.join('/')}`;
     const categoryName = currentCategory?.name || currentSlug.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
 
+    // Build breadcrumb items
+    const breadcrumbItems = [
+        { label: 'All Categories', href: '/categories' },
+        ...path.map((segment, index) => {
+            const url = `/categories/${path.slice(0, index + 1).join('/')}`;
+            const isLast = index === path.length - 1;
+            const name = (isLast && currentCategory?.name) ? currentCategory.name : segment.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+            return {
+                label: name,
+                href: isLast ? undefined : url
+            };
+        })
+    ];
+
     return (
         <div className="bg-slate-50 min-h-screen font-body">
             <Header />
             <main className="max-w-[1600px] mx-auto px-4 lg:px-8 py-6 lg:py-8 transition-all duration-500">
-                <nav className="flex items-center flex-wrap gap-x-2 gap-y-1 text-[11px] sm:text-xs font-bold text-slate-500 mb-3 lg:mb-4">
-                    <Link href="/" className="hover:text-[#0026C0] transition-colors">Home</Link>
-                    <ChevronRight className="w-3 h-3 text-slate-300 shrink-0" />
-                    <Link href="/categories" className="hover:text-[#0026C0] transition-colors">All Categories</Link>
-                    {path.map((segment, index) => {
-                        const url = `/categories/${path.slice(0, index + 1).join('/')}`;
-                        const isLast = index === path.length - 1;
-                        const name = (isLast && currentCategory?.name) ? currentCategory.name : segment.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-                        
-                        return (
-                            <React.Fragment key={index}>
-                                <ChevronRight className="w-3 h-3 text-slate-300 shrink-0" />
-                                {isLast ? (
-                                    <span className="text-slate-900 truncate">{name}</span>
-                                ) : (
-                                    <Link href={url} className="hover:text-[#0026C0] transition-colors truncate">{name}</Link>
-                                )}
-                            </React.Fragment>
-                        );
-                    })}
-                </nav>
+                <Breadcrumbs items={breadcrumbItems} />
 
                 <div className="mb-6 lg:mb-8 text-left">
                     <h1 className="text-xl lg:text-3xl font-extrabold text-slate-900 mb-2 lg:mb-4 tracking-tight">

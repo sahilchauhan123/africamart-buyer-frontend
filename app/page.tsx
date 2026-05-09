@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   description: 'Africa first marketplace for African businesses, manufacturers, suppliers and buyers connect with each other',
   keywords: 'Africa B2B, African manufacturers, African exporters, B2B marketplace, Africa trade',
   openGraph: {
-    title: 'Lasomaa | The Ultimate African B2B Marketplace',
-    description: 'Grow your business by connecting with thousands of verified suppliers across the African continent.',
+    title: 'Lasomaa | A Marketplace for all African Businesses, SMEs, Manufacturers, Suppliers, Retailers and Buyers',
+    description: 'With Lasomaa, find all nearby Businesses. SMEs, Suppliers, Retailers and Buyers connect and negotiate easily.',
     url: 'https://Lasomaa.com',
     siteName: 'Lasomaa',
     type: 'website',
