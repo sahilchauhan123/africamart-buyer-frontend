@@ -44,14 +44,22 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            mkdir -p /var/www/Lasomaa/buyer-app
-            tar -xzf /tmp/release.tar.gz -C /var/www/Lasomaa/buyer-app/
-            cd /var/www/Lasomaa/buyer-app/
+            # Ensure target directory exists and is clean
+            mkdir -p /var/www/africamart/buyer-app
+            rm -rf /var/www/africamart/buyer-app/*
+            
+            # Extract new release
+            tar -xzf /tmp/release.tar.gz -C /var/www/africamart/buyer-app/
+            cd /var/www/africamart/buyer-app/
+            
+            # Install production dependencies
             npm install --production
             
-            # Clean up old process if it exists
-            pm2 delete africamart-buyer || true
-            
-            # Start/Restart new process
-            pm2 delete Lasomaa-buyer || true
+            # Clean up old process names and start new one
+            pm2 delete Lasomaa-buyer africamart-buyer || true
             pm2 start npm --name "Lasomaa-buyer" -- start -- -p 3000
+            
+            # Persist across reboots
+            pm2 save
+            pm2 startup systemd -u root --hp /root || true
+            systemctl enable pm2-root || true
