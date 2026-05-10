@@ -50,6 +50,9 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     // Initial load
     useEffect(() => {
         const load = async () => {
+            const storedBuyer = localStorage.getItem('buyer');
+            if (!storedBuyer) return;
+
             try {
                 const res = await fetchConversations();
                 const d = await res.json();
@@ -63,6 +66,9 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     // Persistent WebSocket
     useEffect(() => {
+        const storedBuyer = localStorage.getItem('buyer');
+        if (!storedBuyer) return;
+
         let socket: WebSocket | null = null;
         let retryTimeout: NodeJS.Timeout;
 

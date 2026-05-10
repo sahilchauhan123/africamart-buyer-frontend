@@ -20,6 +20,9 @@ export default function DesktopSearchResult({
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    
+    // Guard against infinite loops
+    const lastFetchRef = React.useRef("");
 
     // Read selected attributes directly from the URL (Source of Truth)
     const selectedAttributes = searchParams.getAll('filters[attributes]');
@@ -58,9 +61,16 @@ export default function DesktopSearchResult({
 
     // Re-fetch when query or URL filters change
     useEffect(() => {
+        const currentParamsStr = searchParams.toString();
+        const fetchKey = `${searchQuery}-${currentParamsStr}`;
+
         const updateResults = async () => {
             // Skip initial fetch if it's the first render and we have initial data
             if (searchQuery === initialQuery && selectedAttributes.length === 0 && products.length > 0) return;
+            
+            // Prevent redundant fetches for the same state
+            if (lastFetchRef.current === fetchKey) return;
+            lastFetchRef.current = fetchKey;
 
             setIsLoading(true);
             try {
@@ -76,7 +86,7 @@ export default function DesktopSearchResult({
 
         const timer = setTimeout(updateResults, 100); // Faster response
         return () => clearTimeout(timer);
-    }, [searchQuery, searchParams]); // Watch searchParams for changes
+    }, [searchQuery, searchParams.toString()]); // Watch query and stringified params
 
 
     // Group attributes by key AND FILTER OUT SELECTED ONES
