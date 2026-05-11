@@ -11,8 +11,12 @@ interface Props {
 }
 
 const BusinessMessagesView: React.FC<Props> = ({ onOpenDrawer, showChat, setShowChat }) => {
-    const { conversations, selectedConvId, setSelectedConvId } = useMessaging();
+    const { conversations, selectedConvId, setSelectedConvId, refreshConversations } = useMessaging();
     const selectedChat = conversations.find(c => c.id === selectedConvId) || null;
+
+    React.useEffect(() => {
+        refreshConversations();
+    }, []);
 
     const handleChatClick = (chatId: string) => {
         setSelectedConvId(chatId);

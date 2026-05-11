@@ -31,6 +31,7 @@ interface MessagingContextType {
     loading: boolean;
     setSelectedConvId: (id: string | null) => void;
     handleSendMessage: (content: string) => Promise<void>;
+    refreshConversations: () => Promise<void>;
 }
 
 const MessagingContext = createContext<MessagingContextType | undefined>(undefined);
@@ -87,6 +88,14 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
                         return prev;
                     });
                     setConversations(prev => {
+                        const exists = prev.some(c => c.id === newMsg.conversation_id);
+                        if (!exists) {
+                            // If it's a new conversation, re-fetch the list to get all metadata
+                            fetchConversations().then(res => res.json()).then(d => {
+                                if (d.status === 200) setConversations(d.data || []);
+                            });
+                            return prev;
+                        }
                         const updated = prev.map(c =>
                             c.id === newMsg.conversation_id ? { ...c, updated_at: newMsg.created_at } : c
                         );
@@ -137,6 +146,16 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         }
     };
 
+    const refreshConversations = async () => {
+        try {
+            const res = await fetchConversations();
+            const d = await res.json();
+            if (d.status === 200) setConversations(d.data || []);
+        } catch (err) {
+            console.error("Failed to refresh conversations:", err);
+        }
+    };
+
     return (
         <MessagingContext.Provider value={{
             conversations,
@@ -144,7 +163,8 @@ export const MessagingProvider: React.FC<{ children: React.ReactNode }> = ({ chi
             selectedConvId,
             loading,
             setSelectedConvId,
-            handleSendMessage
+            handleSendMessage,
+            refreshConversations
         }}>
             {children}
         </MessagingContext.Provider>

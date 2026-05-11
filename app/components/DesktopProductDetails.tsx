@@ -8,6 +8,7 @@ import ProductCard from './ProductCard';
 import Breadcrumbs from './Breadcrumbs';
 import { COUNTRY_CODES } from '@/src/constants/constanst';
 import { buyerCheckNumber, buyerLogin, buyerSendOtp, buyerSubmitLead, buyerSubmitOtp, sendChatMessage, fetchRecommendations } from '@/src/lib/api';
+import { useMessaging } from '@/src/hooks/MessagingContext';
 
 interface DesktopProductDetailsProps {
     product: {
@@ -40,6 +41,7 @@ interface DesktopProductDetailsProps {
 
 export default function DesktopProductDetails({ product, onBack, initialRecommendations = [] }: DesktopProductDetailsProps) {
     const router = useRouter();
+    const { setSelectedConvId } = useMessaging();
     const [quantity, setQuantity] = React.useState("");
     const [showAuthModal, setShowAuthModal] = React.useState(false);
     const [authStep, setAuthStep] = React.useState<'phone' | 'login' | 'signup' | 'otp'>('phone');
@@ -103,6 +105,10 @@ export default function DesktopProductDetails({ product, onBack, initialRecommen
             const content = `Hi, I am interested in ${product.name}. Could you provide more details?`;
             const res = await sendChatMessage(parseInt(product.seller_id) || 0, content);
             if (res.ok) {
+                const data = await res.json();
+                if (data.data?.conversation_id) {
+                    setSelectedConvId(data.data.conversation_id);
+                }
                 router.push('/dashboard?tab=messages');
             } else {
                 const data = await res.json();
