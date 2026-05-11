@@ -61,6 +61,7 @@ export const metadata: Metadata = {
 };
 
 import { MessagingProvider } from "../src/hooks/MessagingContext";
+import HeaderWrapper from "./components/HeaderWrapper";
 
 export default function RootLayout({
   children,
@@ -75,6 +76,7 @@ export default function RootLayout({
       <body
         className={`${noto_sans.variable} font-body bg-surface text-on-surface antialiased`}
       >
+        <HeaderWrapper />
         <MessagingProvider>
           {children}
         </MessagingProvider>

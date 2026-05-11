@@ -1,6 +1,5 @@
 import React from 'react';
 import { ChevronRight, ArrowRight, MapPin } from 'lucide-react';
-import Header from './Header';
 import { ProductCardSkeleton, CategorySkeleton } from './SkeletonLoader';
 import ProductCard from './ProductCard';
 import DesktopSearchResult from './DesktopSearchResult';
@@ -34,7 +33,6 @@ export default function DesktopHome({
 
     return (
         <div className="bg-slate-50 font-body text-slate-900 min-h-screen">
-            <Header />
 
             {isSearchSubmitted ? (
                 <DesktopSearchResult
@@ -53,6 +51,8 @@ export default function DesktopHome({
                                 loop
                                 muted
                                 playsInline
+                                preload="auto"
+                                poster="https://assets.weforum.org/article/image/large_S-gx3IJcoovd78Bcrw_B-lzvxi9W9g3W38AmJS2IRVY.png"
                                 className="hidden lg:block absolute inset-0 w-full h-full object-cover z-0 opacity-80"
                             >
                                 <source src="https://cdn.lasomaa.com/lassomaherosectionvideo.mp4" type="video/mp4" />

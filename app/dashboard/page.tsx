@@ -26,7 +26,6 @@ import {
   ArrowLeft,
   Lock as LockIcon
 } from 'lucide-react';
-import Header from '../components/Header';
 import { fetchBuyerLeads, buyerLogout } from '@/src/lib/api';
 import BusinessMessagesView from '../../src/components/BusinessMessagesView';
 import ChatSessionView from '../../src/components/ChatSessionView';
@@ -109,7 +108,6 @@ function DashboardContent() {
       `}</style>
 
       <div className="flex-none z-50">
-        <Header />
       </div>
 
       <div className="flex-1 flex flex-col lg:flex-row w-full overflow-hidden">

@@ -1,6 +1,5 @@
 import React from 'react';
 import { fetchCategories } from '@/src/lib/api';
-import Header from '../components/Header';
 import Breadcrumbs from '../components/Breadcrumbs';
 import Link from 'next/link';
 import { Metadata } from 'next';
@@ -24,7 +23,6 @@ export default async function CategoriesPage() {
 
     return (
         <div className="bg-slate-50 min-h-screen font-body">
-            <Header />
             <main className="max-w-[1600px] mx-auto px-4 lg:px-8 py-6 lg:py-8 transition-all duration-500">
                 <Breadcrumbs items={breadcrumbItems} />
 

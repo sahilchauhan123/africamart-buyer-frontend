@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import DesktopProductDetails from '../../../components/DesktopProductDetails';
-import Header from '../../../components/Header';
 import { fetchProductById, fetchRecommendations } from '@/src/lib/api';
 
 interface ProductPageProps {
@@ -95,7 +94,6 @@ function ProductPageContent({ product, recommendations }: { product: any, recomm
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Header />
       <DesktopProductDetails product={product} initialRecommendations={recommendations} />
     </>
   );
