@@ -12,10 +12,10 @@ const noto_sans = Noto_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Lasomaa | Africa's Leading B2B Marketplace",
+    default: "Lasomaa | Marketplace for Africa Businesses",
     template: "%s | Lasomaa"
   },
-  description: "The most trusted B2B marketplace connecting manufacturers, wholesalers, and suppliers across Africa. Buy and sell quality goods with ease.",
+  description: "With Lasomaa, find all nearby Businesses. SMEs, Suppliers, Retailers and Buyers connect and negotiate easily.",
   metadataBase: new URL('https://www.lasomaa.com'),
   keywords: ["B2B Marketplace", "Africa Trade", "Manufacturers", "Suppliers", "Wholesale Africa", "Liberia Business"],
   authors: [{ name: "Lasomaa Team" }],
@@ -40,8 +40,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://www.lasomaa.com",
     siteName: "Lasomaa",
-    title: "Lasomaa | Africa's Leading B2B Marketplace",
-    description: "Connect with verified manufacturers and suppliers across Africa. The premier destination for B2B trade.",
+    title: "Lasomaa | Marketplace for Africa Businesses",
+    description: "With Lasomaa, find all nearby Businesses. SMEs, Suppliers, Retailers and Buyers connect and negotiate easily.",
     images: [
       {
         url: "/logo.png",
@@ -53,8 +53,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lasomaa | Africa's Leading B2B Marketplace",
-    description: "Connect with verified manufacturers and suppliers across Africa.",
+    title: "Lasomaa | Marketplace for Africa Businesses",
+    description: "With Lasomaa, find all nearby Businesses. SMEs, Suppliers, Retailers and Buyers connect and negotiate easily.",
     images: ["/logo.png"],
     creator: "@lasomaa",
   },

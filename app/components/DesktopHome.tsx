@@ -5,16 +5,16 @@ import ProductCard from './ProductCard';
 import DesktopSearchResult from './DesktopSearchResult';
 import Link from 'next/link';
 
-export default function DesktopHome({ 
-    initialSearchQuery = '', 
-    initialProducts = [], 
-    initialFacets = [], 
-    initialCategories = [] 
-}: { 
-    initialSearchQuery?: string, 
-    initialProducts?: any[], 
-    initialFacets?: any[], 
-    initialCategories?: any[] 
+export default function DesktopHome({
+    initialSearchQuery = '',
+    initialProducts = [],
+    initialFacets = [],
+    initialCategories = []
+}: {
+    initialSearchQuery?: string,
+    initialProducts?: any[],
+    initialFacets?: any[],
+    initialCategories?: any[]
 }) {
     const isSearchSubmitted = !!initialSearchQuery;
 
