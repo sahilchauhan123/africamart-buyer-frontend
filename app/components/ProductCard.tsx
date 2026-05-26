@@ -62,11 +62,16 @@ export default function ProductCard({
                             <div className="flex justify-between items-start">
                                 <h2 className="font-bold text-slate-900 text-base lg:text-lg leading-tight line-clamp-2 group-hover:text-[#0026C0] transition-colors">{name}</h2>
                             </div>
-                            
-                            <p className="text-[#0026C0] font-black text-xl lg:text-2xl mt-1 lg:mt-2">
-                                {price} 
-                                <span className="text-slate-400 text-[10px] lg:text-xs font-medium tracking-tighter ml-1">/ {unit}</span>
-                            </p>
+                            {price === "Price on request" ? (
+                                <p className="text-[#0026C0] font-black text-xl lg:text-2xl mt-1 lg:mt-2">
+                                    {price}
+                                </p>
+                            ) : (
+                                <p className="text-[#0026C0] font-black text-xl lg:text-2xl mt-1 lg:mt-2">
+                                    {price}
+                                    <span className="text-slate-400 text-[10px] lg:text-xs font-medium tracking-tighter ml-1">/ {unit}</span>
+                                </p>
+                            )}
 
                             <div className="flex items-center gap-1 mt-1.5 flex-wrap">
                                 <div className="flex items-center">
@@ -98,11 +103,11 @@ export default function ProductCard({
                     </div>
                 </Link>
                 <div className="sm:w-48 lg:w-56">
-                    <ProductCardActions 
-                        productId={id} 
-                        variant="horizontal" 
-                        onContact={onContact} 
-                        onMessage={onMessage} 
+                    <ProductCardActions
+                        productId={id}
+                        variant="horizontal"
+                        onContact={onContact}
+                        onMessage={onMessage}
                     />
                 </div>
             </div>
@@ -149,8 +154,14 @@ export default function ProductCard({
                 <div className="p-2.5 flex-1 flex flex-col">
                     <h3 className="font-headline font-bold text-slate-800 text-sm leading-tight line-clamp-2 mb-1 group-hover:text-[#0026C0] transition-colors">{name}</h3>
                     <div className="flex items-baseline gap-1 mb-2">
-                        <span className="text-base font-black text-[#0026C0]">{price}</span>
-                        <span className="text-[10px] text-slate-500 font-medium">/ {unit}</span>
+                        {price === "Price on request" ? (
+                            <span className="text-[13px] font-black text-[#0026C0]">{price}</span>
+                        ) : (
+                            <>
+                                <span className="text-base font-black text-[#0026C0]">{price}</span>
+                                <span className="text-[10px] text-slate-500 font-medium">/ {unit}</span>
+                            </>
+                        )}
                     </div>
 
                     <div className="mt-auto space-y-0.5 border-t border-slate-50 pt-1.5 pb-2">
@@ -167,9 +178,9 @@ export default function ProductCard({
                 </div>
             </Link>
             <div className="px-2.5 pb-2.5">
-                <ProductCardActions 
-                    productId={id} 
-                    onContact={onContact} 
+                <ProductCardActions
+                    productId={id}
+                    onContact={onContact}
                 />
             </div>
         </div>
