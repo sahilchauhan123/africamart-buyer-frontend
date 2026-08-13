@@ -3,8 +3,8 @@ import { fetchProducts, fetchCategories } from '@/src/lib/api';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'B2B Marketplace for Africa',
-  description: 'The premier marketplace for African businesses, manufacturers, and suppliers to connect and trade globally.',
+  title: 'B2B Marketplace for India',
+  description: 'The premier marketplace for Indian businesses, manufacturers, and suppliers to connect and trade globally.',
   alternates: {
     canonical: 'https://lasomaa.com',
   },

@@ -59,7 +59,7 @@ export default function DesktopHome({
                             </video>
                             <img
                                 src="https://assets.weforum.org/article/image/large_S-gx3IJcoovd78Bcrw_B-lzvxi9W9g3W38AmJS2IRVY.png"
-                                alt="African Trade"
+                                alt="Indian Trade"
                                 className="lg:hidden absolute inset-0 w-full h-full object-cover z-0 opacity-60"
                             />
                             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent z-10"></div>
@@ -67,7 +67,7 @@ export default function DesktopHome({
                                 <h1 className="text-4xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
                                     We connect you <br /> to businesses.
                                 </h1>
-                                <p className="text-slate-200 text-sm lg:text-lg">Online marketplace for all African Businesses. Manufacturers, wholesalers, distributors, retailers and consumers.</p>
+                                <p className="text-slate-200 text-sm lg:text-lg">Online marketplace for all Indian Businesses. Manufacturers, wholesalers, distributors, retailers and consumers.</p>
                                 <Link href="/search?q=*" className="bg-[#0026C0] hover:bg-[#0020A0] text-white font-bold px-6 py-3 lg:px-8 lg:py-4 rounded-md transition-all shadow-lg flex items-center gap-2 group text-sm lg:text-base w-fit">
                                     Browse Products <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 group-hover:translate-x-1 transition-transform" />
                                 </Link>
@@ -174,7 +174,7 @@ export default function DesktopHome({
                                         />
                                     </div>
                                     <p className="text-slate-500 max-w-sm leading-relaxed">
-                                        Online marketplace for all African Businesses. Manufacturers, wholesalers, distributors, retailers and consumers.
+                                        Online marketplace for all Indian Businesses. Manufacturers, wholesalers, distributors, retailers and consumers.
                                     </p>
 
                                 </div>

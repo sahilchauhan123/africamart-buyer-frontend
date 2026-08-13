@@ -186,8 +186,8 @@ const DesktopSignUpOverlay: React.FC<DesktopSignUpOverlayProps> = ({ isOpen, onC
                                     <div className="space-y-1">
                                         <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none ml-1">Region</label>
                                         <select className="w-full h-10 px-3 bg-white border border-slate-200 focus:border-[#0026C0] rounded-sm transition-all text-slate-900 font-bold outline-none appearance-none text-xs shadow-sm">
-                                            <option>West Africa</option>
-                                            <option>East Africa</option>
+                                            <option>West India</option>
+                                            <option>East India</option>
                                             <option>Global</option>
                                         </select>
                                     </div>

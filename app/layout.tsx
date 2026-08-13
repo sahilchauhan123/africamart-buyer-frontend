@@ -12,12 +12,12 @@ const noto_sans = Noto_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Lasomaa | Marketplace for Africa Businesses",
+    default: "Lasomaa | Marketplace for India Businesses",
     template: "%s | Lasomaa"
   },
   description: "With Lasomaa, find all nearby Businesses. SMEs, Suppliers, Retailers and Buyers connect and negotiate easily.",
   metadataBase: new URL('https://www.lasomaa.com'),
-  keywords: ["B2B Marketplace", "Africa Trade", "Manufacturers", "Suppliers", "Wholesale Africa", "Liberia Business"],
+  keywords: ["B2B Marketplace", "India Trade", "Manufacturers", "Suppliers", "Wholesale India", "Liberia Business"],
   authors: [{ name: "Lasomaa Team" }],
   creator: "Lasomaa",
   publisher: "Lasomaa",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://www.lasomaa.com",
     siteName: "Lasomaa",
-    title: "Lasomaa | Marketplace for Africa Businesses",
+    title: "Lasomaa | Marketplace for India Businesses",
     description: "With Lasomaa, find all nearby Businesses. SMEs, Suppliers, Retailers and Buyers connect and negotiate easily.",
     images: [
       {
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lasomaa | Marketplace for Africa Businesses",
+    title: "Lasomaa | Marketplace for India Businesses",
     description: "With Lasomaa, find all nearby Businesses. SMEs, Suppliers, Retailers and Buyers connect and negotiate easily.",
     images: ["/logo.png"],
     creator: "@lasomaa",

@@ -97,7 +97,7 @@ export default function SignupPage() {
           </div>
         </div>
         <div className="absolute bottom-12 text-slate-400 text-[10px] font-black tracking-widest">
-          © 2026 Lasomaa. We connect African Businesses to the Buyers
+          © 2026 Lasomaa. We connect Indian Businesses to the Buyers
         </div>
       </div>
 
