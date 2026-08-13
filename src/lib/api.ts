@@ -80,9 +80,9 @@ export async function fetchProducts(query: string, filters: any = {}, page: numb
             
             let priceDisplay = 'Price on request';
             if (doc.min_price) {
-                priceDisplay = `$${doc.min_price}`;
+                priceDisplay = `₹${doc.min_price}`;
                 if (doc.max_price && doc.max_price > doc.min_price) {
-                    priceDisplay += ` - $${doc.max_price}`;
+                    priceDisplay += ` - ₹${doc.max_price}`;
                 }
             }
 
