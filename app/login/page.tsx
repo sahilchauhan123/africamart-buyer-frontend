@@ -112,12 +112,12 @@ export default function LoginPage() {
               />
             </div>
 
-            <h2 className="text-2xl lg:text-2xl font-black text-slate-900 tracking-tight">
+            {/* <h2 className="text-2xl lg:text-2xl font-black text-slate-900 tracking-tight">
               {needsPhone ? "Complete Profile" : "Welcome"}
             </h2>
             <p className="mt-1 text-xs lg:text-sm font-medium text-slate-500">
-              {needsPhone ? "Please enter your phone number to continue." : "Login or create an account to continue."}
-            </p>
+              {needsPhone ? "Please enter your phone number to continue." : "Click on Google button to continue"}
+            </p> */}
           </div>
 
           <div className="mt-6 lg:mt-0 sm:mx-auto sm:w-full sm:max-w-md lg:max-w-[320px]">
@@ -146,7 +146,7 @@ export default function LoginPage() {
                   <div className="relative group">
                     <input
                       required
-                      className="w-full h-[52px] lg:h-12 bg-slate-50 border border-slate-300 rounded-2xl px-5 pt-5 pb-1 font-bold text-slate-900 placeholder-transparent focus:bg-white focus:border-[#0026C0] focus:ring-4 focus:ring-[#0026C0]/10 outline-none transition-all sm:text-sm peer"
+                      className="w-full h-[52px] lg:h-12 bg-slate-50 border border-slate-300 rounded-2xl px-5 pt-5 pb-1 font-bold font-body text-slate-900 placeholder-transparent focus:bg-white focus:border-[#0026C0] focus:ring-4 focus:ring-[#0026C0]/10 outline-none transition-all sm:text-sm peer"
                       placeholder="Full Name"
                       type="text"
                       value={fullName}
@@ -164,7 +164,7 @@ export default function LoginPage() {
                     <div className="flex gap-2">
                       <div className="relative w-28 h-[52px] lg:h-12">
                         <select
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 font-body"
                           value={country.code}
                           onChange={(e) => {
                             const found = COUNTRY_CODES.find(c => c.code === e.target.value);
@@ -186,7 +186,7 @@ export default function LoginPage() {
                       <div className="relative flex-1 group">
                         <input
                           required
-                          className="w-full h-[52px] lg:h-12 bg-slate-50 border border-slate-300 rounded-2xl px-5 pt-5 pb-1 font-bold text-slate-900 placeholder-transparent focus:bg-white focus:border-[#0026C0] focus:ring-4 focus:ring-[#0026C0]/10 outline-none transition-all sm:text-sm peer"
+                          className="w-full h-[52px] lg:h-12 bg-slate-50 border border-slate-300 rounded-2xl px-5 pt-5 pb-1 font-bold font-body text-slate-900 placeholder-transparent focus:bg-white focus:border-[#0026C0] focus:ring-4 focus:ring-[#0026C0]/10 outline-none transition-all sm:text-sm peer"
                           placeholder="Mobile Number"
                           type="tel"
                           value={phoneNumber}
@@ -210,7 +210,7 @@ export default function LoginPage() {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full flex justify-center items-center h-11 lg:h-9 border border-transparent rounded-xl shadow-md shadow-[#0026C0]/10 text-sm font-black uppercase tracking-widest text-white bg-[#0026C0] hover:bg-[#001da2] focus:outline-none transition-all active:scale-[0.98] disabled:opacity-50"
+                      className="w-full flex justify-center items-center h-[52px] lg:h-12 border border-transparent rounded-2xl shadow-md shadow-[#0026C0]/10 text-sm font-black font-body uppercase tracking-widest text-white bg-[#0026C0] hover:bg-[#001da2] focus:outline-none transition-all active:scale-[0.98] disabled:opacity-50"
                     >
                       {loading ? (
                         <Loader2 className="w-5 h-5 animate-spin" />
