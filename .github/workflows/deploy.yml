@@ -23,6 +23,7 @@ jobs:
         env:
           NEXT_PUBLIC_API_URL: https://api.lasomaa.com/api/v1
           NEXT_PUBLIC_WS_URL: wss://api.lasomaa.com/api/v1/messaging/ws
+          NEXT_PUBLIC_GOOGLE_CLIENT_ID: "191606077807-pi41pab7ncr6357t02c0fm4gl13oorlg.apps.googleusercontent.com"
         run: npm run build
 
       - name: Create deployment package
