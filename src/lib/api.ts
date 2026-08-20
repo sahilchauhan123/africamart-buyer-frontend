@@ -12,6 +12,24 @@ export async function buyerLogin(phone_no: string, password?: string) {
     return res;
 }
 
+export async function buyerGoogleLogin(id_token: string) {
+    const res = await fetch(`${API_BASE_URL}/auth/buyer/google/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_token })
+    });
+    return res;
+}
+
+export async function buyerGoogleRegister(id_token: string, phone_no: string, full_name: string) {
+    const res = await fetch(`${API_BASE_URL}/auth/buyer/google/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_token, phone_no, full_name })
+    });
+    return res;
+}
+
 export async function buyerCheckNumber(phone_no: string) {
     const res = await fetch(`${API_BASE_URL}/auth/buyer/number-exists?phone_no=${encodeURIComponent(phone_no)}`, {
         credentials: 'include'
@@ -72,6 +90,11 @@ export async function fetchProducts(query: string, filters: any = {}, page: numb
             }),
             cache: 'no-store'
         });
+
+        if (!res.ok) {
+            console.error(`Search service returned ${res.status}: ${res.statusText}`);
+            return { products: [], facets: [], found: 0 };
+        }
 
         const data = await res.json();
         const products = data.data?.hits?.map((hit: any) => {

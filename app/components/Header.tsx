@@ -30,6 +30,10 @@ export default function Header() {
     useEffect(() => {
         const storedBuyer = localStorage.getItem('buyer');
         if (storedBuyer) {
+            if (storedBuyer === 'undefined') {
+                localStorage.removeItem('buyer');
+                return;
+            }
             try {
                 setBuyer(JSON.parse(storedBuyer));
             } catch (e) {
