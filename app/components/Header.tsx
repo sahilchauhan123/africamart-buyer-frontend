@@ -104,7 +104,7 @@ export default function Header() {
                     <Link href="/" className="flex items-center gap-3 flex-shrink-0">
                         <Image
                             src={logo}
-                            alt="Lasomaa | India's B2B Marketplace"
+                            alt="Lasomaa | Africa's B2B Marketplace"
                             width={164}
                             height={32}
                             className="object-contain"
@@ -252,7 +252,7 @@ export default function Header() {
                             <Link href="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
                                 <Image
                                     src={logo}
-                                    alt="Lasomaa | India's B2B Marketplace"
+                                    alt="Lasomaa | Africa's B2B Marketplace"
                                     width={110}
                                     height={22}
                                     className="object-contain"

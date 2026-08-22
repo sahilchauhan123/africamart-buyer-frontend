@@ -100,7 +100,7 @@ export async function fetchProducts(query: string, filters: any = {}, page: numb
         const products = data.data?.hits?.map((hit: any) => {
             const doc = hit.document;
             const images = doc.picture_url?.map((p: any) => p.img_url) || [];
-            
+
             let priceDisplay = 'Price on request';
             if (doc.min_price) {
                 priceDisplay = `₹${doc.min_price}`;
@@ -115,7 +115,7 @@ export async function fetchProducts(query: string, filters: any = {}, page: numb
                 price: priceDisplay,
                 unit: doc.unit || 'Piece',
                 name: doc.title,
-                location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || 'India',
+                location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || 'Africa',
                 seller_id: doc.seller_id,
             };
         }) || [];
@@ -169,7 +169,7 @@ export async function fetchProductById(id: string) {
                 images: sortedImages,
                 picture_url: doc.picture_url,
                 supplier: doc.seller_name || 'Verified Supplier',
-                location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_location || doc.location || 'India',
+                location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_location || doc.location || 'Africa',
                 rating: 4.5,
                 reviews: 12,
                 isVerified: doc.is_active ?? true,
@@ -297,7 +297,7 @@ export async function fetchRecommendations(productName: string, productID: strin
             .map((hit: any) => {
                 const doc = hit.document;
                 const images = doc.picture_url?.map((p: any) => p.img_url) || [];
-                
+
                 let priceDisplay = 'Price on request';
                 if (doc.min_price) {
                     priceDisplay = `$${doc.min_price}`;
@@ -312,7 +312,7 @@ export async function fetchRecommendations(productName: string, productID: strin
                     price: priceDisplay,
                     unit: doc.unit || 'Piece',
                     name: doc.title,
-                    location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || doc.seller_location || 'India',
+                    location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || doc.seller_location || 'Africa',
                     seller_id: doc.seller_id,
                 };
             });
@@ -334,7 +334,7 @@ export async function fetchProductsByCategorySlug(slug: string) {
         return hits.map((hit: any) => {
             const doc = hit.document;
             const images = doc.picture_url?.map((p: any) => p.img_url) || [];
-            
+
             let priceDisplay = 'Price on request';
             if (doc.min_price) {
                 priceDisplay = `$${doc.min_price}`;
@@ -350,7 +350,7 @@ export async function fetchProductsByCategorySlug(slug: string) {
                 price: priceDisplay,
                 unit: doc.unit || 'Piece',
                 name: doc.title,
-                location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || doc.seller_location || 'India',
+                location: doc.city && doc.country ? `${doc.city}, ${doc.country}` : doc.seller_address || doc.seller_location || 'Africa',
                 seller_id: doc.seller_id,
                 seller_name: doc.seller_name || 'Verified Supplier'
             };
@@ -370,3 +370,14 @@ export const createSlug = (name: string) => {
         .replace(/-+/g, '-')          // Replace multiple hyphens with single
         .replace(/^-+|-+$/g, '');     // Remove leading/trailing hyphens
 };
+
+
+export async function fetchCountries() {
+    const response = await fetch('https://country-city-state.akshitagulerialdh.workers.dev/v1/regions/1/countries');
+    return await response.json();
+}
+
+export async function fetchStates(countryIso2: string) {
+    const response = await fetch(`https://country-city-state.akshitagulerialdh.workers.dev/v1/countries/${countryIso2}/states`);
+    return await response.json();
+}
