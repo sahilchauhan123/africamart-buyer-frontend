@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../logo.png';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import { buyerGoogleLogin, buyerGoogleRegister } from '@/src/lib/api';
+import { buyerGoogleLogin, buyerGoogleRegister, fetchCountries, fetchStates, fetchCities } from '@/src/lib/api';
 
 const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID";
 
@@ -21,6 +21,45 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [needsPhone, setNeedsPhone] = useState(false);
   const [googleToken, setGoogleToken] = useState("");
+
+  const [countriesList, setCountriesList] = useState<any[]>([]);
+  const [statesList, setStatesList] = useState<any[]>([]);
+  const [citiesList, setCitiesList] = useState<any[]>([]);
+  
+  const [selectedGeoCountry, setSelectedGeoCountry] = useState<any>(null);
+  const [selectedGeoState, setSelectedGeoState] = useState<any>(null);
+  const [selectedGeoCity, setSelectedGeoCity] = useState<any>(null);
+
+  React.useEffect(() => {
+    fetchCountries().then(setCountriesList).catch(console.error);
+  }, []);
+
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const c = countriesList.find((item) => item.iso2 === e.target.value);
+    setSelectedGeoCountry(c || null);
+    setSelectedGeoState(null);
+    setSelectedGeoCity(null);
+    setStatesList([]);
+    setCitiesList([]);
+    if (c) {
+      fetchStates(c.iso2).then(setStatesList).catch(console.error);
+    }
+  };
+
+  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const s = statesList.find((item) => item.iso2 === e.target.value);
+    setSelectedGeoState(s || null);
+    setSelectedGeoCity(null);
+    setCitiesList([]);
+    if (s && selectedGeoCountry) {
+      fetchCities(selectedGeoCountry.iso2, s.iso2).then(setCitiesList).catch(console.error);
+    }
+  };
+
+  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const c = citiesList.find((item) => item.id.toString() === e.target.value);
+    setSelectedGeoCity(c || null);
+  };
 
   React.useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -57,12 +96,16 @@ export default function LoginPage() {
 
   const handlePhoneSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedGeoCountry || !selectedGeoState || !selectedGeoCity) {
+      setError("Please select Country, State, and City");
+      return;
+    }
     setLoading(true);
     setError("");
 
     try {
       const phone_no = `${country.code} ${phoneNumber}`;
-      const res = await buyerGoogleRegister(googleToken, phone_no, fullName);
+      const res = await buyerGoogleRegister(googleToken, phone_no, fullName, selectedGeoCountry.name, selectedGeoState.name, selectedGeoCity.name);
       const data = await res.json();
 
       if (res.ok) {
@@ -202,6 +245,54 @@ export default function LoginPage() {
                         {phoneNumber.length >= 8 && (
                           <Check className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500 animate-in zoom-in duration-300" />
                         )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative group">
+                    <div className="flex flex-col gap-4">
+                      <div className="relative">
+                        <select
+                          required
+                          value={selectedGeoCountry?.iso2 || ""}
+                          onChange={handleCountryChange}
+                          className="w-full h-[52px] lg:h-12 bg-slate-50 border border-slate-300 rounded-2xl px-5 font-bold font-body text-slate-900 focus:bg-white focus:border-[#0026C0] focus:ring-4 focus:ring-[#0026C0]/10 outline-none transition-all sm:text-sm appearance-none"
+                        >
+                          <option value="" disabled>Select Country</option>
+                          {countriesList.map((item: any) => (
+                            <option key={item.id} value={item.iso2}>{item.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                      
+                      <div className="relative">
+                        <select
+                          required
+                          disabled={!selectedGeoCountry || statesList.length === 0}
+                          value={selectedGeoState?.iso2 || ""}
+                          onChange={handleStateChange}
+                          className="w-full h-[52px] lg:h-12 bg-slate-50 border border-slate-300 rounded-2xl px-5 font-bold font-body text-slate-900 focus:bg-white focus:border-[#0026C0] focus:ring-4 focus:ring-[#0026C0]/10 outline-none transition-all sm:text-sm appearance-none disabled:opacity-50"
+                        >
+                          <option value="" disabled>Select State</option>
+                          {statesList.map((item: any) => (
+                            <option key={item.id} value={item.iso2}>{item.name}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="relative">
+                        <select
+                          required
+                          disabled={!selectedGeoState || citiesList.length === 0}
+                          value={selectedGeoCity?.id || ""}
+                          onChange={handleCityChange}
+                          className="w-full h-[52px] lg:h-12 bg-slate-50 border border-slate-300 rounded-2xl px-5 font-bold font-body text-slate-900 focus:bg-white focus:border-[#0026C0] focus:ring-4 focus:ring-[#0026C0]/10 outline-none transition-all sm:text-sm appearance-none disabled:opacity-50"
+                        >
+                          <option value="" disabled>Select City</option>
+                          {citiesList.map((item: any) => (
+                            <option key={item.id} value={item.id}>{item.name}</option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                   </div>

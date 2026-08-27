@@ -21,11 +21,11 @@ export async function buyerGoogleLogin(id_token: string) {
     return res;
 }
 
-export async function buyerGoogleRegister(id_token: string, phone_no: string, full_name: string) {
+export async function buyerGoogleRegister(id_token: string, phone_no: string, full_name: string, country: string, state: string, city: string) {
     const res = await fetch(`${API_BASE_URL}/auth/buyer/google/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id_token, phone_no, full_name })
+        body: JSON.stringify({ id_token, phone_no, full_name, country, state, city })
     });
     return res;
 }
@@ -88,7 +88,7 @@ export async function fetchProducts(query: string, filters: any = {}, page: numb
                 page: page,
                 limit: limit
             }),
-            cache: 'no-store'
+            // cache: 'no-store'
         });
 
         if (!res.ok) {
@@ -373,11 +373,16 @@ export const createSlug = (name: string) => {
 
 
 export async function fetchCountries() {
-    const response = await fetch('https://country-city-state.akshitagulerialdh.workers.dev/v1/regions/1/countries');
+    const response = await fetch('https://country-city-state.akshitagulerialdh.workers.dev/v1/countries');
     return await response.json();
 }
 
 export async function fetchStates(countryIso2: string) {
     const response = await fetch(`https://country-city-state.akshitagulerialdh.workers.dev/v1/countries/${countryIso2}/states`);
+    return await response.json();
+}
+
+export async function fetchCities(countryIso2: string, stateIso2: string) {
+    const response = await fetch(`https://country-city-state.akshitagulerialdh.workers.dev/v1/countries/${countryIso2}/states/${stateIso2}/cities`);
     return await response.json();
 }
