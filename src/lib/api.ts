@@ -15,6 +15,7 @@ export async function buyerLogin(phone_no: string, password?: string) {
 export async function buyerGoogleLogin(id_token: string) {
     const res = await fetch(`${API_BASE_URL}/auth/buyer/google/login`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id_token })
     });
@@ -24,6 +25,7 @@ export async function buyerGoogleLogin(id_token: string) {
 export async function buyerGoogleRegister(id_token: string, phone_no: string, full_name: string, country: string, state: string, city: string) {
     const res = await fetch(`${API_BASE_URL}/auth/buyer/google/register`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id_token, phone_no, full_name, country, state, city })
     });
