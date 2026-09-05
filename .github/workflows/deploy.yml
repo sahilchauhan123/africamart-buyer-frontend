@@ -8,12 +8,12 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
@@ -30,9 +30,11 @@ jobs:
         run: tar -czf release.tar.gz .next public package.json package-lock.json next.config.ts tsconfig.json
 
       - name: Copy package via SCP
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v1.0.3
+        env:
+          RAW_IPV6: ${{ secrets.SERVER_IP }}
         with:
-          host: ${{ secrets.SERVER_IP }}
+          host: "[${RAW_IPV6}]"
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
@@ -40,9 +42,11 @@ jobs:
           target: "/tmp/"
 
       - name: Extract and Restart on Server
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          RAW_IPV6: ${{ secrets.SERVER_IP }}
         with:
-          host: ${{ secrets.SERVER_IP }}
+          host: "[${RAW_IPV6}]"
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
