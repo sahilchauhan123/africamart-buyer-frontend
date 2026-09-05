@@ -1,6 +1,13 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
+export const getApiBaseUrl = () => {
+    // if (typeof window === 'undefined') {
+    //     return process.env.INTERNAL_API_URL || 'http://localhost:4000/api/v1';
+    // }
+    return process.env.NEXT_PUBLIC_API_URL || 'https://api.lasomaa.com/api/v1';
+};
+
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.lasomaa.com/api/v1';
 export const MESSAGING_BASE_URL = `${API_BASE_URL}/messaging/protected`;
-export const MESSAGING_WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:4000/api/v1/messaging/ws';
+export const MESSAGING_WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'wss://api.lasomaa.com/api/v1/messaging/ws';
 
 export async function buyerLogin(phone_no: string, password?: string) {
     const res = await fetch(`${API_BASE_URL}/auth/buyer/login`, {
@@ -79,7 +86,7 @@ export async function buyerLogout() {
 
 export async function fetchProducts(query: string, filters: any = {}, page: number = 1, limit: number = 10) {
     try {
-        const res = await fetch(`${API_BASE_URL}/search/unprotected/products`, {
+        const res = await fetch(`${getApiBaseUrl()}/search/unprotected/products`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -137,7 +144,7 @@ export async function fetchProducts(query: string, filters: any = {}, page: numb
 export async function fetchSuggestions(query: string) {
     if (!query) return [];
     try {
-        const res = await fetch(`${API_BASE_URL}/search/unprotected/suggestions?query=${encodeURIComponent(query)}`);
+        const res = await fetch(`${getApiBaseUrl()}/search/unprotected/suggestions?query=${encodeURIComponent(query)}`);
         const data = await res.json();
         return data.data?.hits || [];
     } catch (error) {
@@ -148,7 +155,7 @@ export async function fetchSuggestions(query: string) {
 
 export async function fetchProductById(id: string) {
     try {
-        const res = await fetch(`${API_BASE_URL}/search/unprotected/products/${id}`, {
+        const res = await fetch(`${getApiBaseUrl()}/search/unprotected/products/${id}`, {
             cache: 'no-store' // Ensure it's SSR
         });
 
@@ -203,7 +210,7 @@ export async function fetchProductById(id: string) {
 
 export async function fetchCategories() {
     try {
-        const res = await fetch(`${API_BASE_URL}/unprotected/listing/category`, {
+        const res = await fetch(`${getApiBaseUrl()}/unprotected/listing/category`, {
             cache: 'no-store'
         });
         const data = await res.json();
@@ -216,7 +223,7 @@ export async function fetchCategories() {
 
 export async function fetchSubCategories(parentId: string) {
     try {
-        const res = await fetch(`${API_BASE_URL}/unprotected/listing/sub-category?parent_id=${parentId}`, {
+        const res = await fetch(`${getApiBaseUrl()}/unprotected/listing/sub-category?parent_id=${parentId}`, {
             cache: 'no-store'
         });
         const data = await res.json();
@@ -229,7 +236,7 @@ export async function fetchSubCategories(parentId: string) {
 
 export async function fetchSubCategoriesBySlug(parentSlug: string) {
     try {
-        const res = await fetch(`${API_BASE_URL}/unprotected/listing/sub-category?parent_slug=${encodeURIComponent(parentSlug)}`, {
+        const res = await fetch(`${getApiBaseUrl()}/unprotected/listing/sub-category?parent_slug=${encodeURIComponent(parentSlug)}`, {
             cache: 'no-store'
         });
         const data = await res.json();
@@ -242,7 +249,7 @@ export async function fetchSubCategoriesBySlug(parentSlug: string) {
 
 export async function fetchCategoryBySlug(slug: string) {
     try {
-        const res = await fetch(`${API_BASE_URL}/unprotected/listing/category/details-by-slug?slug=${encodeURIComponent(slug)}`, {
+        const res = await fetch(`${getApiBaseUrl()}/unprotected/listing/category/details-by-slug?slug=${encodeURIComponent(slug)}`, {
             cache: 'no-store'
         });
         const data = await res.json();
@@ -286,7 +293,7 @@ export const sendChatMessage = (sellerID: number, content: string) => fetch(`${A
 export async function fetchRecommendations(productName: string, productID: string) {
     if (!productName || !productID) return [];
     try {
-        const res = await fetch(`${API_BASE_URL}/search/unprotected/recommendations?productName=${encodeURIComponent(productName)}`, {
+        const res = await fetch(`${getApiBaseUrl()}/search/unprotected/recommendations?productName=${encodeURIComponent(productName)}`, {
             cache: 'no-store'
         });
         const data = await res.json();
@@ -327,7 +334,7 @@ export async function fetchRecommendations(productName: string, productID: strin
 export async function fetchProductsByCategorySlug(slug: string) {
     if (!slug) return [];
     try {
-        const res = await fetch(`${API_BASE_URL}/search/unprotected/products/category/${encodeURIComponent(slug)}`, {
+        const res = await fetch(`${getApiBaseUrl()}/search/unprotected/products/category/${encodeURIComponent(slug)}`, {
             cache: 'no-store'
         });
         const data = await res.json();
