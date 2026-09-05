@@ -1,111 +1,24 @@
-# FOR IPV4 Machine
-
-# name: Deploy Buyer App
-
-# on:
-#   push:
-#     branches: [ main ]
-
-# jobs:
-#   build-and-deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v3
-
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: '20'
-#           cache: 'npm'
-
-#       - name: Install dependencies
-#         run: npm install
-
-#       - name: Build
-#         env:
-#           NEXT_PUBLIC_API_URL: https://api.lasomaa.com/api/v1
-#           NEXT_PUBLIC_WS_URL: wss://api.lasomaa.com/api/v1/messaging/ws
-#           NEXT_PUBLIC_GOOGLE_CLIENT_ID: "191606077807-pi41pab7ncr6357t02c0fm4gl13oorlg.apps.googleusercontent.com"
-#         run: npm run build
-
-#       - name: Create deployment package
-#         run: tar -czf release.tar.gz .next public package.json package-lock.json next.config.ts tsconfig.json
-
-#       - name: Copy package via SCP
-#         uses: appleboy/scp-action@master
-#         with:
-#           host: ${{ secrets.SERVER_IP }}
-#           username: root
-#           key: ${{ secrets.SSH_PRIVATE_KEY }}
-#           port: 22
-#           source: "release.tar.gz"
-#           target: "/tmp/"
-
-#       - name: Extract and Restart on Server
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{ secrets.SERVER_IP }}
-#           username: root
-#           key: ${{ secrets.SSH_PRIVATE_KEY }}
-#           port: 22
-#           script: |
-#             # Ensure target directory exists and is clean
-#             mkdir -p /var/www/africamart/buyer-app
-#             rm -rf /var/www/africamart/buyer-app/*
-            
-#             # Extract new release
-#             tar -xzf /tmp/release.tar.gz -C /var/www/africamart/buyer-app/
-#             cd /var/www/africamart/buyer-app/
-            
-#             # Install production dependencies
-#             npm install --production
-            
-#             # Clean up old process names and start new one
-#             pm2 delete Lasomaa-buyer africamart-buyer || true
-#             pm2 start npm --name "Lasomaa-buyer" -- start -- -p 3000
-            
-#             # Persist across reboots
-#             pm2 save
-#             pm2 startup systemd -u root --hp /root || true
-#             systemctl enable pm2-root || true
-
-
-# FOR IPV6 Machine
 name: Deploy Buyer App
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      # -----------------------------
-      # Checkout
-      # -----------------------------
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
-      # -----------------------------
-      # Node.js
-      # -----------------------------
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: "20"
-          cache: "npm"
+          node-version: '20'
+          cache: 'npm'
 
-      # -----------------------------
-      # Install dependencies
-      # -----------------------------
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
-      # -----------------------------
-      # Build Next.js application
-      # -----------------------------
       - name: Build
         env:
           NEXT_PUBLIC_API_URL: https://api.lasomaa.com/api/v1
@@ -113,113 +26,43 @@ jobs:
           NEXT_PUBLIC_GOOGLE_CLIENT_ID: "191606077807-pi41pab7ncr6357t02c0fm4gl13oorlg.apps.googleusercontent.com"
         run: npm run build
 
-      # -----------------------------
-      # Create deployment package
-      # -----------------------------
       - name: Create deployment package
-        run: |
-          tar -czf release.tar.gz \
-            .next \
-            public \
-            package.json \
-            package-lock.json \
-            next.config.ts \
-            tsconfig.json
+        run: tar -czf release.tar.gz .next public package.json package-lock.json next.config.ts tsconfig.json
 
-      # -----------------------------
-      # Configure SSH
-      # -----------------------------
-      - name: Configure SSH
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-
-          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
-
-          chmod 600 ~/.ssh/deploy_key
-
-          ssh-keyscan -6 -H "${{ secrets.SERVER_IP }}" >> ~/.ssh/known_hosts
-
-      # -----------------------------
-      # Test SSH connection
-      # -----------------------------
-      - name: Test SSH connection
-        run: |
-          ssh \
-            -6 \
-            -i ~/.ssh/deploy_key \
-            -p 22 \
-            root@"${{ secrets.SERVER_IP }}" \
-            "echo 'SSH connection successful'"
-
-      # -----------------------------
-      # Copy release to server
-      # -----------------------------
       - name: Copy package via SCP
-        run: |
-          scp \
-            -6 \
-            -i ~/.ssh/deploy_key \
-            -P 22 \
-            release.tar.gz \
-            root@"[${{ secrets.SERVER_IP }}]":/tmp/release.tar.gz
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "release.tar.gz"
+          target: "/tmp/"
 
-      # -----------------------------
-      # Extract and restart
-      # -----------------------------
       - name: Extract and Restart on Server
-        run: |
-          ssh \
-            -6 \
-            -i ~/.ssh/deploy_key \
-            -p 22 \
-            root@"${{ secrets.SERVER_IP }}" \
-            'bash -s' <<'EOF'
-
-            set -e
-
-            echo "Creating application directory..."
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            # Ensure target directory exists and is clean
             mkdir -p /var/www/africamart/buyer-app
-
-            echo "Cleaning old application..."
             rm -rf /var/www/africamart/buyer-app/*
-
-            echo "Extracting release..."
-            tar -xzf /tmp/release.tar.gz \
-              -C /var/www/africamart/buyer-app/
-
+            
+            # Extract new release
+            tar -xzf /tmp/release.tar.gz -C /var/www/africamart/buyer-app/
             cd /var/www/africamart/buyer-app/
-
-            echo "Installing production dependencies..."
-            npm ci --omit=dev
-
-            echo "Removing old PM2 process..."
-            pm2 delete Lasomaa-buyer || true
-            pm2 delete africamart-buyer || true
-
-            echo "Starting application..."
-            pm2 start npm \
-              --name "Lasomaa-buyer" \
-              -- start -- -p 3000
-
-            echo "Saving PM2 process list..."
+            
+            # Install production dependencies
+            npm install --production
+            
+            # Clean up old process names and start new one
+            pm2 delete Lasomaa-buyer africamart-buyer || true
+            pm2 start npm --name "Lasomaa-buyer" -- start -- -p 3000
+            
+            # Persist across reboots
             pm2 save
-
-            echo "Configuring PM2 startup..."
             pm2 startup systemd -u root --hp /root || true
-
             systemctl enable pm2-root || true
-
-            echo "Deployment completed successfully."
-
-          EOF
-
-      # -----------------------------
-      # Cleanup
-      # -----------------------------
-      - name: Cleanup SSH key
-        if: always()
-        run: |
-          rm -f ~/.ssh/deploy_key
-
