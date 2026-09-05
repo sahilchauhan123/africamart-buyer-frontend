@@ -23,7 +23,7 @@ interface DesktopProductDetailsProps {
         supplier?: string;
         location?: string;
         rating?: number;
-        reviews?: string;
+        reviews?: string | number;
         isVerified?: boolean;
         isLocal?: boolean;
         description?: string;

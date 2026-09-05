@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Us | Lasomaa',
+  title: 'About Us',
   description: 'Learn about Lasomaa, the leading B2B marketplace for Africa.',
 };
 

@@ -1,7 +1,7 @@
 export const getApiBaseUrl = () => {
-    // if (typeof window === 'undefined') {
-    //     return process.env.INTERNAL_API_URL || 'http://localhost:4000/api/v1';
-    // }
+    if (typeof window === 'undefined') {
+        return process.env.INTERNAL_API_URL || 'http://localhost:4000/api/v1';
+    }
     return process.env.NEXT_PUBLIC_API_URL || 'https://api.lasomaa.com/api/v1';
 };
 

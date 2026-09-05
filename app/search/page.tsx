@@ -9,7 +9,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
     const q = (await searchParams).q as string || '';
     return {
-        title: q ? `Search Results for "${q}" | Lasomaa` : 'Search Products | Lasomaa',
+        title: q ? `Search Results for "${q}"` : 'Search Products',
         description: `Explore the best quality products matching your search query for ${q} on Lasomaa's global B2B marketplace.`,
         alternates: {
             canonical: q ? `https://www.lasomaa.com/search?q=${encodeURIComponent(q)}` : 'https://www.lasomaa.com/search',

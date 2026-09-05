@@ -8,7 +8,7 @@ interface CategoryPageProps {
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
   return {
-    title: `${slug.charAt(0).toUpperCase() + slug.slice(1)} | Lasomaa`,
+    title: slug.charAt(0).toUpperCase() + slug.slice(1),
     description: `Explore ${slug} products on Lasomaa's B2B marketplace.`,
   };
 }
