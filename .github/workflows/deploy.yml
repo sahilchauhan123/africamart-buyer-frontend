@@ -30,7 +30,7 @@ jobs:
         run: tar -czf release.tar.gz .next public package.json package-lock.json next.config.ts tsconfig.json
 
       - name: Copy package via SCP
-        uses: appleboy/scp-action@v1.0.3
+        uses: appleboy/scp-action@master
         env:
           RAW_IPV6: ${{ secrets.SERVER_IP }}
         with:
