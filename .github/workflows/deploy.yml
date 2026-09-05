@@ -35,6 +35,7 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
           source: "release.tar.gz"
           target: "/tmp/"
 
@@ -44,6 +45,7 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
           script: |
             # Ensure target directory exists and is clean
             mkdir -p /var/www/africamart/buyer-app
