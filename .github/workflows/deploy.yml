@@ -34,7 +34,7 @@ jobs:
         env:
           RAW_IPV6: ${{ secrets.SERVER_IP }}
         with:
-          host: "[${RAW_IPV6}]"
+          host: "[2001:19f0:5401:24c5:5400:06ff:fea4:815b]"
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
