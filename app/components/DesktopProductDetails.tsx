@@ -113,7 +113,7 @@ export default function DesktopProductDetails({ product, onBack, initialRecommen
 
     const [showPhone, setShowPhone] = React.useState(false);
     const [afterAuthAction, setAfterAuthAction] = React.useState<'lead' | 'chat' | 'phone' | null>(null);
-    const [isSpecsOpen, setIsSpecsOpen] = React.useState(false);
+    const [isSpecsOpen, setIsSpecsOpen] = React.useState(true);
     const [isDescriptionOpen, setIsDescriptionOpen] = React.useState(true);
 
     const handleLeadsUpload = async () => {
@@ -328,32 +328,33 @@ export default function DesktopProductDetails({ product, onBack, initialRecommen
                         Back
                     </button>
 
-                    <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch lg:items-start">
-                        {/* Left Column: Image Gallery */}
-                        <div className="w-full lg:w-[480px] shrink-0">
-                            <div className="lg:sticky lg:top-24 flex flex-col lg:flex-row gap-4">
+                    <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+                        {/* Left Column: Image Gallery (Amazon-style sticky position) */}
+                        <div className="w-full lg:w-[480px] shrink-0 lg:sticky lg:top-24 self-start">
+                            <div className="flex flex-col lg:flex-row gap-4">
                                 {/* Main Product Image (Top on Mobile) */}
-                                <div className="flex-1 aspect-square bg-white rounded-lg p-6 lg:p-8 border border-slate-200 shadow-sm relative overflow-hidden group flex items-center justify-center order-first lg:order-last">
+                                <div className="flex-1 aspect-square bg-white rounded-xl p-6 lg:p-8 border border-slate-200 shadow-sm relative overflow-hidden group flex items-center justify-center order-first lg:order-last">
                                     <Image
                                         src={activeImage || product.image}
                                         alt={`Main image: ${product.name}`}
                                         fill
                                         priority
-                                        className="object-contain p-4 lg:p-6 scale-110 group-hover:scale-125 transition-transform duration-700"
+                                        className="object-contain p-4 lg:p-6 scale-100 group-hover:scale-110 transition-transform duration-500"
                                     />
                                 </div>
 
                                 {/* Thumbnail Strip (Horizontal on Mobile, Vertical on Desktop) */}
                                 {product.images && product.images.length > 1 && (
-                                    <div className="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-hide order-last lg:order-first">
+                                    <div className="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-hide order-last lg:order-first shrink-0">
                                         {product.images.map((img, idx) => (
                                             <div
                                                 key={idx}
                                                 onClick={() => setActiveImage(img)}
-                                                className={`w-16 h-16 lg:w-20 lg:h-20 flex-shrink-0 rounded-lg border-2 overflow-hidden cursor-pointer transition-all ${activeImage === img ? 'border-[#0026C0]' : 'border-slate-100 hover:border-slate-300'}`}
+                                                onMouseEnter={() => setActiveImage(img)}
+                                                className={`w-16 h-16 lg:w-20 lg:h-20 flex-shrink-0 rounded-xl border-2 overflow-hidden cursor-pointer transition-all ${activeImage === img ? 'border-[#0026C0] ring-2 ring-[#0026C0]/20 scale-105' : 'border-slate-200 hover:border-slate-400 opacity-70 hover:opacity-100'}`}
                                             >
                                                 <div className="relative w-full h-full bg-white flex items-center justify-center p-1">
-                                                    <Image src={img} alt={`${product.name} thumbnail ${idx + 1}`} fill className="object-contain opacity-80" />
+                                                    <Image src={img} alt={`${product.name} thumbnail ${idx + 1}`} fill className="object-contain p-1" />
                                                 </div>
                                             </div>
                                         ))}
