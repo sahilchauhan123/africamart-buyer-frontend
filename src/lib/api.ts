@@ -1,9 +1,9 @@
 export const getApiBaseUrl = () => {
     if (typeof window === 'undefined') {
         // Server-side (SSR): Node.js calls microservices directly on port 4000
-        return process.env.INTERNAL_API_URL || 'http://localhost:4000/api/v1';
+        // return process.env.NEXT_PUBLIC_API_URL
+        return 'http://localhost:4000/api/v1';
     } else {
-        // Client-side (Browser): Calls the public API endpoint (Cloudflare-protected)
         return process.env.NEXT_PUBLIC_API_URL || 'https://api.lasomaa.com/api/v1';
     }
 };
